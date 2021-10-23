@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue": "^0.7.2"
     }
