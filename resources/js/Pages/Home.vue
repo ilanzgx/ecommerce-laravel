@@ -1,10 +1,16 @@
 <template>
-  <h1>Hello World!</h1>
+  <div class="w-screen h-screen bg-gray-200">
+    <Header></Header>
+  </div>
 </template>
 
 <script>
-export default {
+import Header from './../components/Header.vue'
 
+export default {
+  components:{
+    Header
+  }
 }
 </script>
 
