@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen">
+  <div class="">
     <ul class="flex justify-center bg-gray-600 text-white sm:py-4 md:py-2">
       <li class="mx-auto">
         <a class="block md:inline" href="">Destaques</a>

@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import { createInertiaApp } from '@inertiajs/inertia-vue'
+import { createInertiaApp, Link } from '@inertiajs/inertia-vue'
+Vue.component('Link', Link)
+Vue.prototype.$route = route
 
 createInertiaApp({
   resolve: name => require(`./Pages/${name}`),
