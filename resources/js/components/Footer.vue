@@ -1,10 +1,10 @@
 <template>
-	<footer class="px-4 divide-y bg-gray-900 text-white dark:bg-coolGray-800 dark:text-coolGray-100">
+	<footer class="px-4 divide-y bg-gray-900 text-gray-100">
 		<div class="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
 			<div class="lg:w-1/3">
 				<a href="#" class="flex justify-center space-x-3 lg:justify-start">
-					<div class="flex items-center justify-center w-12 h-12 rounded-full dark:bg-violet-400">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="flex-shrink-0 w-5 h-5 rounded-full dark:text-coolGray-900">
+					<div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-400">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="flex-shrink-0 w-5 h-5 rounded-full text-coolGray-900">
 							<path d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"></path>
 						</svg>
 					</div>
@@ -13,7 +13,7 @@
 			</div>
 			<div class="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
 				<div class="space-y-3">
-					<h3 class="tracking-wide uppercase dark:text-coolGray-50">Product</h3>
+					<h3 class="tracking-wide uppercase text-gray-50">Product</h3>
 					<ul class="space-y-1">
 						<li>
 							<a href="#">Features</a>
@@ -30,7 +30,7 @@
 					</ul>
 				</div>
 				<div class="space-y-3">
-					<h3 class="tracking-wide uppercase dark:text-coolGray-50">Company</h3>
+					<h3 class="tracking-wide uppercase text-gray-50">Company</h3>
 					<ul class="space-y-1">
 						<li>
 							<a href="#">Privacy</a>
@@ -41,7 +41,7 @@
 					</ul>
 				</div>
 				<div class="space-y-3">
-					<h3 class="uppercase dark:text-coolGray-50">Developers</h3>
+					<h3 class="uppercase text-gray-50">Developers</h3>
 					<ul class="space-y-1">
 						<li>
 							<a href="#">Public API</a>
@@ -55,7 +55,7 @@
 					</ul>
 				</div>
 				<div class="space-y-3">
-					<div class="uppercase dark:text-coolGray-50">Social media</div>
+					<div class="uppercase text-gray-50">Social media</div>
 					<div class="flex justify-start space-x-3">
 						<a href="#" title="Facebook" class="flex items-center p-1">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 32 32" class="w-5 h-5 fill-current">
@@ -76,13 +76,24 @@
 				</div>
 			</div>
 		</div>
-		<div class="py-6 text-sm text-center dark:text-coolGray-400">© 1968 Company Co. All rights reserved.</div>
+		<div class="py-6 text-sm text-center text-gray-400">© {{getCurrentYear()}} Company Co. All rights reserved.</div>
 	</footer>
 </template>
 
 <script>
 export default {
-
+	name: 'Rodape',
+	data(){
+		return {
+			
+		}
+	},
+  methods: {
+    getCurrentYear(){
+      var today = new Date();
+      return today.getFullYear();
+    }
+  },
 }
 </script>
 
