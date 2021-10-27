@@ -1,10 +1,21 @@
 <template>
-  
+  <div class="">
+    <Header></Header>
+      <div class="container m-3">
+        <p>Login</p>
+      </div>
+    <Footer></Footer>
+  </div>  
 </template>
 
 <script>
-export default {
+import Header from './../components/Header.vue'
+import Footer from './../components/Footer.vue'
 
+export default {
+  components:{
+    Header, Footer
+  }
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
   <div class="bg-gray-700 py-2 px-3 mx-1 rounded shadow-md">
-    <div class="flex justify-center">
-      <img class="w-48 h-48" :src="imagem" alt="">
-    </div>
+    <Link :href="$route('produto.id', id)">
+      <div class="flex justify-center">
+        <img class="w-48 h-48" :src="imagem" alt="">
+      </div>
+    </Link>
 
     <div>
       <h1 class="text-2xl break-words">{{ nome }}</h1>
@@ -20,7 +22,7 @@
       </div>
 
       <div class="w-1/2">
-        <p>{{ estoque }} restantes!</p>
+        <p class="text-sm"><span class="text-lg mr-1">Em estoque</span>{{ estoque }} restantes!</p>
       </div>
     </div>
 
@@ -49,6 +51,7 @@
 export default {
   name: 'Item',
   props: {
+    id: Number,
     nome: String,
     imagem: String,
     descricao: String,
@@ -60,7 +63,7 @@ export default {
   },
   methods: {
     calcularDesconto(){
-      return (this.preco_antigo - this.preco) / this.preco * 100;
+      return Math.trunc((this.preco_antigo - this.preco) / this.preco * 100);
     }
   },
 }

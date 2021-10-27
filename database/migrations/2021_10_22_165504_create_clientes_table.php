@@ -19,6 +19,9 @@ class CreateClientesTable extends Migration
             $table->string('email', 100);
             $table->string('senha', 200);
             $table->string('cpf', 50);
+            $table->enum('status', ['verificado', 'nao-verificado']);
+            $table->enum('genero', ['masculino', 'feminino', 'nao-binario']);
+            $table->enum('perfil', ['administrador', 'usuario']);
             $table->integer('telefone')->nullable();
             $table->timestamps();
         });

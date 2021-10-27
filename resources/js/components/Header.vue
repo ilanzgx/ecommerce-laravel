@@ -36,11 +36,11 @@
 
               <div class="px-2">
                 <span>Faça </span>
-                <Link :href="$route('login')" class="md:inline no-underline py-4 md:py-0 font-bold hover:text-gray-200">
+                <Link :href="$route('login')" class="inline-block font-bold text-purple-500 hover:text-purple-900 no-underline py-4 md:py-0">
                   Login
                 </Link>
                 <span>ou<br>crie seu </span>
-                <Link :href="$route('login')" class="md:inline no-underline py-4 md:py-0 font-bold hover:text-gray-200">
+                <Link :href="$route('login')" class="inline-block font-bold text-purple-500 hover:text-purple-900 no-underline py-4 md:py-0 ">
                   Cadastro
                 </Link>
               </div>

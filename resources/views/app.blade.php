@@ -8,7 +8,7 @@
     <script src="{{ mix('/js/app.js') }}" defer></script>
     <title>Ecommerce</title>
   </head>
-  <body>
+  <body class="bg-gray-800 text-gray-50">
     @inertia
   </body>
 </html>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-800 text-gray-50">
+  <div class="">
     <Header></Header>
     
     <div class="container m-3">
@@ -12,6 +12,7 @@
         
         <div v-for="data in datas" :key="data.id" class="mr-5 md:mr-0">
             <Item
+              :id="data.id"
               :nome="data.nome" 
               :imagem="data.imagem"
               :descricao="data.descricao" 

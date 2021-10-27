@@ -22,4 +22,8 @@ class HomeController extends Controller
     public function login(){
         return Inertia::render('Login');
     }
+
+    public function show404(){
+        return Inertia::render('Errors/404');
+    }
 }
