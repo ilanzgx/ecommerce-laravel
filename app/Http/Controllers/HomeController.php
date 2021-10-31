@@ -10,13 +10,13 @@ class HomeController extends Controller
 {
     public function index(){
         $produtos = Produto::all()->toArray();
-        //echo '<pre>';
-        //print_r($produtos);
         return Inertia::render('Home', ['datas' => $produtos]);
     }
 
     public function carrinho(){
-        return Inertia::render('Cart');
+        echo '<pre>';
+        print_r(session()->all());
+        return Inertia::render('Cart', ['datas' => session()->all()]);
     }
 
     public function login(){

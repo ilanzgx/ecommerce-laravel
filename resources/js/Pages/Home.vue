@@ -2,15 +2,10 @@
   <div class="">
     <Header></Header>
     
-    <div class="container m-3">
+    <div class="flex justify-center mt-6 mb-6">
       <div class="grid grid-flow-row grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-3 auto-rows-max gap-2">
         
-        <!--<div class="mr-5 md:mr-0">
-          <Item></Item>
-        </div>-->
-
-        
-        <div v-for="data in datas" :key="data.id" class="mr-5 md:mr-0">
+        <div v-for="data in datas" :key="data.id" class="">
             <Item
               :id="data.id"
               :nome="data.nome" 
@@ -41,7 +36,7 @@ export default {
   name: 'Inicio',
   data(){
     return{
-      a: 'Olá'
+      search: null,
     }
   },
   components:{

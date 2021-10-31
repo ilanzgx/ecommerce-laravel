@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-700 py-2 px-3 mx-1 rounded shadow-md">
+  <div class="bg-gray-700 py-2 px-3 mx-1 rounded shadow-xl">
     <Link :href="$route('produto.id', id)">
       <div class="flex justify-center">
         <img class="w-48 h-48" :src="imagem" alt="">
@@ -8,10 +8,6 @@
 
     <div>
       <h1 class="text-2xl break-words">{{ nome }}</h1>
-    </div>
-
-    <div>
-      <p class="break-words"></p>
     </div>
 
     <div class="flex gap-2">

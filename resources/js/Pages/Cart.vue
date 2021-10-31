@@ -1,8 +1,14 @@
 <template>
   <div class="">
     <Header></Header>
-    <div class="container m-3">
-      <p>Carrinho</p>
+    <div class="container flex h-screen">
+      <div class="m-auto">
+        <p class="text-3xl text-purple-500 font-bold">Ops, seu carrinho está vazio :(</p>
+        <p class="text-gray-300 text-center">
+          <Link class="font-bold" :href="$route('index')">Clique aqui</Link> 
+          para voltar a comprar.
+        </p>
+      </div>
     </div>
     <Footer></Footer>
   </div>
@@ -11,14 +17,14 @@
 <script>
 import Header from './../components/Header.vue'
 import Footer from './../components/Footer.vue'
+import Item from './../components/Cart/Item.vue'
 
 export default {
   components:{
-    Header, Footer
+    Header, Footer, Item
+  },
+  props:{
+    datas: Array,
   }
 }
 </script>
-
-<style>
-
-</style>
