@@ -2,7 +2,7 @@
   <div class="">
     <Header></Header>
       <div v-if="state">
-        <LogIn v-on:mudarEstado="changeState"></LogIn>
+        <SignIn v-on:mudarEstado="changeState"></SignIn>
       </div>
       <div v-else>
         <SignUp v-on:mudarEstado="changeState"></SignUp>
@@ -14,7 +14,7 @@
 <script>
 import Header from './../components/Header.vue'
 import Footer from './../components/Footer.vue'
-import LogIn from './../components/Login/LogIn.vue'
+import SignIn from '../components/Login/SignIn.vue'
 import SignUp from './../components/Login/SignUp.vue'
 
 export default {
@@ -24,7 +24,7 @@ export default {
     }
   },
   components:{
-    Header, Footer, LogIn, SignUp
+    Header, Footer, SignIn, SignUp
   },
   methods: {
     changeState(value){
@@ -34,7 +34,3 @@ export default {
   },
 }
 </script>
-
-<style>
-
-</style>

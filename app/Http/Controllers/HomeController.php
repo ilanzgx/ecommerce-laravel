@@ -13,12 +13,6 @@ class HomeController extends Controller
         return Inertia::render('Home', ['datas' => $produtos]);
     }
 
-    public function carrinho(){
-        echo '<pre>';
-        print_r(session()->all());
-        return Inertia::render('Cart', ['datas' => session()->all()]);
-    }
-
     public function login(){
         return Inertia::render('Login');
     }

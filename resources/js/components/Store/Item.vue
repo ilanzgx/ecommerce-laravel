@@ -26,7 +26,7 @@
     
     <div class="flex gap-2">
       <div class="w-1/2">
-        <button type="button" class="relative w-2/3 px-6 py-4 ml-4 overflow-hidden font-semibold rounded bg-gray-100 text-gray-900">Comprar
+        <button @click="addToCart(id)" type="button" class="relative w-2/3 px-6 py-4 ml-4 overflow-hidden font-semibold rounded bg-gray-100 text-gray-900">Comprar
 		      <span v-if="promocao" class="absolute top-0 right-0 px-5 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-purple-400">-{{ calcularDesconto() }}%</span>
 	      </button>
       </div>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Item',
   props: {
@@ -60,11 +62,16 @@ export default {
   methods: {
     calcularDesconto(){
       return Math.trunc((this.preco_antigo - this.preco) / this.preco * 100);
+    },
+    addToCart(id){
+      axios.post('/api/cart/add', {
+        id: this.id
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error.console.data)
+      });
     }
   },
 }
 </script>
-
-<style scoped>
-
-</style>

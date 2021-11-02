@@ -26,6 +26,8 @@ class CreatePedidosTable extends Migration
                 ->references('id')
                 ->on('produtos');
 
+            $table->integer('amount');
+
             $table->timestamps();
         });
     }

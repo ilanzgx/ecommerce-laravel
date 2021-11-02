@@ -1,7 +1,6 @@
 <template>
   <div class="">
-    <Header></Header>
-    
+    <Header v-on:searchChange="handleSearch"></Header>
     <div class="flex justify-center mt-6 mb-6">
       <div class="grid grid-flow-row grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-3 auto-rows-max gap-2">
         
@@ -44,6 +43,12 @@ export default {
   },
   props:{
     datas: Array,
-  }
+  },
+  methods: {
+    handleSearch(event){
+      const { value } = event.target;
+      this.search = value;
+    }
+  },
 }
 </script>

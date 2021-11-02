@@ -3,10 +3,10 @@
     <Header></Header>
     <div class="container flex h-screen">
       <div class="m-auto">
-        <p class="text-3xl text-purple-500 font-bold">Ops, seu carrinho está vazio :(</p>
-        <p class="text-gray-300 text-center">
+        <p class="text-xl md:text-3xl lg:text-4xl text-purple-500 font-bold">Ops, seu carrinho está vazio :(</p>
+        <p class="text-sm md:text-base lg:text-lg text-gray-300 text-center">
           <Link class="font-bold" :href="$route('index')">Clique aqui</Link> 
-          para voltar a comprar.
+          para voltar a comprar. 
         </p>
       </div>
     </div>
@@ -24,7 +24,7 @@ export default {
     Header, Footer, Item
   },
   props:{
-    datas: Array,
+    data: Object,
   }
 }
 </script>
