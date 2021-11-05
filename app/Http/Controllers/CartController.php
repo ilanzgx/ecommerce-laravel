@@ -14,6 +14,10 @@ class CartController extends Controller
         return Inertia::render('Cart', ['data' => session()->all()]);
     }
 
+    public function precart(){
+        return Inertia::render('PreCart');
+    }
+
     public function add_cart(Request $request){
         // receive product id
         $product_id = $request->id;
@@ -41,7 +45,7 @@ class CartController extends Controller
         foreach($cart as $amount){
             $total_products += $amount;
         }
-        echo $total_products;
+        echo $product_id;
     }
 
     public function remove_cart(Request $request){

@@ -1,16 +1,6 @@
 <template>
   <footer class="px-4 divide-y bg-gray-900 text-gray-100">
-    <div
-      class="
-        container
-        flex flex-col
-        justify-between
-        py-10
-        mx-auto
-        space-y-8
-        lg:flex-row lg:space-y-0
-      "
-    >
+    <div class="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
       <div class="lg:w-1/3">
         <a href="#" class="flex justify-center space-x-3 lg:justify-start">
           <div
@@ -145,6 +135,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

@@ -1,10 +1,10 @@
 <template>
   <div class="">
     <Header v-on:searchChange="handleSearch"></Header>
-    <div class="flex justify-center mt-6 mb-6">
-      <div class="grid grid-flow-row grid-cols-1 grid-rows-1 md:grid-cols-3 md:grid-rows-3 auto-rows-max gap-2">
+    <div class="my-4">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         
-        <div v-for="data in datas" :key="data.id" class="">
+        <div v-for="data in datas" :key="data.id" class="w-full">
             <Item
               :id="data.id"
               :nome="data.nome" 

@@ -14,3 +14,4 @@ Route::get('/produto/{produtoid?}', 'ProdutoController@index')->name('produto.id
 
 /* CartController */
 Route::get('/carrinho', 'CartController@index')->name('carrinho');
+Route::get('/precarrinho/{id?}', 'CartController@precart')->name('precart');

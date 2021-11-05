@@ -1,44 +1,45 @@
 <template>
   <div class="bg-gray-700 py-2 px-3 mx-1 rounded shadow-xl">
-    <Link :href="$route('produto.id', id)">
-      <div class="flex justify-center">
-        <img class="w-48 h-48" :src="imagem" alt="">
-      </div>
-    </Link>
 
-    <div>
-      <h1 class="text-2xl break-words">{{ nome }}</h1>
+    <div class="flex">
+      <h1 class="text-xl break-words">{{ nome }}</h1>
     </div>
 
-    <div class="flex gap-2">
-      <div class="w-1/2">
-        <p class="text-lg text-purple-500 font-extrabold">
+    <div class="border border-gray-600 rounded-xl py-4 px-2">
+      <Link :href="$route('produto.id', id)">
+        <div class="flex justify-center">
+          <img class="w-48 h-48" :src="imagem" alt="">
+        </div>
+      </Link>
+    </div>
+
+    <div class="flex items-center justify-center my-2">
+      <div class="w-2/3">
+        <p class="text-2xl text-purple-400 font-extrabold">
           <span v-if="promocao" class="text-sm line-through text-white font-medium">R${{ preco_antigo }}</span> R${{ preco }}
         </p>
       </div>
 
-      <div class="w-1/2">
-        <p class="text-sm"><span class="text-lg mr-1">Em estoque</span>{{ estoque }} restantes!</p>
+      <div v-if="estoque > 0" class="w-1/3">
+        <p class="text-xs italic">Estoque disponivel</p>
+      </div>
+
+      <div v-else class="w-1/3">
+        <p class="text-xs italic text-red-500">Sem estoque</p>
       </div>
     </div>
-
-    <hr class="my-4">
     
-    <div class="flex gap-2">
-      <div class="w-1/2">
-        <button @click="addToCart(id)" type="button" class="relative w-2/3 px-6 py-4 ml-4 overflow-hidden font-semibold rounded bg-gray-100 text-gray-900">Comprar
-		      <span v-if="promocao" class="absolute top-0 right-0 px-5 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-purple-400">-{{ calcularDesconto() }}%</span>
+    <div class="gap-2">
+      <div v-if="estoque > 0" class="flex items-center justify-center">
+        <button @click="addToCart(id)" type="button" class="relative w-full px-6 py-2 overflow-hidden font-semibold rounded-xl bg-transparent hover:bg-gray-800 border border-gray-500 outline-none text-gray-200 hover:text-gray-50 transition duration-200">Comprar
+		      <span v-if="promocao" class="absolute top-0 right-0 px-5 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-purple-500 text-white">-{{ calcularDesconto() }}%</span>
 	      </button>
       </div>
 
-      <div class="w-1/2">
-        <button type="button" class="flex items-center px-2 py-1 space-x-1">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
-						<path d="M453.122,79.012a128,128,0,0,0-181.087.068l-15.511,15.7L241.142,79.114l-.1-.1a128,128,0,0,0-181.02,0l-6.91,6.91a128,128,0,0,0,0,181.019L235.485,449.314l20.595,21.578.491-.492.533.533L276.4,450.574,460.032,266.94a128.147,128.147,0,0,0,0-181.019ZM437.4,244.313,256.571,425.146,75.738,244.313a96,96,0,0,1,0-135.764l6.911-6.91a96,96,0,0,1,135.713-.051l38.093,38.787,38.274-38.736a96,96,0,0,1,135.765,0l6.91,6.909A96.11,96.11,0,0,1,437.4,244.313Z"></path>
-					</svg>
-					<span>Talvez depois</span>
-				</button>
+      <div v-else class="flex items-center justify-center">
+        <button type="button" class="relative w-full px-6 py-2 overflow-hidden font-semibold rounded-xl bg-transparent hover:bg-gray-800 border border-gray-500 outline-none text-gray-200 hover:text-gray-50 cursor-not-allowed" disabled>Sem estoque</button>
       </div>
+      
     </div>
   </div>
 </template>
@@ -68,6 +69,7 @@ export default {
         id: this.id
       }).then((response) => {
         console.log(response)
+        window.location.href = '/precarrinho/' + response.data;
       }).catch((error) => {
         console.log(error.console.data)
       });
