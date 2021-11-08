@@ -1,10 +1,10 @@
 <template>
   <div>
-      <Header></Header>
+    <Header></Header>
       <div>
-          Pre carrinho
+          Precart
       </div>
-      <Footer></Footer>
+    <Footer></Footer>
   </div>
 </template>
 

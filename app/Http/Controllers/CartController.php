@@ -2,16 +2,30 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 
 class CartController extends Controller
 {
-    public function index(){
-        return Inertia::render('Cart', ['data' => session()->all()]);
+    public function index(Request $request){
+        if(!$request->session()->exists('cart') || $request->session('cart') == null){
+            return Inertia::render('Cart', ['empty' => true]);
+        } else {
+            $ids = [];
+            foreach(session('cart') as $product_id => $amount){
+                array_push($ids, $product_id);
+            }
+            
+            $ids = implode(',', $ids);
+            return Inertia::render('Cart', [
+                'empty' => false, 
+                'data'  => Produto::search_products_by_ids($ids)
+            ]);
+        }
     }
 
     public function precart(){
