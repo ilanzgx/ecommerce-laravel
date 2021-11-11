@@ -3067,6 +3067,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3595,7 +3603,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/cart/total').then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/cart/total').then(function (response) {
       _this.total_products = response.data;
     });
   },
@@ -10892,7 +10900,42 @@ var render = function() {
   return _c(
     "div",
     {},
-    [_c("Header"), _vm._v("\n\n    Erro 404\n\n"), _c("Footer")],
+    [
+      _c("Header"),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "flex justify-center mt-20 sm:mt-20 md:mt-40" },
+        [
+          _c("div", [
+            _c("h1", { staticClass: "text-3xl text-purple-500 font-bold" }, [
+              _vm._v("Esta página não existe")
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-lg text-center pb-6" }, [
+              _vm._v("Erro 404")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "text-center border-t-2 border-opacity-10 py-8" },
+              [
+                _c(
+                  "Link",
+                  {
+                    staticClass:
+                      "w-full text-center bg-indigo-500 rounded-sm px-2 py-2",
+                    attrs: { href: _vm.$route("index") }
+                  },
+                  [_vm._v("Voltar para a loja")]
+                )
+              ],
+              1
+            )
+          ])
+        ]
+      )
+    ],
     1
   )
 }
@@ -12369,12 +12412,12 @@ var render = function() {
         _vm._v(" "),
         _vm.estoque > 0
           ? _c("div", { staticClass: "w-1/3" }, [
-              _c("p", { staticClass: "text-xs italic" }, [
-                _vm._v("Estoque disponivel")
+              _c("p", { staticClass: "text-xs" }, [
+                _vm._v(_vm._s(_vm.estoque) + " restantes")
               ])
             ])
           : _c("div", { staticClass: "w-1/3" }, [
-              _c("p", { staticClass: "text-xs italic text-red-500" }, [
+              _c("p", { staticClass: "text-xs text-red-500" }, [
                 _vm._v("Sem estoque")
               ])
             ])

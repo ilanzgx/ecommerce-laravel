@@ -28,7 +28,7 @@ class CartController extends Controller
         }
     }
 
-    public function precart(){
+    public function precart($produtoid=0){
         return Inertia::render('PreCart');
     }
 

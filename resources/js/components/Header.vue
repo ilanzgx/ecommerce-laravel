@@ -103,7 +103,7 @@ import axios from 'axios'
 export default {
   name: 'Cabecalho',
   mounted(){
-    axios.post('api/cart/total').then((response) => {
+    axios.post('/api/cart/total').then((response) => {
       this.total_products = response.data
     });
   },

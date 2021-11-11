@@ -21,11 +21,11 @@
       </div>
 
       <div v-if="estoque > 0" class="w-1/3">
-        <p class="text-xs italic">Estoque disponivel</p>
+        <p class="text-xs">{{ estoque }} restantes</p>
       </div>
 
       <div v-else class="w-1/3">
-        <p class="text-xs italic text-red-500">Sem estoque</p>
+        <p class="text-xs text-red-500">Sem estoque</p>
       </div>
     </div>
     

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Produto;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index(){
-        $produtos = Produto::all()->toArray();
+        $produtos = DB::table('produtos')->orderBy('estoque', 'desc')->get();
+        
         return Inertia::render('Home', ['datas' => $produtos]);
     }
 
