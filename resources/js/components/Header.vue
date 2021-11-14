@@ -7,7 +7,7 @@
           <!-- logo -->
           <div>
             <Link class="flex items-center py-3 px-2 text-gray-200" :href="$route('index')">
-              <img width="80" height="80" class="mr-2 border border-opacity-0 hover:border-opacity-80" src="/storage/logo1.png">
+              <img width="80" height="80" class="mr-2" src="/storage/logo1.png">
               <span>Loja virtual</span>
             </Link>
           </div>
@@ -28,7 +28,7 @@
               <small class="mx-2 md:mx-3">Atendimento</small>
             </a>
 
-            <Link :href="$route('carrinho')" class="block md:inline no-underline py-4 md:py-0 hover:text-gray-200">
+            <Link :href="$route('cart')" class="block md:inline no-underline py-4 md:py-0 hover:text-gray-200">
               <div class="relative inline-block">
                 <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" class="inline" viewBox="0 0 20 20" fill="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
@@ -41,11 +41,11 @@
               </small>
             </Link>
 
-            <Link :href="$route('login')" :data="{shiba: true}" class="py-5 px-3 font-bold text-purple-400 hover:text-purple-200 no-underline">
+            <Link :href="$route('login')" :data="{a: true}" class="py-5 px-3 font-bold text-purple-400 hover:text-purple-200 no-underline">
               Entrar
             </Link>
 
-            <Link :href="$route('login')" :data="{shiba: false}" class="py-2 px-3 font-bold bg-purple-500 hover:bg-purple-700 text-purple-100 hover:text-purple-200 rounded transition duration-200">
+            <Link :href="$route('login')" :data="{a: false}" class="py-2 px-3 font-bold bg-purple-500 hover:bg-purple-700 text-purple-100 hover:text-purple-200 rounded transition duration-200">
               Cadastrar
             </Link>
         </div>
@@ -70,7 +70,7 @@
         <small class="mx-2 md:mx-3">Atendimento</small>
       </a>
 
-      <Link :href="$route('carrinho')" class="block py-2 px-4 text-sm no-underline hover:text-gray-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+      <Link :href="$route('cart')" class="block py-2 px-4 text-sm no-underline hover:text-gray-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
         <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" class="inline" viewBox="0 0 20 20" fill="currentColor">
           <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
         </svg>
@@ -84,11 +84,11 @@
         </small>
       </Link>
 
-      <Link :href="$route('login')" :data="{shiba: true}" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+      <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
         Entrar
       </Link>
 
-      <Link :href="$route('login')" :data="{shiba: false}" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+      <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
         Cadastrar
       </Link>
     </div>
@@ -107,9 +107,6 @@ export default {
       this.total_products = response.data
     });
   },
-  components: [
-    
-  ],
   data(){
     return {
       showMenu: false,

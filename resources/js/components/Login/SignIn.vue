@@ -15,7 +15,7 @@
 
           <div class="flex justify-between mb-2">
             <label class="block text-gray-100" for="text_senha">Senha</label>
-            <a class="text-xs hover:underline text-gray-400" href="">Esqueceu sua senha?</a>
+            <Link class="text-xs hover:underline text-gray-400" :href="$route('login.changepassword')">Esqueceu sua senha?</Link>
           </div>
           <input v-model="password" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="password" id="text_senha" placeholder="*****">
           <small v-if="(!showError && response != null && response != true)" class="text-red-500">{{ response.data.message }}</small>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComentariosTable extends Migration
+class CreateAssessmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateComentariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('comentarios', function (Blueprint $table) {
+        Schema::create('assessments', function (Blueprint $table) {
             $table->id();
-            $table->integer('cliente_id')->unsigned()->index();
-            $table->foreign('cliente_id')
+            $table->integer('customer_id')->unsigned()->index();
+            $table->foreign('customer_id')
                 ->references('id')
-                ->on('clientes');
+                ->on('customers');
                 
-            $table->string('titulo', 50);
-            $table->string('texto', 300);
-            $table->integer('estrelas')->nullable();
+            $table->string('title', 50);
+            $table->string('text', 300);
+            $table->integer('stars')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateComentariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comentarios');
+        Schema::dropIfExists('assessments');
     }
 }

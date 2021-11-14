@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produto;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -23,7 +24,7 @@ class CartController extends Controller
             $ids = implode(',', $ids);
             return Inertia::render('Cart', [
                 'empty' => false, 
-                'data'  => Produto::search_products_by_ids($ids)
+                'data'  => Product::search_products_by_ids($ids)
             ]);
         }
     }

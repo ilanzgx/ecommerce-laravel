@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $produtos = DB::table('produtos')->orderBy('estoque', 'desc')->get();
-        
-        return Inertia::render('Home', ['datas' => $produtos]);
+        $produtos = DB::table('products')->orderBy('stock', 'desc')->get();
+       
+        return Inertia::render('Home', ['products' => $produtos]);
     }
 
     public function login(){

@@ -16,7 +16,6 @@
 
         <CartItem ></CartItem>
 
-
       <!-- total value -->
       <div class=" flex items-center justify-center">
         Valor

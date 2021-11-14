@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +14,7 @@ class LoginController extends Controller
             'password' => $request->password
         ];
 
-        $user = Usuario::where('email', $data['email'])->first();
+        $user = Customer::where('email', $data['email'])->first();
         if(!$user){
 
             $response = [
@@ -31,6 +31,11 @@ class LoginController extends Controller
                 'success' => true
             ];
 
+            session([
+                'email' => $request->email,
+                'logged' => true
+            ]);
+
             return json_encode($response);
         } else {
             $response = [
@@ -43,16 +48,21 @@ class LoginController extends Controller
     }
 
     public function signup(Request $request){
-        $novo_usuario = new Usuario();
+        $new_customer = new Customer();
         
-        $novo_usuario->full_name = $request->full_name;
-        $novo_usuario->email = $request->email;
-        $novo_usuario->password = Hash::make($request->password);
-        $novo_usuario->genre = $request->genre;
-        $novo_usuario->birth_date = $request->birth_date;
-        $novo_usuario->cpf = $request->cpf;
-        $novo_usuario->perfil = "usuario";
+        $new_customer->full_name = $request->full_name;
+        $new_customer->email = $request->email;
+        $new_customer->password = Hash::make($request->password);
+        $new_customer->genre = $request->genre;
+        $new_customer->birth_date = $request->birth_date;
+        $new_customer->cpf = $request->cpf;
+        $new_customer->role = "usuario";
 
-        $novo_usuario->save();
+        $new_customer->save();
+
+        session([
+            'email' => $request->email,
+            'logged' => true
+        ]);
     }
 }

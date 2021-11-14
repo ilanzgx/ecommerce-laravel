@@ -4,14 +4,16 @@ use Illuminate\Support\Facades\Route;
 
 /* HomeController */
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/login', 'HomeController@login')->name('login');
 Route::fallback('HomeController@show404');
 
 /* ProdutoController */
 Route::get('/produto/{produtoid?}', 'ProdutoController@index')->name('produto.id');
 
 /* LoginController */
+Route::get('/login', 'HomeController@login')->name('login');
+Route::get('/mudarsenha', 'HomeController@changePassword')->name('login.changepassword');
+Route::get('/verificar/{token}', 'HomeController@verification')->name('login.verification');
 
 /* CartController */
-Route::get('/carrinho', 'CartController@index')->name('carrinho');
+Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{produtoid?}', 'CartController@precart')->name('precart');

@@ -4,17 +4,17 @@
     <div class="my-4">
       <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         
-        <div v-for="data in datas" :key="data.id" class="w-full">
+        <div v-for="data in products" :key="data.id" class="w-full">
             <Item
               :id="data.id"
-              :nome="data.nome" 
-              :imagem="data.imagem"
-              :descricao="data.descricao" 
-              :categoria="data.categoria" 
-              :preco="data.preco" 
-              :estoque="data.estoque" 
-              :promocao="!!data.promocao" 
-              :preco_antigo="data.preco_antigo">
+              :nome="data.name" 
+              :imagem="data.image"
+              :descricao="data.description" 
+              :categoria="data.category" 
+              :preco="data.price" 
+              :estoque="data.stock" 
+              :promocao="!!data.discount" 
+              :preco_antigo="data.old_price">
             </Item>
         </div>
 
@@ -38,11 +38,11 @@ export default {
       search: null,
     }
   },
+  props:{
+    products: Array,
+  },
   components:{
     Header, Footer, Item
-  },
-  props:{
-    datas: Array,
   },
   methods: {
     handleSearch(event){

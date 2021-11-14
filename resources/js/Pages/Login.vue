@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <Header></Header>
-      <div v-if="state">
+      <div v-if="state || a">
         <SignIn v-on:mudarEstado="changeState"></SignIn>
       </div>
       <div v-else>
@@ -20,8 +20,11 @@ import SignUp from './../components/Login/SignUp.vue'
 export default {
   data(){
     return {
-      state: 1, // 0 = sem conta; 1 = tem conta; 
+      state: 1, // 0 = sem conta; 1 = tem conta;
     }
+  },
+  props:{
+    a: Boolean,
   },
   components:{
     Header, Footer, SignIn, SignUp

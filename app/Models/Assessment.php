@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comentario extends Model
+class Assessment extends Model
 {
-    protected $table = 'comentarios';
+    protected $table = 'assessments';
 }
