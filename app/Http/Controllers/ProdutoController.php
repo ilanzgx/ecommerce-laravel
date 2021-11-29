@@ -12,8 +12,8 @@ class ProdutoController extends Controller
         $data = Product::where('id', $produtoid)->get();
         //dd($data);
         if($produtoid <= 0 || empty($data[0])){
-            return redirect()->route('index');
+            return redirect()->back();
         }
-        return Inertia::render('Product', ['product' => $data[0]]);
+        return Inertia::render('Product', ['product' => $data[0], 'app_name' => config('app.name')]);
     }
 }

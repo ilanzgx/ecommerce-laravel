@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 /* HomeController */
 Route::get('/', 'HomeController@index')->name('index');
-Route::fallback('HomeController@show404');
+Route::fallback('HomeController@show404')->name('404');
 
 /* ProdutoController */
 Route::get('/produto/{produtoid?}', 'ProdutoController@index')->name('produto.id');
