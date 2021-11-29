@@ -17,3 +17,9 @@ Route::get('/verificar/{token}', 'HomeController@verification')->name('login.ver
 /* CartController */
 Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{produtoid?}', 'CartController@precart')->name('precart');
+
+/* Back office */
+Route::middleware(['admin'])->group(function() {
+    Route::get('/admin', 'AdminController@index')->name('admin.index');
+    Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+});

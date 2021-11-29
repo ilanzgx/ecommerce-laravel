@@ -32,8 +32,9 @@ class LoginController extends Controller
             ];
 
             session([
-                'email' => $request->email,
-                'logged' => true
+                'email'  => $request->email,
+                'logged' => true,
+                'role'   => 'administrador'
             ]);
 
             return json_encode($response);
@@ -56,13 +57,14 @@ class LoginController extends Controller
         $new_customer->genre = $request->genre;
         $new_customer->birth_date = $request->birth_date;
         $new_customer->cpf = $request->cpf;
-        $new_customer->role = "usuario";
+        $new_customer->role = 'usuario';
 
         $new_customer->save();
 
         session([
-            'email' => $request->email,
-            'logged' => true
+            'email'  => $request->email,
+            'logged' => true,
+            'role'   => 'administrador'
         ]);
     }
 }

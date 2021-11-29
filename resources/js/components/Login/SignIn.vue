@@ -6,7 +6,7 @@
         <p class="text-gray-400 text-sm">Logue para acessar sua conta</p>
       </div>
 
-      <form @submit.prevent="submitForm" class="text-gray-400 space-y-12">
+      <form @submit.prevent="submitForm()" class="text-gray-400 space-y-12">
         <div class="space-y-4">
           <div class="">
             <label class="block mb-2 text-gray-200" for="text_email">Endereço de email</label>
