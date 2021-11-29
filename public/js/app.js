@@ -3290,6 +3290,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3299,8 +3355,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     product: Array
+  },
+  methods: {
+    calculateDiscount: function calculateDiscount(v1, v2) {
+      return Math.trunc((v2 - v1) / v1 * 100);
+    }
   }
-});
+}); //:href="$route('')"
 
 /***/ }),
 
@@ -11159,20 +11220,217 @@ var render = function() {
     [
       _c("Header"),
       _vm._v(" "),
-      _c("div", { staticClass: "flex justify-center bg-gray-700" }, [
-        _c("div", {}, [_c("h1", [_vm._v(_vm._s(_vm.datas[0]["nome"]))])]),
+      _c("div", { staticClass: "m-5" }, [
+        _c("h1", { staticClass: "text-3xl" }, [
+          _vm._v(_vm._s(_vm.product.name))
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "flex" }, [
-          _c("div", { staticClass: "w-1/2" }, [
+        _c(
+          "div",
+          { staticClass: "text-gray-400 text-sm" },
+          [
+            _c("span", [_vm._v("Produto " + _vm._s(_vm.product.id))]),
+            _vm._v(" | \n      "),
+            _c("Link", { staticClass: "underline" }, [
+              _vm._v("Ver descrição completa")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex mt-5" }, [
+          _c("div", { staticClass: "w-1/2 flex justify-center" }, [
             _c("img", {
-              staticClass: "w-full h-full",
-              attrs: { src: _vm.datas[0]["imagem"], alt: "" }
+              staticClass: " w-72 h-72",
+              attrs: { src: _vm.product.image }
             })
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "w-1/2" }, [
-            _vm._v("\n        R$" + _vm._s(_vm.datas[0]["preco"]) + "\n      ")
+            _vm._m(0),
+            _vm._v(" "),
+            _c("p", { staticClass: "line-through opacity-50 text-sm" }, [
+              _vm._v("De R$"),
+              _c("span", { staticClass: "text-lg px-2 text-purple-500" }, [
+                _vm._v(_vm._s(_vm.product.old_price))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-lg" }, [
+              _vm._v("Por R$"),
+              _c(
+                "span",
+                { staticClass: "text-3xl px-2 text-purple-500 font-bold" },
+                [_vm._v(_vm._s(_vm.product.price))]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-sm" }, [
+                _vm._v(
+                  "(-" +
+                    _vm._s(
+                      _vm.calculateDiscount(
+                        _vm.product.price,
+                        _vm.product.old_price
+                      )
+                    ) +
+                    "%)"
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex justify-center mt-5" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "flex bg-purple-500 rounded-lg px-2 py-1 w-full"
+                },
+                [
+                  _c("div", { staticClass: "flex mx-auto" }, [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "h-6 w-6",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20",
+                          fill: "currentColor"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "font-semibold px-2" }, [
+                      _vm._v("Adicionar ao carrinho")
+                    ])
+                  ])
+                ]
+              )
+            ])
           ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-6" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex items-center border-b border-opacity-60 uppercase font-semibold my-5 text-justify"
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "h-10 w-10 text-purple-500",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 20 20",
+                    fill: "currentColor"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z",
+                      "clip-rule": "evenodd"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "px-6 text-2xl" }, [
+                _vm._v("Descrição do produto")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("p", { staticClass: "font-semibold mb-1" }, [
+            _vm._v(_vm._s(_vm.product.name))
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.product.description))]),
+          _vm._v(" "),
+          _c("p", { staticClass: "mt-3 font-semibold" }, [
+            _vm._v("Garanta o seu aqui na Loja virtual sem nome!")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-6" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex items-center border-b border-opacity-60 uppercase font-semibold my-5 text-justify"
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "h-10 w-10 text-purple-500",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 20 20",
+                    fill: "currentColor"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z",
+                      "clip-rule": "evenodd"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "px-6 text-2xl" }, [
+                _vm._v("Informações técnicas")
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-6" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex items-center border-b border-opacity-60 uppercase font-semibold my-5 text-justify"
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "h-10 w-10 text-purple-500",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 20 20",
+                    fill: "currentColor"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "px-6 text-2xl" }, [_vm._v("Avaliações")])
+            ]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -11181,7 +11439,23 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "mb-3" }, [
+      _vm._v("Vendido e entregue por: "),
+      _c("span", { staticClass: "font-semibold" }, [
+        _vm._v("Loja virtual sem nome")
+      ]),
+      _vm._v(" | "),
+      _c("span", { staticClass: " text-green-500 font-semibold" }, [
+        _vm._v("Em estoque")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
