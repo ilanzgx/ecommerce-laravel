@@ -41,13 +41,41 @@
               </small>
             </Link>
 
-            <Link :href="$route('login')" :data="{a: true}" class="py-5 px-3 font-bold text-purple-400 hover:text-purple-200 no-underline">
-              Entrar
-            </Link>
+            <div v-if="loading">
+              <div v-if="loading" class="flex justify-center items-center">
+                <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+              </div>
+            </div>
 
-            <Link :href="$route('login')" :data="{a: false}" class="py-2 px-3 font-bold bg-purple-500 hover:bg-purple-700 text-purple-100 hover:text-purple-200 rounded transition duration-200">
-              Cadastrar
-            </Link>
+            <div v-else class="items-center">
+              <div v-if="!session.logged">
+                <Link :href="$route('login')" class="font-bold text-purple-50 bg-purple-500 px-3 py-2 rounded-md hover:text-purple-200 no-underline">
+                  Login / Cadastro
+                </Link>
+              </div>
+
+              <div v-else class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+                </svg>
+                <div class="text-sm px-1">
+                  <p class="font-bold">Olá, {{ session.name }}!</p>
+                  <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+                    Minha Conta
+                  </Link> |
+
+                  <Link v-if="session.role == 'administrador'" :href="$route('admin.index')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+                    Admin <span class="text-white">|</span>
+                  </Link>
+
+                  <button @click="logout()" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+                    Sair
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            
         </div>
 
         <!-- mobile button -->
@@ -84,13 +112,26 @@
         </small>
       </Link>
 
-      <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
-        Entrar
-      </Link>
+      <div v-if="!session.logged">
+        <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+          Entrar
+        </Link>
 
-      <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
-        Cadastrar
-      </Link>
+        <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+          Cadastrar
+        </Link>
+      </div>
+
+      <div v-else class="my-2">
+        <p class="font-bold">Olá, {{ session.full_name }}!</p>
+        <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+          Minha Conta
+        </Link> |
+
+        <button @click="logout()" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+          Sair
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -102,21 +143,37 @@ import axios from 'axios'
 
 export default {
   name: 'Cabecalho',
-  mounted(){
-    axios.post('/api/cart/total').then((response) => {
+  async mounted(){
+    await axios.post('/api/cart/total').then((response) => {
       this.total_products = response.data
+    });
+
+    await axios.post('/api/login/header/session').then((response) => {
+      this.session = response.data;
+      this.loading = false
+      console.log(this.session);    
     });
   },
   data(){
     return {
       showMenu: false,
       search: null,
+      loading: true,
       total_products: 0,
+      session: {},
     }
   },
   methods: {
     toggleMenu(){
       this.showMenu = !this.showMenu
+    },
+
+    logout(){
+      axios.post('/api/login/logout').then((response) => {
+        if(response.data.success){
+          window.location.href = '/'
+        }
+      })
     }
   },
 }

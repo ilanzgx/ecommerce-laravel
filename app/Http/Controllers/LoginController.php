@@ -34,7 +34,8 @@ class LoginController extends Controller
             session([
                 'email'  => $request->email,
                 'logged' => true,
-                'role'   => 'administrador'
+                'name'   => $user->full_name,
+                'role'   => $user->role
             ]);
 
             return json_encode($response);
@@ -49,22 +50,65 @@ class LoginController extends Controller
     }
 
     public function signup(Request $request){
-        $new_customer = new Customer();
-        
-        $new_customer->full_name = $request->full_name;
-        $new_customer->email = $request->email;
-        $new_customer->password = Hash::make($request->password);
-        $new_customer->genre = $request->genre;
-        $new_customer->birth_date = $request->birth_date;
-        $new_customer->cpf = $request->cpf;
-        $new_customer->role = 'usuario';
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
 
-        $new_customer->save();
+        $user = Customer::where('email', $data['email'])->first();
 
-        session([
-            'email'  => $request->email,
-            'logged' => true,
-            'role'   => 'administrador'
-        ]);
+        if($user){
+            
+            $response = [
+                'success' => false,
+                'message' => 'Email já existente',
+            ];
+
+            return json_encode($response);
+
+        } else {
+
+            $new_customer = new Customer();
+            
+            $new_customer->full_name = $request->full_name;
+            $new_customer->email = $request->email;
+            $new_customer->password = Hash::make($request->password);
+            $new_customer->genre = $request->genre;
+            $new_customer->birth_date = $request->birth_date;
+            $new_customer->cpf = $request->cpf;
+            $new_customer->role = 'usuario';
+
+            $new_customer->save();
+
+            $response = [
+                'success' => true,
+                'message' => 'Registrado com sucesso',
+            ];
+
+            session([
+                'email'  => $request->email,
+                'logged' => true,
+                'name'   => $request->full_name,
+                'role'   => 'usuario'
+            ]);
+
+            return json_encode($response);
+        }
+
+        $response = [
+            'success' => false,
+            'message' => 'Erro',
+        ];
+
+        return json_encode($response);
+    }
+
+    public function header_session(Request $request){
+        return json_encode($request->session()->all());
+    }
+
+    public function logout(Request $request){
+        $request->session()->flush();
+        return json_encode(['success' => true]);
     }
 }

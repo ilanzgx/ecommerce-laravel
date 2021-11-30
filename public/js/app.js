@@ -3102,6 +3102,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3115,7 +3128,7 @@ __webpack_require__.r(__webpack_exports__);
     CartItem: _components_Cart_Item_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: {
-    data: Array,
+    products: Object,
     empty: Boolean
   }
 });
@@ -3322,14 +3335,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Header: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Footer: _components_Footer_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    data: Object
   }
 });
+/*
+<div class="bg-red-500 flex justify-center">
+          <img class="w-32 h-32" src="/storage/camiseta.png" alt="Camiseta">
+        </div>
+
+        <div class="flex justify-center">
+          <Link class="bg-indigo-500 px-2 py-2 m-2 rounded-md" :href="$route('cart')">Ir para o carrinho</Link>
+          <Link class="bg-indigo-500 px-2 py-2 m-2 rounded-md" :href="$route('index')">Comprar mais</Link>
+        </div>
+*/
 
 /***/ }),
 
@@ -3527,10 +3580,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    image: String,
+    id: Number,
     name: String,
-    amount: Number,
-    price: Number
+    image: String,
+    description: String,
+    category: String,
+    price: Number,
+    stock: Number,
+    discount: Boolean,
+    old_price: Number
   }
 });
 
@@ -3696,8 +3754,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3803,20 +3910,51 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/cart/total').then(function (response) {
-      _this.total_products = response.data;
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/cart/total').then(function (response) {
+                _this.total_products = response.data;
+              });
+
+            case 2:
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/login/header/session').then(function (response) {
+                _this.session = response.data;
+                _this.loading = false;
+                console.log(_this.session);
+              });
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   data: function data() {
     return {
       showMenu: false,
       search: null,
-      total_products: 0
+      loading: true,
+      total_products: 0,
+      session: {}
     };
   },
   methods: {
     toggleMenu: function toggleMenu() {
       this.showMenu = !this.showMenu;
+    },
+    logout: function logout() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/login/logout').then(function (response) {
+        if (response.data.success) {
+          window.location.href = '/';
+        }
+      });
     }
   }
 });
@@ -3893,6 +4031,10 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.response = response;
         console.log(response);
+
+        if (response.data.success) {
+          window.location.href = '/';
+        }
       })["catch"](function (error) {
         console.log(error.response.data);
       });
@@ -4000,6 +4142,10 @@ __webpack_require__.r(__webpack_exports__);
         cpf: this.cpf
       }).then(function (response) {
         console.log(response);
+
+        if (response.data.success) {
+          window.location.href = '/';
+        }
       })["catch"](function (error) {
         console.log(error.response.data);
       });
@@ -11309,13 +11455,34 @@ var render = function() {
             "div",
             { staticClass: "grid grid-cols-1 sm:grid-cols-2 gap-12 mx-6 my-4" },
             [
-              _c("CartItem"),
+              _vm._l(_vm.products, function(data) {
+                return _c(
+                  "div",
+                  { key: data.id },
+                  [
+                    _c("CartItem", {
+                      attrs: {
+                        id: data.id,
+                        name: data.name,
+                        image: data.image,
+                        description: data.description,
+                        category: data.category,
+                        price: data.price,
+                        stock: data.stock,
+                        discount: !!data.discount,
+                        old_price: data.old_price
+                      }
+                    })
+                  ],
+                  1
+                )
+              }),
               _vm._v(" "),
               _c("div", { staticClass: " flex items-center justify-center" }, [
                 _vm._v("\n      Valor\n    ")
               ])
             ],
-            1
+            2
           ),
       _vm._v(" "),
       _c("Footer")
@@ -11525,17 +11692,98 @@ var render = function() {
     [
       _c("Header"),
       _vm._v(" "),
-      _c("div", { staticClass: "bg-gray-700 my-4" }, [
-        _vm._m(0),
+      _c("div", { staticClass: "bg-gray-700 my-4 mx-2 p-2" }, [
+        _c("div", { staticClass: "flex" }, [
+          _c("div", { staticClass: "w-1/3" }, [
+            _c("img", {
+              staticClass: " w-72 h-72",
+              attrs: { src: _vm.data.image, alt: "" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-1/3 flex items-center" }, [
+            _c("h1", { staticClass: "text-2xl" }, [
+              _vm._v(_vm._s(_vm.data.name))
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "w-1/3 flex justify-center items-center text-purple-400"
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "text-lg font-medium border-r-2 border-gray-300 px-6"
+                },
+                [
+                  _c("h1", [_vm._v("12x R$" + _vm._s(_vm.data.price / 12))]),
+                  _vm._v(" "),
+                  _c("h2", [
+                    _vm._v("(À prazo: R$" + _vm._s(_vm.data.price + 100) + ")")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "font-semibold text-xl px-6" }, [
+                _c("h1", [_vm._v("R$" + _vm._s(_vm.data.price))]),
+                _vm._v(" "),
+                _c("h2", [_vm._v("À vista no PIX")])
+              ])
+            ]
+          )
+        ]),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "flex justify-center" },
+          {
+            staticClass:
+              "text-green-500 flex justify-center items-center uppercase font-semibold"
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: " w-8 h-8",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 20 20",
+                  fill: "currentColor"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "fill-rule": "evenodd",
+                    d:
+                      "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z",
+                    "clip-rule": "evenodd"
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("h3", { staticClass: "mx-2" }, [
+              _vm._v("Produto adicionado ao carrinho")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "p-5 flex justify-center uppercase text-xl font-semibold"
+          },
           [
             _c(
               "Link",
               {
-                staticClass: "bg-indigo-500 px-2 py-2 m-2 rounded-md",
+                staticClass: "bg-purple-500 px-2 py-2 m-2 rounded-md",
                 attrs: { href: _vm.$route("cart") }
               },
               [_vm._v("Ir para o carrinho")]
@@ -11544,10 +11792,10 @@ var render = function() {
             _c(
               "Link",
               {
-                staticClass: "bg-indigo-500 px-2 py-2 m-2 rounded-md",
+                staticClass: "bg-purple-500 px-2 py-2 m-2 rounded-md",
                 attrs: { href: _vm.$route("index") }
               },
-              [_vm._v("Comprar mais")]
+              [_vm._v("Continuar comprando")]
             )
           ],
           1
@@ -11559,19 +11807,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bg-red-500 flex justify-center" }, [
-      _c("img", {
-        staticClass: "w-32 h-32",
-        attrs: { src: "/storage/camiseta.png", alt: "Camiseta" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -11887,33 +12123,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", {}, [
+    _c("div", { staticClass: "default-cart-box" }, [
+      _c("div", { staticClass: "w-1/3" }, [
+        _c("img", { staticClass: "w-32 h-32", attrs: { src: _vm.image } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-1/3" }, [
+        _c("p", [_vm._v(_vm._s(_vm.name))]),
+        _vm._v(" "),
+        _c("p", [_vm._v("R$" + _vm._s(_vm.price))])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c("div", { staticClass: "default-cart-box" }, [
-        _c("div", { staticClass: "w-1/3" }, [
-          _c("img", {
-            staticClass: "w-32 h-32",
-            attrs: { src: "/storage/camiseta.png" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-1/3" }, [
-          _c("p", [_vm._v("Camiseta")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("R$50")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-1/3" }, [
-          _c("button", { staticClass: "bg-red-500 px-3 py-2 rounded-3xl" }, [
-            _vm._v("Remover")
-          ])
-        ])
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c("button", { staticClass: "bg-red-500 px-3 py-2 rounded-3xl" }, [
+        _vm._v("Remover")
       ])
     ])
   }
@@ -12345,25 +12578,126 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c(
-              "Link",
-              {
-                staticClass:
-                  "py-5 px-3 font-bold text-purple-400 hover:text-purple-200 no-underline",
-                attrs: { href: _vm.$route("login"), data: { a: true } }
-              },
-              [_vm._v("\n            Entrar\n          ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "Link",
-              {
-                staticClass:
-                  "py-2 px-3 font-bold bg-purple-500 hover:bg-purple-700 text-purple-100 hover:text-purple-200 rounded transition duration-200",
-                attrs: { href: _vm.$route("login"), data: { a: false } }
-              },
-              [_vm._v("\n            Cadastrar\n          ")]
-            )
+            _vm.loading
+              ? _c("div", [
+                  _vm.loading
+                    ? _c(
+                        "div",
+                        { staticClass: "flex justify-center items-center" },
+                        [
+                          _c("div", {
+                            staticClass:
+                              "animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"
+                          })
+                        ]
+                      )
+                    : _vm._e()
+                ])
+              : _c("div", { staticClass: "items-center" }, [
+                  !_vm.session.logged
+                    ? _c(
+                        "div",
+                        [
+                          _c(
+                            "Link",
+                            {
+                              staticClass:
+                                "font-bold text-purple-50 bg-purple-500 px-3 py-2 rounded-md hover:text-purple-200 no-underline",
+                              attrs: { href: _vm.$route("login") }
+                            },
+                            [
+                              _vm._v(
+                                "\n                Login / Cadastro\n              "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    : _c("div", { staticClass: "flex items-center" }, [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "h-10 w-10",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 20 20",
+                              fill: "currentColor"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "fill-rule": "evenodd",
+                                d:
+                                  "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z",
+                                "clip-rule": "evenodd"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-sm px-1" },
+                          [
+                            _c("p", { staticClass: "font-bold" }, [
+                              _vm._v("Olá, " + _vm._s(_vm.session.name) + "!")
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "Link",
+                              {
+                                staticClass:
+                                  "text-purple-400 hover:text-purple-200 no-underline uppercase",
+                                attrs: { href: _vm.$route("login") }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  Minha Conta\n                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" |\n\n                "),
+                            _vm.session.role == "administrador"
+                              ? _c(
+                                  "Link",
+                                  {
+                                    staticClass:
+                                      "text-purple-400 hover:text-purple-200 no-underline uppercase",
+                                    attrs: { href: _vm.$route("admin.index") }
+                                  },
+                                  [
+                                    _vm._v("\n                  Admin "),
+                                    _c("span", { staticClass: "text-white" }, [
+                                      _vm._v("|")
+                                    ])
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "text-purple-400 hover:text-purple-200 no-underline uppercase",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.logout()
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  Sair\n                "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                ])
           ],
           1
         ),
@@ -12505,25 +12839,66 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c(
-          "Link",
-          {
-            staticClass:
-              "block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30",
-            attrs: { href: _vm.$route("login") }
-          },
-          [_vm._v("\n      Entrar\n    ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "Link",
-          {
-            staticClass:
-              "block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30",
-            attrs: { href: _vm.$route("login") }
-          },
-          [_vm._v("\n      Cadastrar\n    ")]
-        )
+        !_vm.session.logged
+          ? _c(
+              "div",
+              [
+                _c(
+                  "Link",
+                  {
+                    staticClass:
+                      "block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30",
+                    attrs: { href: _vm.$route("login") }
+                  },
+                  [_vm._v("\n        Entrar\n      ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "Link",
+                  {
+                    staticClass:
+                      "block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30",
+                    attrs: { href: _vm.$route("login") }
+                  },
+                  [_vm._v("\n        Cadastrar\n      ")]
+                )
+              ],
+              1
+            )
+          : _c(
+              "div",
+              { staticClass: "my-2" },
+              [
+                _c("p", { staticClass: "font-bold" }, [
+                  _vm._v("Olá, " + _vm._s(_vm.session.full_name) + "!")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "Link",
+                  {
+                    staticClass:
+                      "text-purple-400 hover:text-purple-200 no-underline uppercase",
+                    attrs: { href: _vm.$route("login") }
+                  },
+                  [_vm._v("\n        Minha Conta\n      ")]
+                ),
+                _vm._v(" |\n\n      "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "text-purple-400 hover:text-purple-200 no-underline uppercase",
+                    on: {
+                      click: function($event) {
+                        return _vm.logout()
+                      }
+                    }
+                  },
+                  [_vm._v("\n        Sair\n      ")]
+                )
+              ],
+              1
+            )
       ],
       1
     )

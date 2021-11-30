@@ -10,13 +10,13 @@ Route::fallback('HomeController@show404')->name('404');
 Route::get('/produto/{produtoid?}', 'ProdutoController@index')->name('produto.id');
 
 /* LoginController */
-Route::get('/login', 'HomeController@login')->name('login');
-Route::get('/mudarsenha', 'HomeController@changePassword')->name('login.changepassword');
-Route::get('/verificar/{token}', 'HomeController@verification')->name('login.verification');
+Route::get('/login', 'HomeController@login')->name('login')->middleware('logged');
+Route::get('/mudarsenha', 'HomeController@changePassword')->name('login.changepassword')->middleware('logged');
+Route::get('/verificar/{token}', 'HomeController@verification')->name('login.verification')->middleware('logged');
 
 /* CartController */
 Route::get('/carrinho', 'CartController@index')->name('cart');
-Route::get('/precarrinho/{produtoid?}', 'CartController@precart')->name('precart');
+Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
 
 /* Back office */
 Route::middleware(['admin'])->group(function() {

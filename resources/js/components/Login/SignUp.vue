@@ -83,6 +83,9 @@ export default {
         cpf: this.cpf
       }).then((response) => {
         console.log(response)
+        if(response.data.success){
+          window.location.href = '/'
+        }
       }).catch((error) => {
         console.log(error.response.data)
       })

@@ -14,8 +14,9 @@ class AdminController extends Controller
         return Inertia::render('Admin/Index.vue');
     }
 
-    public function dashboard(){
-        return Inertia::render('Admin/Dashboard.vue');
+    public function dashboard(Request $request){ 
+        dd($request->session()->all());   
+        //return Inertia::render('Admin/Dashboard.vue');
     }
 
     public function signin(Request $request){

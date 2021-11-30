@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login/signin', 'LoginController@signin');
 Route::post('/login/signup', 'LoginController@signup');
+Route::post('/login/logout', 'LoginController@logout');
+Route::post('/login/header/session', 'LoginController@header_session');
 
 Route::post('/cart/add', 'CartController@add_cart');
 Route::post('/cart/remove', 'CartController@remove_cart');

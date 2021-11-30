@@ -14,7 +14,20 @@
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-12 mx-6 my-4">
       <!-- products -->
 
-        <CartItem ></CartItem>
+        <div v-for="data in products" :key="data.id">
+          <CartItem 
+            :id="data.id"
+            :name="data.name" 
+            :image="data.image"
+            :description="data.description" 
+            :category="data.category" 
+            :price="data.price" 
+            :stock="data.stock" 
+            :discount="!!data.discount" 
+            :old_price="data.old_price">
+          </CartItem>
+        </div>
+        
 
       <!-- total value -->
       <div class=" flex items-center justify-center">
@@ -33,14 +46,14 @@ import CartItem from './../components/Cart/Item.vue'
 export default {
   data(){
     return {
-       
+      
     }
   },
   components:{
     Header, Footer, CartItem
   },
   props:{
-    data: Array,
+    products: Object,
     empty: Boolean
   },
 }

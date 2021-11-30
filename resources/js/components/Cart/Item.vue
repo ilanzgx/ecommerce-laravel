@@ -2,12 +2,12 @@
   <div class="">
     <div class="default-cart-box">
       <div class="w-1/3">
-        <img class="w-32 h-32" src="/storage/camiseta.png">
+        <img class="w-32 h-32" :src="image">
       </div>
 
       <div class="w-1/3">
-        <p>Camiseta</p>
-        <p>R$50</p>
+        <p>{{ name }}</p>
+        <p>R${{ price }}</p>
       </div>
 
       <div class="w-1/3">
@@ -20,10 +20,15 @@
 <script>
 export default {
   props: {
-    image: String,
+    id: Number,
     name: String,
-    amount: Number,
-    price: Number 
+    image: String,
+    description: String,
+    category: String,
+    price: Number,
+    stock: Number,
+    discount: Boolean,
+    old_price: Number,
   }
 }
 </script>

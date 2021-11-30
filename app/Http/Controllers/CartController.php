@@ -24,13 +24,17 @@ class CartController extends Controller
             $ids = implode(',', $ids);
             return Inertia::render('Cart', [
                 'empty' => false, 
-                'data'  => Product::search_products_by_ids($ids)
+                'products'  => Product::search_products_by_ids($ids)
             ]);
         }
     }
 
-    public function precart($produtoid=0){
-        return Inertia::render('PreCart');
+    public function precart($productid=0){
+        $data = Product::find($productid);
+        if(!$data){
+            return redirect()->route('index');
+        }
+        return Inertia::render('PreCart', ['data' => $data]);
     }
 
     public function add_cart(Request $request){
