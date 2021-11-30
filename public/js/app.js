@@ -11693,25 +11693,39 @@ var render = function() {
       _c("Header"),
       _vm._v(" "),
       _c("div", { staticClass: "bg-gray-700 my-4 mx-2 p-2" }, [
-        _c("div", { staticClass: "flex" }, [
-          _c("div", { staticClass: "w-1/3" }, [
-            _c("img", {
-              staticClass: " w-72 h-72",
-              attrs: { src: _vm.data.image, alt: "" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-1/3 flex items-center" }, [
-            _c("h1", { staticClass: "text-2xl" }, [
-              _vm._v(_vm._s(_vm.data.name))
-            ])
-          ]),
+        _c("div", { staticClass: "md:flex" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "md:w-1/3 flex md:justify-start justify-center items-center"
+            },
+            [
+              _c("img", {
+                staticClass: "md:w-72 md:h-72 w-52 h-52",
+                attrs: { src: _vm.data.image, alt: "" }
+              })
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
             {
               staticClass:
-                "w-1/3 flex justify-center items-center text-purple-400"
+                "md:w-1/3 flex justify-center md:justify-start items-center my-5 md:my-0"
+            },
+            [
+              _c("h1", { staticClass: "text-2xl" }, [
+                _vm._v(_vm._s(_vm.data.name))
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "md:w-1/3 flex justify-center items-center text-purple-400"
             },
             [
               _c(
@@ -11721,7 +11735,9 @@ var render = function() {
                     "text-lg font-medium border-r-2 border-gray-300 px-6"
                 },
                 [
-                  _c("h1", [_vm._v("12x R$" + _vm._s(_vm.data.price / 12))]),
+                  _c("h1", [
+                    _vm._v("12x R$" + _vm._s((_vm.data.price / 12).toFixed(2)))
+                  ]),
                   _vm._v(" "),
                   _c("h2", [
                     _vm._v("(À prazo: R$" + _vm._s(_vm.data.price + 100) + ")")
@@ -11742,7 +11758,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "text-green-500 flex justify-center items-center uppercase font-semibold"
+              "text-green-500 flex justify-center items-center uppercase font-semibold my-5 md:my-0"
           },
           [
             _c(
@@ -11777,7 +11793,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "p-5 flex justify-center uppercase text-xl font-semibold"
+              "p-5 flex justify-center uppercase text-lg md:text-xl font-semibold"
           },
           [
             _c(
