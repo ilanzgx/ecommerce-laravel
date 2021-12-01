@@ -14,7 +14,7 @@
           <div class="md:w-1/3 flex justify-center items-center text-purple-400">
             <div class="text-lg font-medium border-r-2 border-gray-300 px-6">
               <h1>12x R${{ (data.price/12).toFixed(2) }}</h1>
-              <h2>(À prazo: R${{ data.price + 100 }})</h2>
+              <h2>(À prazo: R${{ data.price + 10 }})</h2>
             </div>
 
             <div class="font-semibold text-xl px-6">

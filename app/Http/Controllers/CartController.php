@@ -22,9 +22,46 @@ class CartController extends Controller
             }
             
             $ids = implode(',', $ids);
+            $results = Product::search_products_by_ids($ids);
+            //dd(session('cart'));
+
+            $data_tmp = [];
+            foreach(session('cart') as $product_id => $cart_amount){
+                foreach($results as $product){
+                    if($product->id == $product_id){
+                        $id = $product->id;
+                        $image = $product->image;
+                        $name = $product->name;
+                        $amount = $cart_amount;
+                        $original_price = $product->price;
+                        $price = $product->price * $amount;
+                        $stock = $product->stock;
+
+                        array_push($data_tmp, [
+                            'id'   => $id,
+                            'name'  => $name,
+                            'image' => $image,
+                            'amount' => $amount,
+                            'price' => $price,                            
+                            'original_price' => $original_price,
+                            'stock' => $stock
+                        ]);
+                        break;
+                    }
+                }
+            }
+
+            $total_value = 0;
+            foreach($data_tmp as $item){
+                $total_value += $item['price'];
+            }
+
+            //dd($data_tmp);
+
             return Inertia::render('Cart', [
                 'empty' => false, 
-                'products'  => Product::search_products_by_ids($ids)
+                'products'  => $data_tmp,
+                'total_value' => $total_value 
             ]);
         }
     }
@@ -76,7 +113,18 @@ class CartController extends Controller
     }
 
     public function update_cart(Request $request){
-        dd($request->id);
+        $values = [
+            'productid' => $request->product_id,
+            'amount' => $request->amount,
+        ];
+
+        $productid = $values['productid'];
+
+        if($values['amount'] >= 1){
+            Session::put("cart.$productid", $values['amount']);
+        }
+
+        return json_encode(['success' => true, 'debug' => session('cart')]);
     }
 
     public function total_cart(Request $request){

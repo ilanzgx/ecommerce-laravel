@@ -11,7 +11,6 @@ class HomeController extends Controller
 {
     public function index(){
         $produtos = DB::table('products')->orderBy('stock', 'desc')->get();
-       
         return Inertia::render('Home', ['products' => $produtos]);
     }
 

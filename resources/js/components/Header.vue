@@ -90,7 +90,7 @@
       </div>
     </div>
     <!-- mobile menu -->
-    <div class="px-6" :class="{'hidden': !showMenu}">
+    <div class="px-6 pb-4" :class="{'hidden': !showMenu}">
       <a class="block py-2 px-4 text-sm no-underline hover:text-gray-200 hover:bg-gray-800" href="https://api.whatsapp.com/send?phone=558698252212" target="blank">
         <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" class="inline" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
@@ -112,25 +112,34 @@
         </small>
       </Link>
 
-      <div v-if="!session.logged">
-        <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
-          Entrar
-        </Link>
-
-        <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
-          Cadastrar
-        </Link>
+      <div v-if="loading">
+        <div v-if="loading" class="flex justify-center items-center">
+          <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+        </div>
       </div>
 
-      <div v-else class="my-2">
-        <p class="font-bold">Olá, {{ session.full_name }}!</p>
-        <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
-          Minha Conta
-        </Link> |
+      <div v-else>
 
-        <button @click="logout()" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
-          Sair
-        </button>
+        <div v-if="!session.logged">
+          <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+            Entrar
+          </Link>
+
+          <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+            Cadastrar
+          </Link>
+        </div>
+
+        <div v-else class="border-t-2 border-gray-700">
+          <p class="font-bold">Olá, {{ session.name }}!</p>
+          <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+            Minha Conta
+          </Link> |
+
+          <button @click="logout()" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+            Sair
+          </button>
+        </div>
       </div>
     </div>
   </nav>

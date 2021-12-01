@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-12 mx-6 my-4">
+    <div v-else class="">
       <!-- products -->
 
         <div v-for="data in products" :key="data.id">
@@ -20,18 +20,17 @@
             :name="data.name" 
             :image="data.image"
             :description="data.description" 
-            :category="data.category" 
             :price="data.price" 
+            :original_price="data.original_price"
             :stock="data.stock" 
-            :discount="!!data.discount" 
-            :old_price="data.old_price">
+            :amount="data.amount">
           </CartItem>
         </div>
         
 
       <!-- total value -->
-      <div class=" flex items-center justify-center">
-        Valor
+      <div class="flex items-center justify-center">
+        Total: R${{ total_value }}
       </div>
     </div>
     <Footer></Footer>
@@ -53,8 +52,9 @@ export default {
     Header, Footer, CartItem
   },
   props:{
-    products: Object,
-    empty: Boolean
+    products: Array,
+    empty: Boolean,
+    total_value: Number,
   },
 }
 </script>
