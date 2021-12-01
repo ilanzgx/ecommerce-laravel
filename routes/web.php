@@ -18,6 +18,11 @@ Route::get('/verificar/{token}', 'HomeController@verification')->name('login.ver
 Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
 
+/* CustomerController */
+Route::middleware(['logged'])->group(function(){
+    Route::get('/minhaconta', 'CustomerController@minha_conta')->name('customer.myaccount');
+});
+
 /* Back office */
 Route::middleware(['admin'])->group(function() {
     Route::get('/admin', 'AdminController@index')->name('admin.index');

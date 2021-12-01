@@ -60,7 +60,7 @@
                 </svg>
                 <div class="text-sm px-1">
                   <p class="font-bold">Olá, {{ session.name }}!</p>
-                  <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+                  <Link :href="$route('customer.myaccount')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
                     Minha Conta
                   </Link> |
 
@@ -132,7 +132,7 @@
 
         <div v-else class="border-t-2 border-gray-700">
           <p class="font-bold">Olá, {{ session.name }}!</p>
-          <Link :href="$route('login')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+          <Link :href="$route('customer.myaccount')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
             Minha Conta
           </Link> |
 
