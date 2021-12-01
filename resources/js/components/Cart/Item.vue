@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div v-if="amount_tmp >= 1" class="">
     <div class="md:flex border-b border-gray-600 border-opacity-40 p-2 my-2">
       <div class="md:w-1/5 md:block flex justify-center">
         <Link :href="$route('produto.id', id)">
@@ -9,7 +9,7 @@
 
       <div class="md:w-2/5 md:block flex justify-center">
         <Link class=" hover:underline" :href="$route('produto.id', id)">
-          <p class="md:text-base text-lg font-semibold">{{ name }}</p>
+          <p class="md:text-xl text-lg font-medium">{{ name }}</p>
         </Link>
       </div>
 
@@ -40,7 +40,7 @@
         </div>
 
         <div class="flex justify-center">
-          <button class="text-red-500 flex items-center text-xs">
+          <button @click="removeItem()" class="text-red-500 flex items-center text-xs">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             <p class="uppercase font-semibold">Remover</p>
           </button>
@@ -77,6 +77,7 @@ export default {
     price: Number,
     stock: Number,
     amount: Number,
+    total_value: Number,
   },
   methods: {
     increaseAmount(){
@@ -108,6 +109,22 @@ export default {
           console.log(response.data)
           if(response.data.success){
             this.price_tmp -= this.original_price
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
+
+    removeItem(){
+      if(this.amount_tmp >= 1){
+        axios.post('/api/cart/remove', {
+          id: this.id
+        }).then((response) => {
+          console.log(response.data)
+          if(response.data.success){
+            //this.amount_tmp = 0
+            window.location.reload() // temporario
           }
         }).catch((error) => {
           console.log(error)

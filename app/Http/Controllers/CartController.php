@@ -18,9 +18,15 @@ class CartController extends Controller
         } else {
             $ids = [];
             foreach(session('cart') as $product_id => $amount){
-                array_push($ids, $product_id);
+                if($amount >= 1){
+                    array_push($ids, $product_id);
+                }
             }
             
+            if(empty($ids)){
+                return Inertia::render('Cart', ['empty' => true]);
+            }
+
             $ids = implode(',', $ids);
             $results = Product::search_products_by_ids($ids);
             //dd(session('cart'));
@@ -57,6 +63,7 @@ class CartController extends Controller
             }
 
             //dd($data_tmp);
+            
 
             return Inertia::render('Cart', [
                 'empty' => false, 
@@ -105,7 +112,9 @@ class CartController extends Controller
     }
 
     public function remove_cart(Request $request){
-        dd($request->id);
+        $productid = $request->id;
+        Session::forget("cart.$productid");
+        return json_encode(['success' => true, 'debug' => session('cart')]);
     }
 
     public function clear_cart(Request $request){

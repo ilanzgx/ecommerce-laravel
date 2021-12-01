@@ -6,7 +6,11 @@ module.exports = {
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'army-green': '#78866b'
+      }
+    },
   },
   plugins: [
     //require('tailwindcss-dark-mode')()

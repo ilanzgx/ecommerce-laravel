@@ -32,8 +32,8 @@
         </div>
 
         <div class="p-5 flex justify-center uppercase text-lg md:text-xl font-semibold">
-          <Link class="bg-purple-500 px-2 py-2 m-2 rounded-md" :href="$route('cart')">Ir para o carrinho</Link>
           <Link class="bg-purple-500 px-2 py-2 m-2 rounded-md" :href="$route('index')">Continuar comprando</Link>
+          <Link class="bg-purple-500 px-2 py-2 m-2 rounded-md" :href="$route('cart')">Ir para o carrinho</Link>
         </div>
       </div>
     <Footer></Footer>
