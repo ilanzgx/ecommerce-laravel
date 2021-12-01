@@ -12242,12 +12242,13 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "flex border-b border-gray-600 border-opacity-40 p-2 my-2"
+        staticClass:
+          "md:flex border-b border-gray-600 border-opacity-40 p-2 my-2"
       },
       [
         _c(
           "div",
-          { staticClass: "w-1/5" },
+          { staticClass: "md:w-1/5 md:block flex justify-center" },
           [
             _c("Link", { attrs: { href: _vm.$route("produto.id", _vm.id) } }, [
               _c("img", { staticClass: "w-32 h-32", attrs: { src: _vm.image } })
@@ -12258,7 +12259,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "w-2/5" },
+          { staticClass: "md:w-2/5 md:block flex justify-center" },
           [
             _c(
               "Link",
@@ -12266,13 +12267,17 @@ var render = function() {
                 staticClass: " hover:underline",
                 attrs: { href: _vm.$route("produto.id", _vm.id) }
               },
-              [_c("p", [_vm._v(_vm._s(_vm.name))])]
+              [
+                _c("p", { staticClass: "md:text-base text-lg font-semibold" }, [
+                  _vm._v(_vm._s(_vm.name))
+                ])
+              ]
             )
           ],
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "w-1/5" }, [
+        _c("div", { staticClass: "md:w-1/5" }, [
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "flex justify-center my-5 text-lg" }, [
@@ -12438,7 +12443,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "w-1/5" }, [
+        _c("div", { staticClass: "md:w-1/5" }, [
           _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "flex justify-center mt-6" }, [
@@ -12456,9 +12461,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-sm flex justify-center" }, [
-      _c("h1", [_vm._v("Quantidade")])
-    ])
+    return _c(
+      "div",
+      { staticClass: "md:text-sm text-xs flex justify-center" },
+      [_c("h1", [_vm._v("Quantidade")])]
+    )
   },
   function() {
     var _vm = this

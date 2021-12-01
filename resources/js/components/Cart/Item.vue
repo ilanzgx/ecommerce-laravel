@@ -1,20 +1,20 @@
 <template>
   <div class="">
-    <div class="flex border-b border-gray-600 border-opacity-40 p-2 my-2">
-      <div class="w-1/5">
+    <div class="md:flex border-b border-gray-600 border-opacity-40 p-2 my-2">
+      <div class="md:w-1/5 md:block flex justify-center">
         <Link :href="$route('produto.id', id)">
           <img class="w-32 h-32" :src="image">
         </Link>
       </div>
 
-      <div class="w-2/5">
+      <div class="md:w-2/5 md:block flex justify-center">
         <Link class=" hover:underline" :href="$route('produto.id', id)">
-          <p>{{ name }}</p>
+          <p class="md:text-base text-lg font-semibold">{{ name }}</p>
         </Link>
       </div>
 
-      <div class="w-1/5">
-        <div class="text-sm flex justify-center">
+      <div class="md:w-1/5">
+        <div class="md:text-sm text-xs flex justify-center">
           <h1>Quantidade</h1>
         </div>
 
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="w-1/5">
+      <div class="md:w-1/5">
         <div class="flex justify-center">
           <h1>Preço à vista:</h1>
         </div>
