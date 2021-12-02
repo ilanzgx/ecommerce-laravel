@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    
+  <div>
+      Pedidos
   </div>
 </template>
 

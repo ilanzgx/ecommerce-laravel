@@ -15,8 +15,8 @@ class AdminController extends Controller
     }
 
     public function dashboard(Request $request){ 
-        dd($request->session()->all());   
-        //return Inertia::render('Admin/Dashboard.vue');
+        //dd($request->session()->all());   
+        return Inertia::render('Admin/Home.vue');
     }
 
     public function signin(Request $request){
@@ -37,5 +37,17 @@ class AdminController extends Controller
             'message' => 'Erro'
         ];
         return json_encode($response);
+    }
+
+    public function create_product(Request $request){
+        return $request;
+    }
+
+    public function remove_product(Request $request){
+        return $request;
+    }
+
+    public function edit_product(Request $request){
+        return $request;
     }
 }

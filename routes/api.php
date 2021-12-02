@@ -15,3 +15,6 @@ Route::post('/cart/clear', 'CartController@clear_cart');
 Route::post('/cart/total', 'CartController@total_cart');
 
 Route::post('/admin/signin', 'AdminController@signin');
+Route::post('/admin/create/product', 'AdminController@create_product');
+Route::post('/admin/remove/product', 'AdminController@remove_product');
+Route::post('/admin/edit/product', 'AdminController@edit_product');
