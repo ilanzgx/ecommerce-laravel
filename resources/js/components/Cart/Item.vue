@@ -88,9 +88,9 @@ export default {
           product_id: this.id,
           amount: this.amount_tmp
         }).then((response) => {
-          console.log(response.data)
           if(response.data.success){
             this.price_tmp += this.original_price
+            this.$emit('updateTotal', this.original_price)
           }
         }).catch((error) => {
           console.log(error)
@@ -106,9 +106,9 @@ export default {
         product_id: this.id,
         amount: this.amount_tmp
         }).then((response) => {
-          console.log(response.data)
           if(response.data.success){
             this.price_tmp -= this.original_price
+            this.$emit('updateTotal', this.original_price*-1)
           }
         }).catch((error) => {
           console.log(error)
@@ -123,8 +123,9 @@ export default {
         }).then((response) => {
           console.log(response.data)
           if(response.data.success){
-            //this.amount_tmp = 0
-            window.location.reload() // temporario
+            this.amount_tmp = 0
+            this.$emit('updateTotal', this.price_tmp*-1)
+            //window.location.reload() // temporario
           }
         }).catch((error) => {
           console.log(error)

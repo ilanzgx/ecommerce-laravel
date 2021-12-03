@@ -136,6 +136,10 @@
             Minha Conta
           </Link> |
 
+          <Link v-if="session.role == 'administrador'" :href="$route('admin.index')" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
+            Admin <span class="text-white">|</span>
+          </Link>
+
           <button @click="logout()" class="text-purple-400 hover:text-purple-200 no-underline uppercase">
             Sair
           </button>

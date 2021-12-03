@@ -4,8 +4,10 @@
       <!-- lateral bar -->
       <div class="w-full md:w-1/5 bg-gray-700 md:h-screen">
         <div class="flex justify-center items-center border-b border-gray-600 py-4 px-2">
-          <img width="80" height="80" src="/storage/logo1.png" alt="">
-          <p class="text-xs font-medium">Loja virtual sem nome</p>
+          <Link class="flex items-center" :href="$route('index')">
+            <img width="80" height="80" src="/storage/logo1.png" alt="">
+            <p class="text-xs font-medium">Loja virtual sem nome</p>
+          </Link>
         </div>
 
         <div class="">
@@ -36,7 +38,7 @@
       <div class="w-full md:w-4/5 p-2">
         <Dashboard v-if="page == 0"></Dashboard>
         <Orders v-else-if="page == 1"></Orders>
-        <Products v-else-if="page == 2"></Products>
+        <Products v-else-if="page == 2" :data="products"></Products>
       </div>
     </div>
   </div>
@@ -56,13 +58,16 @@ export default {
       ** orders - 1
       ** products - 2
       */
-      page: 0,
+      page: 2,
     }
   },
   methods: {
     changePage(page){
       this.page = page
     }
+  },
+  props: {
+    products: Array,
   },
   components: {
     Navbar, Dashboard, Orders, Products
