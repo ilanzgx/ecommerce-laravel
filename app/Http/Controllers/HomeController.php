@@ -11,7 +11,10 @@ class HomeController extends Controller
 {
     public function index(){
         $produtos = DB::table('products')->orderBy('stock', 'desc')->get();
-        return Inertia::render('Home', ['products' => $produtos]);
+        if($produtos->isEmpty()){
+            return Inertia::render('Home', ['empty' => true]);
+        }
+        return Inertia::render('Home', ['products' => $produtos, 'empty' => false]);
     }
 
     public function login(){

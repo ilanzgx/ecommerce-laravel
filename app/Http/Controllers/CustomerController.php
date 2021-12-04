@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function minha_conta(){
+    public function myaccount(){
         echo 'Hello World!';
     }
 }

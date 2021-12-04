@@ -16,9 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
-            $table->string('description', 250);
+            $table->string('description', 500);
             $table->string('image', 200);
-            $table->string('category', 50);
+            $table->string('category', 100);
             $table->float('price');
             $table->integer('stock')->default(0);
             $table->boolean('discount');
@@ -27,11 +27,6 @@ class CreateProductsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('products');

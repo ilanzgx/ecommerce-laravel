@@ -91,7 +91,12 @@ class AdminController extends Controller
     }
 
     public function remove_product(Request $request){
-        return $request;
+        $productid = $request->id;
+
+        $product = Product::find($productid);
+        $product->delete();
+        
+        return json_encode(['success' => true]);
     }
 
     public function edit_product(Request $request){

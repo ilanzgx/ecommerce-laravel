@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import { createInertiaApp, Link } from '@inertiajs/inertia-vue'
-window.$ = require('jquery')
-window.JQuery = require('jquery')
 Vue.component('Link', Link)
 Vue.prototype.$route = route
 

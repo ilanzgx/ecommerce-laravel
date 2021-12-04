@@ -2,7 +2,12 @@
   <div class="">
     <Header v-on:searchChange="handleSearch"></Header>
     <div class="my-4">
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+      <div v-if="empty">
+        <h1 class="text-2xl font-medium text-center">Não há nada no catalogo</h1>
+      </div>
+
+      <div v-else class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         
         <div v-for="data in products" :key="data.id" class="w-full">
             <Item
@@ -40,6 +45,7 @@ export default {
   },
   props:{
     products: Array,
+    empty: Boolean,
   },
   components:{
     Header, Footer, Item

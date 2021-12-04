@@ -20,7 +20,7 @@ Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){
-    Route::get('/minhaconta', 'CustomerController@minha_conta')->name('customer.myaccount');
+    Route::get('/minhaconta', 'CustomerController@myaccount')->name('customer.myaccount');
 });
 
 /* Back office */

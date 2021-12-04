@@ -75,38 +75,53 @@
       </div>
     </div>
     
-    <div class="flex justify-center w-full my-4">
-      <table class="table-fixed bg-gray-700">
+    <!--<div class="bg-red-500 my-4">-->
+      <table class="table-auto w-full bg-gray-700 my-4">
         <thead>
           <tr>
-            <th>Imagem</th>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Estoque</th>
-            <th>Criado em</th>
-            <th>Modificações</th>
+            <th class="border-r border-gray-600">Imagem</th>
+            <th class="border-r border-gray-600">Id</th>
+            <th class="border-r border-gray-600">Nome</th>
+            <th class="border-r border-gray-600">Preço</th>
+            <th class="border-r border-gray-600">Estoque</th>
+            <th class="border-r border-gray-600">Criado em</th>
+            <th class="border-r border-gray-600">Modificações</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-600" v-for="item in data" :key="item.id">
-            <td class="px-3">
-              <img class="p-4 w-24 h-24" :src="item.image">
+          <tr class="border-b border-gray-600 text-center" v-for="item in data" :key="item.id">
+            <td class="px-3 flex justify-center py-3">
+              <img class="w-20 h-20" :src="item.image">
             </td>
-            <td class="px-3">{{ item.id }}</td>
-            <td class="px-3 break-words md:w-36">{{ item.name }}</td>
-            <td class="px-3">R${{ item.price }}</td>
-            <td class="px-3">{{ item.stock }}</td>
-            <td class="px-3">{{ item.created_at }}</td>
+
             <td class="px-3">
-              <button class="bg-red-500 px-2 py-1 rounded-sm">Remover</button>
-              <button class="bg-yellow-500 px-2 py-1 rounded-sm">Editar</button>
+              {{ item.id }}
+            </td>
+
+            <td class="px-3 break-words md:w-36">
+              {{ item.name }}
+            </td>
+
+            <td class="px-3">
+              R${{ item.price }}
+            </td>
+
+            <td class="px-3">
+              {{ item.stock }}
+            </td>
+
+            <td class="px-3">
+              {{ item.created_at }}
+            </td>
+            <td class="px-3">
+              <button @click="removeProduct(item.id)" class="bg-red-500 text-xs px-2 py-1 rounded-sm">Remover</button>
+              <button @click="editProduct(item.id)" class="bg-yellow-500 text-xs px-2 py-1 rounded-sm">Editar</button>
             </td>
           </tr>
         </tbody>
       </table>
 
-    </div>
+    <!--</div>-->
   </div>
 </template>
 
@@ -148,6 +163,28 @@ export default {
           this.ProductStock = ''
           this.ProductCategory = ''
         }
+      })
+    },
+
+    removeProduct(productid){
+      console.log(productid)
+
+      axios.post('/api/admin/remove/product', {
+        id: productid
+      }).then((response) => {
+        if(response.data.success){
+
+        }
+      })
+    },
+
+    editProduct(productid){
+      console.log(productid)
+
+      axios.post('/api/admin/edit/product', {
+        id: productid
+      }).then((response) => {
+        
       })
     },
 

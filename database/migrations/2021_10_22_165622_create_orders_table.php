@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('products');
 
+            $table->float('price');
             $table->integer('amount');
 
             $table->timestamps();
