@@ -3780,6 +3780,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3828,7 +3830,137 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      showNewProductModal: false,
+      createProduct: false,
+      ProductImage: '',
+      ProductName: '',
+      ProductDescription: '',
+      ProductPrice: '',
+      ProductOldPrice: '',
+      ProductStock: '',
+      ProductCategory: ''
+    };
+  },
+  methods: {
+    createNewProduct: function createNewProduct() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/create/product', {
+        image: this.ProductImage,
+        name: this.ProductName,
+        description: this.ProductDescription,
+        price: this.ProductPrice,
+        old_price: this.ProductOldPrice,
+        stock: this.ProductStock,
+        category: this.ProductCategory
+      }).then(function (response) {
+        console.log(response.data);
+
+        if (response.data.success) {
+          _this.ProductImage = '';
+          _this.ProductName = '';
+          _this.ProductDescription = '';
+          _this.ProductPrice = '';
+          _this.ProductOldPrice = '';
+          _this.ProductStock = '';
+          _this.ProductCategory = '';
+        }
+      });
+    },
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage: function createImage(file) {
+      var _this2 = this;
+
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        _this2.ProductImage = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    removeImage: function removeImage(e) {
+      this.ProductImage = '';
+    },
+    ShowHideCreateProduct: function ShowHideCreateProduct() {
+      this.createProduct = !this.createProduct;
+    }
+  },
+  components: {},
   props: {
     data: Array
   }
@@ -24357,7 +24489,12 @@ var render = function() {
           "button",
           {
             staticClass: "flex bg-purple-400 px-2 py-1 rounded-md",
-            attrs: { type: "button", "data-modal-toggle": "default-modal" }
+            attrs: { type: "button", "data-modal-toggle": "default-modal" },
+            on: {
+              click: function($event) {
+                return _vm.ShowHideCreateProduct()
+              }
+            }
           },
           [
             _c(
@@ -24383,15 +24520,380 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("p", [_vm._v("Criar um novo produto")])
+            _c("p", { staticClass: "px-2" }, [_vm._v("Criar um novo produto")])
           ]
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.createProduct
+        ? _c("div", { staticClass: "flex justify-center " }, [
+            _c("div", {}, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "md:flex items-center border-b border-gray-700 py-3"
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "w-8 h-8",
+                      attrs: {
+                        fill: "none",
+                        stroke: "currentColor",
+                        viewBox: "0 0 24 24",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          d:
+                            "M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("h1", { staticClass: "text-2xl" }, [
+                    _vm._v("Adicionar novo produto")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "mt-6",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.createNewProduct()
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "md:flex" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "md:w-1/2 flex justify-center px-6 bg-gray-600 py-2"
+                      },
+                      [
+                        !_vm.ProductImage
+                          ? _c("div", [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "cursor-pointer",
+                                  attrs: { for: "text_image" }
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-36 h-56",
+                                      attrs: {
+                                        fill: "none",
+                                        stroke: "currentColor",
+                                        viewBox: "0 0 24 24",
+                                        xmlns: "http://www.w3.org/2000/svg"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "stroke-linecap": "round",
+                                          "stroke-linejoin": "round",
+                                          "stroke-width": "2",
+                                          d:
+                                            "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                staticClass: "w-full px-2 py-1 mx-1",
+                                attrs: {
+                                  type: "file",
+                                  id: "text_image",
+                                  placeholder: "Digite o nome do produto",
+                                  hidden: ""
+                                },
+                                on: { change: _vm.onFileChange }
+                              })
+                            ])
+                          : _c("div", [
+                              _c("img", {
+                                staticClass: "w-36 h-56",
+                                attrs: { src: _vm.ProductImage }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "bg-red-400 px-2 py-1 rounded-md",
+                                  on: { click: _vm.removeImage }
+                                },
+                                [_vm._v("Remover imagem")]
+                              )
+                            ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "md:w-1/2  px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700"
+                      },
+                      [
+                        _c("div", { staticClass: " my-2" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "text-gray-50 font-medium",
+                              attrs: { for: "" }
+                            },
+                            [_vm._v("Nome do produto (*)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ProductName,
+                                expression: "ProductName"
+                              }
+                            ],
+                            staticClass:
+                              "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1",
+                            attrs: { type: "text", name: "", id: "" },
+                            domProps: { value: _vm.ProductName },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ProductName = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: " my-2" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "text-gray-50 font-medium",
+                              attrs: { for: "" }
+                            },
+                            [_vm._v("Descrição (*)")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.ProductDescription,
+                                expression: "ProductDescription"
+                              }
+                            ],
+                            staticClass:
+                              "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1",
+                            attrs: { type: "text", name: "", id: "" },
+                            domProps: { value: _vm.ProductDescription },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.ProductDescription = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "my-2 flex" }, [
+                          _c("div", { staticClass: "w-1/2" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "text-gray-50 font-medium",
+                                attrs: { for: "" }
+                              },
+                              [_vm._v("Preço (*)")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ProductPrice,
+                                  expression: "ProductPrice"
+                                }
+                              ],
+                              staticClass:
+                                "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1",
+                              attrs: {
+                                type: "number",
+                                step: ".01",
+                                name: "",
+                                id: ""
+                              },
+                              domProps: { value: _vm.ProductPrice },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.ProductPrice = $event.target.value
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "w-1/2" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "text-gray-50 font-medium",
+                                attrs: { for: "" }
+                              },
+                              [_vm._v("Preço antigo")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ProductOldPrice,
+                                  expression: "ProductOldPrice"
+                                }
+                              ],
+                              staticClass:
+                                "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2",
+                              attrs: {
+                                type: "number",
+                                step: ".01",
+                                name: "",
+                                id: ""
+                              },
+                              domProps: { value: _vm.ProductOldPrice },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.ProductOldPrice = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "my-2 flex" }, [
+                          _c("div", { staticClass: "w-1/2" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "text-gray-50 font-medium",
+                                attrs: { for: "" }
+                              },
+                              [_vm._v("Estoque total (*)")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ProductStock,
+                                  expression: "ProductStock"
+                                }
+                              ],
+                              staticClass:
+                                "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1",
+                              attrs: {
+                                type: "number",
+                                step: ".01",
+                                name: "",
+                                id: ""
+                              },
+                              domProps: { value: _vm.ProductStock },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.ProductStock = $event.target.value
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "w-1/2" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "text-gray-50 font-medium ml-2",
+                                attrs: { for: "" }
+                              },
+                              [_vm._v("Categoria (*)")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.ProductCategory,
+                                  expression: "ProductCategory"
+                                }
+                              ],
+                              staticClass:
+                                "bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2",
+                              attrs: { type: "text", name: "", id: "" },
+                              domProps: { value: _vm.ProductCategory },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.ProductCategory = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]
+              )
+            ])
+          ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "flex justify-center w-full my-4" }, [
       _c("table", { staticClass: "table-fixed bg-gray-700" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -24423,7 +24925,7 @@ var render = function() {
                   _vm._v(_vm._s(item.created_at))
                 ]),
                 _vm._v(" "),
-                _vm._m(1, true)
+                _vm._m(2, true)
               ]
             )
           }),
@@ -24434,6 +24936,22 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "my-2" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "bg-purple-400 px-2 py-1 rounded-lg w-full font-medium text-lg",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("\n              Criar produto\n            ")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

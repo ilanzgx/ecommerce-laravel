@@ -28,6 +28,7 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue": "^0.7.2",
-        "tailwindcss-dark-mode": "^1.1.7"
+        "tailwindcss-dark-mode": "^1.1.7",
+        "vue-tailwind-modal": "^1.0.7"
     }
 }
