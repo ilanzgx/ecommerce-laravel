@@ -14,7 +14,7 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('full_name', 200);
             $table->string('email', 100);
             $table->string('password', 200);
@@ -22,8 +22,8 @@ class CreateCustomersTable extends Migration
             $table->enum('status', ['verificado', 'nao-verificado']);
             $table->enum('genre', ['Masculino', 'Feminino', 'Nao Binario']);
             $table->enum('role', ['usuario', 'administrador']);
-            $table->integer('number')->nullable();
-            $table->date('birth_date');
+            $table->string('number', 80)->nullable();
+            $table->text('birth_date');
             $table->timestamps();
         });
     }

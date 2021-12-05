@@ -14,9 +14,9 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('customer_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('customer_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
 
             $table->foreign('customer_id')
                 ->references('id')
@@ -28,6 +28,8 @@ class CreateOrdersTable extends Migration
 
             $table->float('price');
             $table->integer('amount');
+            $table->enum('status', ['Aguardando pagamento', 'A caminho', 'Concluido'])->default('Aguardando pagamento');
+            $table->enum('payment', ['Boleto Bancário', 'Cartão de Crédito', 'Pix']);
 
             $table->timestamps();
         });

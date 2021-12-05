@@ -79,6 +79,7 @@
     </div>
     
     <!--<div class="bg-red-500 my-4">-->
+      <h1 class="md:text-2xl text-lg font-semibold uppercase">Produtos no catálogo</h1>
       <table class="table-auto w-full bg-gray-700 my-4">
         <thead>
           <tr class="md:text-lg border-b border-gray-600 uppercase">
@@ -87,7 +88,7 @@
             <th class="border-r border-gray-600">Nome</th>
             <th class="border-r border-gray-600">Preço</th>
             <th class="border-r border-gray-600">Estoque</th>
-            <!--<th class="border-r border-gray-600">Criado em</th>-->
+            <th class="border-r border-gray-600">Criado em</th>
             <th class="border-r border-gray-600">Modificações</th>
           </tr>
         </thead>
@@ -112,10 +113,10 @@
             <td class="px-3">
               {{ item.stock }}
             </td>
-            <!--
+            
             <td class="px-3">
-              {{ item.created_at }}
-            </td>-->
+              {{ item.created_at | formatDate }}
+            </td>
             <td class="px-3">
               <button @click="removeProduct(item.id)" class="bg-red-500 text-xs px-2 py-1 rounded-sm">Remover</button>
               <button @click="editProduct(item.id)" class="bg-yellow-500 text-xs px-2 py-1 rounded-sm">Editar</button>

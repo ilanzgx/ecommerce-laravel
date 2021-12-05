@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class AdminController extends Controller
     public function dashboard(Request $request){  
         return Inertia::render('Admin/Home.vue', [
             'products' => Product::all(),
-            'orders'   => Order::all()
+            'orders'   => Order::all(),
+            'users'    => Customer::all(),
         ]);
     }
 

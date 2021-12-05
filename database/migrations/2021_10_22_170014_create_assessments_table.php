@@ -14,14 +14,14 @@ class CreateAssessmentsTable extends Migration
     public function up()
     {
         Schema::create('assessments', function (Blueprint $table) {
-            $table->id();
-            $table->integer('customer_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('customer_id')->unsigned()->index();
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers');
                 
-            $table->string('title', 50);
-            $table->string('text', 300);
+            $table->string('title', 100);
+            $table->string('text', 600);
             $table->integer('stars')->nullable();
             $table->timestamps();
         });

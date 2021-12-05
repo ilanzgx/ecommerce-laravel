@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1 class="md:text-2xl text-lg font-semibold uppercase">Pedidos</h1>
     <table class="table-auto w-full bg-gray-700 my-4">
       <thead>
         <tr class="md:text-lg border-b border-gray-600 uppercase">
@@ -8,6 +9,7 @@
           <th class="border-r border-gray-600">Id Produto</th>
           <th class="border-r border-gray-600">Preço</th>
           <th class="border-r border-gray-600">Quantidade</th>
+          <th class="border-r border-gray-600">Data</th>
         </tr>
       </thead>
       <tbody>
@@ -17,6 +19,7 @@
           <td class="px-3">{{ item.product_id }}</td>
           <td class="px-3">{{ item.price }}</td>
           <td class="px-3">{{ item.amount }}</td>
+          <td class="px-3">{{ item.created_at | formatDate }}</td>
         </tr>
       </tbody>
     </table>

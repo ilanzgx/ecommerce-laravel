@@ -31,7 +31,7 @@
 
           <div class="">
             <label for="datemin">Data de nascimento</label>
-            <input v-model="birth_date" class="bg-transparent outline-none w-full border px-2 py-2" type="date" id="datemin" name="datemin" min="1900-01-01">
+            <input v-model="birth_date" class="bg-transparent outline-none w-full border px-2 py-2" type="text" id="datemin" name="datemin" placeholder="dd/mm/yyyy">
           </div>
 
           <div class="">
@@ -102,6 +102,10 @@ export default {
       this.password = null
       this.password_confirmation = null
     },
+
+    format(value, event){
+      return moment(value).format('DD-MM-YYYY');
+    }
   }
 }
 </script>
