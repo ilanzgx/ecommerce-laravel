@@ -3064,7 +3064,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   props: {
-    products: Array
+    products: Array,
+    orders: Array
   },
   components: {
     Navbar: _components_Admin_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -3771,7 +3772,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    data: Array
+  }
+});
 
 /***/ }),
 
@@ -3915,12 +3939,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       showNewProductModal: false,
       createProduct: false,
+      loading: false,
       ProductImage: '',
       ProductName: '',
       ProductDescription: '',
@@ -3934,6 +3962,7 @@ __webpack_require__.r(__webpack_exports__);
     createNewProduct: function createNewProduct() {
       var _this = this;
 
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/create/product', {
         image: this.ProductImage,
         name: this.ProductName,
@@ -3944,6 +3973,7 @@ __webpack_require__.r(__webpack_exports__);
         category: this.ProductCategory
       }).then(function (response) {
         console.log(response.data);
+        _this.loading = false;
 
         if (response.data.success) {
           _this.ProductImage = '';
@@ -4588,6 +4618,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -4596,6 +4631,7 @@ __webpack_require__.r(__webpack_exports__);
       email: null,
       password: null,
       response: null,
+      loading: false,
       showError: 0
     };
   },
@@ -4603,11 +4639,13 @@ __webpack_require__.r(__webpack_exports__);
     submitForm: function submitForm() {
       var _this = this;
 
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/login/signin', {
         email: this.email,
         password: this.password
       }).then(function (response) {
         _this.response = response;
+        _this.loading = false;
         console.log(response);
 
         if (response.data.success) {
@@ -4695,11 +4733,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       state: 0,
+      loading: false,
       full_name: null,
       email: null,
       password: null,
@@ -4711,6 +4755,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitForm: function submitForm() {
+      var _this = this;
+
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/login/signup', {
         full_name: this.full_name,
         email: this.email,
@@ -4720,6 +4767,7 @@ __webpack_require__.r(__webpack_exports__);
         cpf: this.cpf
       }).then(function (response) {
         console.log(response);
+        _this.loading = false;
 
         if (response.data.success) {
           window.location.href = '/';
@@ -12347,7 +12395,7 @@ var render = function() {
           _vm.page == 0
             ? _c("Dashboard")
             : _vm.page == 1
-            ? _c("Orders")
+            ? _c("Orders", { attrs: { data: _vm.orders } })
             : _vm.page == 2
             ? _c("Products", { attrs: { data: _vm.products } })
             : _vm._e()
@@ -13604,9 +13652,75 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Pedidos\n")])
+  return _c("div", [
+    _c("table", { staticClass: "table-auto w-full bg-gray-700 my-4" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.data, function(item) {
+          return _c(
+            "tr",
+            {
+              key: item.id,
+              staticClass: "border-b border-gray-600 text-center"
+            },
+            [
+              _c("td", { staticClass: "px-3" }, [_vm._v(_vm._s(item.id))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "px-3" }, [
+                _vm._v(_vm._s(item.customer_id))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "px-3" }, [
+                _vm._v(_vm._s(item.product_id))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "px-3" }, [_vm._v(_vm._s(item.price))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "px-3" }, [_vm._v(_vm._s(item.amount))])
+            ]
+          )
+        }),
+        0
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c(
+        "tr",
+        { staticClass: "md:text-lg border-b border-gray-600 uppercase" },
+        [
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Id Pedido")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Id Usuario")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Id Produto")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Preço")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Quantidade")
+          ])
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -13801,7 +13915,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "md:w-1/2  px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700"
+                          "md:w-1/2 px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700"
                       },
                       [
                         _c("div", { staticClass: " my-2" }, [
@@ -14030,7 +14144,32 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _c("div", { staticClass: "my-2" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "bg-purple-400 px-2 py-1 rounded-lg w-full font-medium text-lg",
+                        attrs: { type: "submit" }
+                      },
+                      [
+                        _vm.loading
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "flex justify-center items-center"
+                              },
+                              [
+                                _c("div", {
+                                  staticClass:
+                                    "animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"
+                                })
+                              ]
+                            )
+                          : _c("span", [_vm._v("Criar produto")])
+                      ]
+                    )
+                  ])
                 ]
               )
             ])
@@ -14039,7 +14178,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("table", { staticClass: "table-auto w-full bg-gray-700 my-4" }, [
-      _vm._m(1),
+      _vm._m(0),
       _vm._v(" "),
       _c(
         "tbody",
@@ -14072,12 +14211,6 @@ var render = function() {
               _vm._v(" "),
               _c("td", { staticClass: "px-3" }, [
                 _vm._v("\n            " + _vm._s(item.stock) + "\n          ")
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "px-3" }, [
-                _vm._v(
-                  "\n            " + _vm._s(item.created_at) + "\n          "
-                )
               ]),
               _vm._v(" "),
               _c("td", { staticClass: "px-3" }, [
@@ -14120,48 +14253,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "my-2" }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-purple-400 px-2 py-1 rounded-lg w-full font-medium text-lg",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("\n              Criar produto\n            ")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "border-r border-gray-600" }, [
-          _vm._v("Imagem")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [_vm._v("Id")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [_vm._v("Nome")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [
-          _vm._v("Preço")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [
-          _vm._v("Estoque")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [
-          _vm._v("Criado em")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-r border-gray-600" }, [
-          _vm._v("Modificações")
-        ])
-      ])
+      _c(
+        "tr",
+        { staticClass: "md:text-lg border-b border-gray-600 uppercase" },
+        [
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Imagem")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [_vm._v("Id")]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Nome")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Preço")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Estoque")
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-r border-gray-600" }, [
+            _vm._v("Modificações")
+          ])
+        ]
+      )
     ])
   }
 ]
@@ -15391,10 +15510,23 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "w-full bg-purple-400 text-gray-900 px-8 py-4 rounded-md",
+                    "w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md",
                   attrs: { type: "submit" }
                 },
-                [_vm._v("Entrar")]
+                [
+                  _vm.loading
+                    ? _c(
+                        "div",
+                        { staticClass: "flex justify-center items-center" },
+                        [
+                          _c("div", {
+                            staticClass:
+                              "animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"
+                          })
+                        ]
+                      )
+                    : _c("span", [_vm._v("Entrar")])
+                ]
               ),
               _vm._v(" "),
               _c(
@@ -15741,10 +15873,23 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "w-full bg-purple-400 text-gray-900 px-8 py-4 rounded-md",
+                    "w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md",
                   attrs: { type: "submit" }
                 },
-                [_vm._v("Registrar")]
+                [
+                  _vm.loading
+                    ? _c(
+                        "div",
+                        { staticClass: "flex justify-center items-center" },
+                        [
+                          _c("div", {
+                            staticClass:
+                              "animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"
+                          })
+                        ]
+                      )
+                    : _c("span", [_vm._v("Registrar")])
+                ]
               ),
               _vm._v(" "),
               _c(

@@ -30,7 +30,7 @@
                 </div>
                 
               </div>
-              <div class="md:w-1/2  px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700">
+              <div class="md:w-1/2 px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700">
                 <div class=" my-2">
                   <label class="text-gray-50 font-medium" for="">Nome do produto (*)</label>
                   <input v-model="ProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
@@ -67,7 +67,10 @@
             </div>
             <div class="my-2">
               <button class="bg-purple-400 px-2 py-1 rounded-lg w-full font-medium text-lg" type="submit">
-                Criar produto
+                <div v-if="loading" class="flex justify-center items-center">
+                  <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+                </div>
+                <span v-else>Criar produto</span>
               </button>
             </div>
           </form>
@@ -78,13 +81,13 @@
     <!--<div class="bg-red-500 my-4">-->
       <table class="table-auto w-full bg-gray-700 my-4">
         <thead>
-          <tr>
+          <tr class="md:text-lg border-b border-gray-600 uppercase">
             <th class="border-r border-gray-600">Imagem</th>
             <th class="border-r border-gray-600">Id</th>
             <th class="border-r border-gray-600">Nome</th>
             <th class="border-r border-gray-600">Preço</th>
             <th class="border-r border-gray-600">Estoque</th>
-            <th class="border-r border-gray-600">Criado em</th>
+            <!--<th class="border-r border-gray-600">Criado em</th>-->
             <th class="border-r border-gray-600">Modificações</th>
           </tr>
         </thead>
@@ -109,10 +112,10 @@
             <td class="px-3">
               {{ item.stock }}
             </td>
-
+            <!--
             <td class="px-3">
               {{ item.created_at }}
-            </td>
+            </td>-->
             <td class="px-3">
               <button @click="removeProduct(item.id)" class="bg-red-500 text-xs px-2 py-1 rounded-sm">Remover</button>
               <button @click="editProduct(item.id)" class="bg-yellow-500 text-xs px-2 py-1 rounded-sm">Editar</button>
@@ -133,6 +136,7 @@ export default {
     return {
       showNewProductModal: false,
       createProduct: false,
+      loading: false,
       ProductImage: '',
       ProductName: '',
       ProductDescription: '',
@@ -144,6 +148,7 @@ export default {
   },
   methods: {
     createNewProduct(){
+      this.loading = true
       axios.post('/api/admin/create/product', {
         image: this.ProductImage,
         name: this.ProductName,
@@ -154,6 +159,7 @@ export default {
         category: this.ProductCategory,
       }).then((response) => {
         console.log(response.data);
+        this.loading = false
         if(response.data.success){
           this.ProductImage = ''
           this.ProductName = ''

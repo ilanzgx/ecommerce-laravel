@@ -22,7 +22,12 @@
         </div>
         
         <div class="space-y-2">
-          <button class="w-full bg-purple-400 text-gray-900 px-8 py-4 rounded-md" type="submit">Entrar</button>
+          <button class="w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md" type="submit">
+            <div v-if="loading" class="flex justify-center items-center">
+              <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+            </div>
+            <span v-else>Entrar</span>
+          </button>
           <p class="px-6 text-sm text-center text-gray-300">Não tem uma conta ainda? 
             <a v-on:click="(event) => this.$emit('mudarEstado', state)" class="text-purple-400 hover:underline font-bold cursor-pointer">Criar conta</a>
           </p>
@@ -44,16 +49,19 @@ export default {
       email: null,
       password: null,
       response: null,
+      loading: false,
       showError: 0
     }
   },
   methods: {
     submitForm(){
+      this.loading = true
       axios.post('/api/login/signin', {
         email: this.email,
         password: this.password
       }).then((response) => {
         this.response = response
+        this.loading = false
         console.log(response)
         if(response.data.success){
           window.location.href = '/'

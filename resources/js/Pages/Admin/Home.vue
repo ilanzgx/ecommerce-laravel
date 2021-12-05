@@ -37,7 +37,7 @@
       
       <div class="w-full md:w-4/5 p-2">
         <Dashboard v-if="page == 0"></Dashboard>
-        <Orders v-else-if="page == 1"></Orders>
+        <Orders v-else-if="page == 1" :data="orders"></Orders>
         <Products v-else-if="page == 2" :data="products"></Products>
       </div>
     </div>
@@ -68,6 +68,7 @@ export default {
   },
   props: {
     products: Array,
+    orders: Array,
   },
   components: {
     Navbar, Dashboard, Orders, Products
