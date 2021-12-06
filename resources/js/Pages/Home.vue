@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <Header v-on:searchChange="handleSearch"></Header>
+    <Categories></Categories>
     <div class="my-4">
 
       <div v-if="empty">
@@ -35,6 +36,7 @@ import Header from './../components/Header.vue'
 //import Categories from './../components/Categories.vue'
 import Footer from './../components/Footer.vue'
 import Item from './../components/Store/Item.vue'
+import Categories from './../components/Categories.vue'
 
 export default {
   name: 'Inicio',
@@ -48,7 +50,7 @@ export default {
     empty: Boolean,
   },
   components:{
-    Header, Footer, Item
+    Header, Footer, Item, Categories
   },
   methods: {
     handleSearch(event){

@@ -1,6 +1,6 @@
 <template>
   <!-- Navbar goes here -->
-  <nav class="bg-gray-900">
+  <nav class="bg-header">
     <div class="max-w-6xl mx-auto">
       <div class="flex justify-between">
         <div class="flex space-x-4">
@@ -194,6 +194,8 @@ export default {
 </script>
 
 <style scoped>
-
-
+.bg-header{
+background: rgb(17,24,39);
+background: linear-gradient(180deg, rgba(17,24,39,1) 90%, rgba(139,92,246,1) 95%);
+}
 </style>

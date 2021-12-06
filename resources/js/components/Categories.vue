@@ -1,19 +1,19 @@
 <template>
-  <div class="">
-    <ul class="flex justify-center bg-gray-600 text-white sm:py-4 md:py-2">
-      <li class="mx-auto">
-        <a class="block md:inline" href="">Destaques</a>
-      </li>
-      <li class="mx-auto">
-        <a class="block md:inline" href="">Lançamentos</a>
-      </li>
-      <li class="mx-auto">
-        <a class="block md:inline" href="">Promoções</a>
-      </li>
-      <!--<li class="mx-auto">
-        <a class="block md:inline" href="">Eletronicos</a>
-      </li>-->
-    </ul>
+  <div class="bg-purple-500 text-gray-100 py-1 px-1 uppercase">
+    <div class="flex font-semibold">
+      <div class="w-1/4 flex justify-center">
+        <Link :href="$route('home.releases')">Lançamentos</Link>
+      </div>
+      <div class="w-1/4 flex justify-center">
+        <Link :href="$route('home.highlights')">Destaques</Link>
+      </div>
+      <div class="w-1/4 flex justify-center">
+        <Link :href="$route('home.topsellers')">Lançamentos</Link>
+      </div>
+      <div class="w-1/4 flex justify-center">
+        <Link :href="$route('home.offers')">Ofertas</Link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,7 +22,3 @@ export default {
   name: 'Categorias'
 }
 </script>
-
-<style scoped>
-
-</style>

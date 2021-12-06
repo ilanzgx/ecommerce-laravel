@@ -2,8 +2,6 @@
   <div class="">
     <Header></Header>
     <div class="m-5">
-
-      
       <div class="text-gray-400 text-sm">
         <span>Produto {{product.id}}</span> | 
         <a class="underline" href="#description">Ver descrição completa</a> |
@@ -21,7 +19,19 @@
           <p class="text-lg">Por R$<span class="text-3xl px-2 text-purple-500 font-bold">{{ product.price }}</span> <span v-if="product.discount" class="text-sm">(-{{ calculateDiscount(product.price, product.old_price) }}%)</span></p>
           
           <div class="md:flex justify-center mt-5">
-            <button @click="addToCart(product.id)" class="flex bg-purple-500 rounded-lg px-2 py-1 w-full">
+            <button v-if="product.stock <= 0" class="flex bg-gray-500 cursor-not-allowed rounded-lg px-2 py-1 w-full" disabled>
+              <div v-if="loading" class="flex justify-center items-center">
+                <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+              </div>
+              <div class="flex mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                </svg>
+                <p class="font-semibold px-2 text-gray-200">Sem estoque</p>
+              </div>
+            </button>
+
+            <button v-else @click="addToCart(product.id)" class="flex bg-purple-500 rounded-lg px-2 py-1 w-full">
               <div v-if="loading" class="flex justify-center items-center">
                 <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
               </div>
@@ -38,7 +48,6 @@
 
       <!-- Descrição -->
       <div class="mt-6" id="description">
-    
         <div class="flex items-center border-b border-opacity-60 uppercase font-semibold my-5 text-justify">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-purple-500" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
@@ -60,7 +69,6 @@
           </svg>
           <p class="px-6 md:text-2xl text-lg">Informações técnicas</p>
         </div>
-        
 
       </div>
 
@@ -74,9 +82,7 @@
           <p class="px-6 md:text-2xl text-lg">Avaliações</p>
         </div>
         
-        
       </div>
-
     </div>
     <Footer></Footer>
   </div>

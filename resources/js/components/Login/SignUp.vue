@@ -26,7 +26,7 @@
           </div>
 
           <div class="">
-            <input v-model="cpf" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="text" id="text_cpf" placeholder="CPF ou CNPJ">
+            <input v-model="cpf" @input="cpfCheck" maxlength="14" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="text" id="text_cpf" placeholder="CPF ou CNPJ">
           </div>
 
           <div class="">
@@ -103,9 +103,15 @@ export default {
       this.password_confirmation = null
     },
 
-    format(value, event){
-      return moment(value).format('DD-MM-YYYY');
-    }
+    cpfCheck(value){
+      if(value.data == null)
+        return;
+
+      if(this.cpf.length == 3 || this.cpf.length == 7)
+        this.cpf += '.'
+      if(this.cpf.length == 11)
+        this.cpf += '-'
+    },
   }
 }
 </script>

@@ -149,4 +149,8 @@ class CartController extends Controller
         }
         echo $total_products;
     }
+
+    public function payment(){
+        return Inertia::render('Payment');
+    }
 }

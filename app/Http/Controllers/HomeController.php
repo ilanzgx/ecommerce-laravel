@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Produto;
@@ -23,5 +24,27 @@ class HomeController extends Controller
 
     public function show404(){
         return Inertia::render('Errors/404');
+    }
+
+    public function releases(){
+        $releases = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        return Inertia::render('Categories/Releases.vue', [
+            'products' => $releases
+        ]);
+    }
+
+    public function highlights(){
+        $highlights = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        return Inertia::render('Categories/Highlights.vue', [
+            'products' => $highlights
+        ]);
+    }
+
+    public function topSellers(){
+        return Inertia::render('Categories/TopSellers.vue');
+    }
+
+    public function offers(){
+        return Inertia::render('Categories/Offers.vue');
     }
 }

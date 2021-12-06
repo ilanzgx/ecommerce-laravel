@@ -16,7 +16,6 @@ class LoginController extends Controller
 
         $user = Customer::where('email', $data['email'])->first();
         if(!$user){
-
             $response = [
                 'message' => 'Essa conta não existe',
                 'success' => false

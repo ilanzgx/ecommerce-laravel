@@ -20,3 +20,4 @@ Route::post('/admin/remove/product', 'AdminController@remove_product');
 Route::post('/admin/edit/product', 'AdminController@edit_product');
 
 Route::post('/user/changedata', 'CustomerController@changedata');
+Route::post('/user/change/address', 'CustomerController@changeaddress');

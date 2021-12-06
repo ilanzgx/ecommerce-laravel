@@ -34,7 +34,24 @@ class Product extends Model
         $product->category = $data['category'];
 
         $product->save();
+        /*
+        $name = $data['name'];
+        $description = $data['description'];
+        $image = $data['image'];
+        $price = $data['price'];
+        $old_price = $data['old_price'];
 
+        if($old_price > 0){
+            $discount = 0;
+        } else {
+            $discount = 1;
+        }
+    
+        $stock = $data['stock'];
+        $category = $data['category'];
+
+        DB::insert("insert into `products`(`name`, `description`, `image`, `price`, `old_price`, `discount`, `stock`, `category`) values ('$name', '$description', '$image', $price, $old_price, $discount, $stock, '$category')");
+        */
         return $data;
     }
 

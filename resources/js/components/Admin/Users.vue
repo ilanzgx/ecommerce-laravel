@@ -19,7 +19,7 @@
           <td class="px-3">{{ item.email }}</td>
           <td class="px-3">{{ item.role }}</td>
           <td class="px-3">{{ item.number }}</td>
-          <td class="px-3">{{ item.created_at }}</td>
+          <td class="px-3">{{ item.created_at | formatDate }}</td>
         </tr>
       </tbody>
     </table>
