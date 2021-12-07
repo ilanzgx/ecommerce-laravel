@@ -118,8 +118,17 @@
               {{ item.created_at | formatDate }}
             </td>
             <td class="px-3">
-              <button @click="removeProduct(item.id)" class="bg-red-500 text-xs px-2 py-1 rounded-sm">Remover</button>
-              <button @click="editProduct(item.id)" class="bg-yellow-500 text-xs px-2 py-1 rounded-sm">Editar</button>
+              
+              <t-dropdown text="MENU">
+                <div class="py-1 rounded-md shadow-xs">
+                  <button @click="removeProduct(item.id)" class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem">
+                    Remover
+                  </button>
+                  <button @click="editProduct(item.id)" class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem">
+                    Editar
+                  </button>
+                </div>
+              </t-dropdown>
             </td>
           </tr>
         </tbody>

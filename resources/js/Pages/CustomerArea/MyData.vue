@@ -73,7 +73,7 @@
             <div class="flex">
               <div class="w-4/5">
                 <label for="">CEP (*)</label>
-                <input @input="cepCheck()" maxlength="9" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cep" type="text">
+                <input @input="cepCheck" maxlength="9" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cep" type="text">
               </div>
 
               <div class="w-1/5 flex items-end ml-2">
@@ -187,15 +187,15 @@ export default {
 
     addressSubmit(){
       axios.post('/api/user/change/address', {
-        cep = this.cep,
-        identificaçao = this.identificacao,
-        logradouro = this.logradouro,
-        numero = this.numero,
-        complemento = this.complemento,
-        ponto_referencia = this.ponto_referencia,
-        bairro = this.bairro,
-        cidade = this.cidade,
-        uf = this.uf,
+        cep: this.cep,
+        identificacao: this.identificacao,
+        logradouro: this.logradouro,
+        numero: this.numero,
+        complemento: this.complemento,
+        ponto_referencia: this.ponto_referencia,
+        bairro: this.bairro,
+        cidade: this.cidade,
+        uf: this.uf,
       }).then((response) => {
         console.log('');
       })
@@ -226,8 +226,6 @@ export default {
       if(this.cep.length == 9){
         this.getCepValues();
       }
-
-      console.log(value.data, this.cep.length)
     },
 
     cpfCheck(value){

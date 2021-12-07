@@ -76,6 +76,8 @@ class LoginController extends Controller
             $new_customer->birth_date = $request->birth_date;
             $new_customer->cpf = $request->cpf;
             $new_customer->role = 'usuario';
+            $new_customer->status = 'nao-verificado';
+            $new_customer->purl_code = Customer::createHash(16, 2);
 
             $new_customer->save();
 
@@ -83,6 +85,8 @@ class LoginController extends Controller
                 'success' => true,
                 'message' => 'Registrado com sucesso',
             ];
+
+            // send email
 
             session([
                 'email'  => $request->email,

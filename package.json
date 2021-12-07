@@ -30,6 +30,7 @@
         "@inertiajs/inertia-vue": "^0.7.2",
         "moment": "^2.29.1",
         "tailwindcss-dark-mode": "^1.1.7",
+        "vue-tailwind": "^2.5.0",
         "vue-tailwind-modal": "^1.0.7"
     }
 }

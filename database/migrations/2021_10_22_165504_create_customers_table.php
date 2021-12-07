@@ -23,6 +23,7 @@ class CreateCustomersTable extends Migration
             $table->enum('genre', ['Masculino', 'Feminino', 'Nao Binario']);
             $table->enum('role', ['usuario', 'administrador']);
             $table->string('number', 80)->nullable();
+            $table->text('purl_code');
             $table->text('birth_date');
             $table->timestamps();
         });
