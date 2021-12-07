@@ -21,7 +21,9 @@ Route::get('/verificar/{token}', 'HomeController@verification')->name('login.ver
 /* CartController */
 Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
-Route::get('/payment', 'CartController@payment')->name('cart.payment');
+
+/* OrderController */
+Route::get('/payment', 'OrderController@payment')->name('order.payment');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){

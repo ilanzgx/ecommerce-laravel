@@ -39442,7 +39442,7 @@ var render = function() {
                         {
                           staticClass:
                             "bg-purple-500 px-2 py-2 rounded-md uppercase flex items-center text-sm",
-                          attrs: { href: _vm.$route("cart.payment") }
+                          attrs: { href: _vm.$route("order.payment") }
                         },
                         [
                           _c(
@@ -41121,7 +41121,7 @@ var render = function() {
                 {
                   staticClass:
                     "bg-purple-500 px-2 py-2 rounded-md font-medium uppercase flex items-center text-sm",
-                  attrs: { href: _vm.$route("cart.payment") }
+                  attrs: { href: _vm.$route("order.payment") }
                 },
                 [
                   _vm.method === 1

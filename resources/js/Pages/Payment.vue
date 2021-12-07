@@ -69,7 +69,7 @@
         </div>
 
         <div class="mx-2">
-          <Link class="bg-purple-500 px-2 py-2 rounded-md font-medium uppercase flex items-center text-sm" :href="$route('cart.payment')">
+          <Link class="bg-purple-500 px-2 py-2 rounded-md font-medium uppercase flex items-center text-sm" :href="$route('order.payment')">
             <p v-if="method===1" class="px-6 py-2">Pagar com Pix</p>
             <p v-else-if="method===2" class="px-6 py-2">Pagar com Boleto</p>
             <p v-else-if="method===3" class="px-6 py-2">Pagar com Cartão</p>
