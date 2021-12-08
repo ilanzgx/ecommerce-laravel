@@ -13,7 +13,7 @@ class CustomerController extends Controller
     public function myaccount(){
         $user = Customer::where('email', session('email'))->first();
         $user_id = $user->id;
-        $lastOrder = DB::select("select * from `orders` where `customer_id`=$user_id order by `id` desc");
+        $lastOrder = DB::select("select * from orders where customer_id=$user_id order by id desc");
         if(empty($lastOrder)){
             $lastOrder[0] = null;
         }
