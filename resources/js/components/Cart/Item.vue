@@ -52,7 +52,7 @@
           <h1>Preço à vista:</h1>
         </div>
         <div class="flex justify-center mt-6">
-          <p class="font-semibold text-lg text-purple-400">R${{ price_tmp.toFixed(2) }}</p>
+          <p class="font-semibold text-lg text-purple-400">R${{ parseFloat(price_tmp).toFixed(2) }}</p>
         </div>
       </div>
     </div>          
@@ -89,8 +89,8 @@ export default {
           amount: this.amount_tmp
         }).then((response) => {
           if(response.data.success){
-            this.price_tmp += this.original_price
-            this.$emit('updateTotal', this.original_price)
+            this.price_tmp += parseFloat(this.original_price).toFixed(2)
+            this.$emit('updateTotal', parseFloat(this.original_price))
           }
         }).catch((error) => {
           console.log(error)
@@ -107,8 +107,8 @@ export default {
         amount: this.amount_tmp
         }).then((response) => {
           if(response.data.success){
-            this.price_tmp -= this.original_price
-            this.$emit('updateTotal', this.original_price*-1)
+            this.price_tmp -= parseFloat(this.original_price).toFixed(2)
+            this.$emit('updateTotal', parseFloat(this.original_price)*-1)
           }
         }).catch((error) => {
           console.log(error)
@@ -124,7 +124,7 @@ export default {
           console.log(response.data)
           if(response.data.success){
             this.amount_tmp = 0
-            this.$emit('updateTotal', this.price_tmp*-1)
+            this.$emit('updateTotal', parseFloat(this.price_tmp).toFixed(2)*-1)
             //window.location.reload() // temporario
           }
         }).catch((error) => {
