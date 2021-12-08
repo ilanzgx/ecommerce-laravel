@@ -52,7 +52,7 @@
           <h1>Preço à vista:</h1>
         </div>
         <div class="flex justify-center mt-6">
-          <p class="font-semibold text-lg text-purple-400">R${{ price_tmp.toFixed(2) }}</p>
+          <p class="font-semibold text-lg text-purple-400">R${{ parseFloat(price_tmp).toFixed(2) }}</p>
         </div>
       </div>
     </div>          

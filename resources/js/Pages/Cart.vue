@@ -44,7 +44,7 @@
 
         <div class="md:flex p-5">
           <div class="md:w-1/2">
-            <h1>Valor dos pedidos:<span class="text-purple-400 text-xl font-medium"> R${{ total_value_tmp.toFixed(2) }}</span></h1>
+            <h1>Valor dos pedidos:<span class="text-purple-400 text-xl font-medium"> R${{ parseFloat(total_value_tmp).toFixed(2) }}</span></h1>
           </div>
           <div class="md:w-1/2 flex md:justify-end justify-start md:py-0 py-3">  
             <Link class="bg-purple-500 px-2 py-2 rounded-md uppercase flex items-center text-sm" :href="$route('order.payment')">
