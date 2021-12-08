@@ -1,7 +1,13 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
 
 Route::post('/login/signin', 'LoginController@signin');
 Route::post('/login/signup', 'LoginController@signup');
