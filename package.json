@@ -32,5 +32,9 @@
         "tailwindcss-dark-mode": "^1.1.7",
         "vue-tailwind": "^2.5.0",
         "vue-tailwind-modal": "^1.0.7"
+    },
+    "engines": {
+        "node": ">= 6.9.4",
+        "npm": ">= 4.4.0"
     }
 }
