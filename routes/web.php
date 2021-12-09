@@ -29,7 +29,7 @@ Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
 
 /* OrderController */
-Route::get('/payment', 'OrderController@payment')->name('order.payment');
+Route::get('/metodo-pagamento', 'OrderController@payment_method')->name('order.payment_method');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){
