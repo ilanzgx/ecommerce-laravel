@@ -9,11 +9,13 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
+use MercadoPago\Payer;
 use MercadoPago\Payment;
 use MercadoPago\SDK;
 
 class OrderController extends Controller
 {
+    
     public function payment_method(){
         
         $ids = [];
@@ -76,7 +78,7 @@ class OrderController extends Controller
             'total_value' => $total_value 
         ]);
     }
-
+    
     public function pix_payment(Request $request){
 
         $values = [
@@ -91,30 +93,34 @@ class OrderController extends Controller
         $payment->transaction_amount = $values['total'];
         $payment->description = "Título do produto";
         $payment->payment_method_id = "pix";
+        
         $payment->payer = array(
-            "email" => $values['user']['email'],
-            "first_name" => $values['user']['full_name'],
-            "last_name" => $values['user']['full_name'],
-            "identification" => array(
+            "email" => 'ilan@hotmail.com',
+            "first_name" => 'Ilan Fonseca',
+            "last_name" => 'Silva',
+            "identification" => [
                 "type" => "CPF",
-                "number" => $values['user']['cpf']
-            ),
-            "address" =>  array(
-                "zip_code" => $values['address']['cep'],
-                "street_name" => $values['address']['logradouro'],
-                "street_number" => $values['address']['number'],
-                "neighborhood" => $values['address']['district'],
-                "city" => $values['address']['city'],
-                "federal_unit" => $values['address']['uf']
+                "number" => ''
+            ],
+            "address" => array(
+                "zip_code" => '',
+                "street_name" => '',
+                "street_number" => '',
+                "neighborhood" => '',
+                "city" => '',
+                "federal_unit" => ''
             )
         );
         
         $payment->save();
 
-        $user = Customer::where('email', session('email'))->first();
+        echo '<pre>';
+        print_r($payment);
+        die();
+
         $new_order = new Order();  // salvar o id da transação
 
-        $new_order->customer_id = $user->id;
+        $new_order->customer_id = $values['user']['id'];
         $new_order->transaction_id = $payment->id;
         $new_order->total_order_price = $payment->transaction_amount;
         $new_order->status = $payment->status;
@@ -123,10 +129,26 @@ class OrderController extends Controller
 
         $new_order->save();
 
-        return json_encode(['success' => true]);
+        return json_encode(['success' => false, 'payment' => $payment]);
     }
 
+    
     public function pix_transaction(){
-        return Inertia::render('Payments/Pix.vue');
+        //https://api.mercadopago.com/v1/customers/search?email=jhon@doe.com
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '. config('services.mercadopago.token'),
+        ])->get('https://api.mercadopago.com/v1/customers/268932955');
+
+        dd($response->json());
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '. config('services.mercadopago.token'),
+        ])->get('https://api.mercadopago.com/v1/payments/1244452575');
+
+        $data = $response->json();
+
+        return Inertia::render('Payments/Pix.vue', [
+            'data' => $data['point_of_interaction']['transaction_data']
+        ]);
     }
 }

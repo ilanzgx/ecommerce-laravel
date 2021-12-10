@@ -4110,12 +4110,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Header: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Footer: _components_Footer_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    data: Object
   }
 });
 
@@ -41366,7 +41373,25 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("Header"), _vm._v(" "), _c("div"), _vm._v(" "), _c("Footer")],
+    [
+      _c("Header"),
+      _vm._v(" "),
+      _c("div", [
+        _c("div", [
+          _c("img", {
+            staticClass: " w-64 h-64",
+            attrs: {
+              src: "data:image/png;base64," + _vm.data.qr_code_base64,
+              alt: ""
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("p", [_vm._v(_vm._s(_vm.data.qr_code))])
+      ]),
+      _vm._v(" "),
+      _c("Footer")
+    ],
     1
   )
 }
