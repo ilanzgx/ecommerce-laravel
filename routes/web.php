@@ -30,6 +30,7 @@ Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart
 
 /* OrderController */
 Route::get('/metodo-pagamento', 'OrderController@payment_method')->name('order.payment_method');
+Route::get('/metodo-pagamento/pix', 'OrderController@pix_payment')->name('order.pix_payment');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){

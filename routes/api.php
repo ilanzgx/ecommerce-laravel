@@ -27,3 +27,5 @@ Route::post('/admin/edit/product', 'AdminController@edit_product');
 
 Route::post('/user/changedata', 'CustomerController@changedata');
 Route::post('/user/change/address', 'CustomerController@changeaddress');
+
+Route::post('/payment/pix', 'OrderController@pix_payment');

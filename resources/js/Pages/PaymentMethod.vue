@@ -39,7 +39,7 @@
 
             <div class="flex justify-end items-end">
               <h1 class="uppercase text-xl">Total da sua compra: </h1>
-              <h2 class="text-2xl font-semibold text-purple-400">R$22,30</h2>
+              <h2 class="text-2xl font-semibold text-purple-400">R${{ parseFloat(total_value).toFixed(2) }}</h2>
             </div>
           </div>
 
@@ -49,7 +49,7 @@
 
             <div class="flex justify-end items-end">
               <h1 class="uppercase text-xl">Total da sua compra: </h1>
-              <h2 class="text-2xl font-semibold text-purple-400">R$22,30</h2>
+              <h2 class="text-2xl font-semibold text-purple-400">R${{ parseFloat(total_value).toFixed(2) }}</h2>
             </div>
           </div>
 
@@ -93,16 +93,27 @@ export default {
       method: 1,
     }
   },
+  props:{
+    image: String,
+    data: Array,
+    total_value: Number,
+  },
   methods: {
     getMethods(){
-      
+      const headers = {
+        'Authorization': 'Bearer TEST-2544526114453197-120712-813efe3fa26a8b4bf1b81e7ba07bb491-268932955'
+      }
+
+      axios.post('/api/payment/pix', {headers}).then((response) => {
+        console.log(response.data)
+      })
     }
   },
   components: {
     Header, Footer
   }
 }
-/* :href="$route('order.payment_method')" */
+
 </script>
 
 <style>
