@@ -4049,13 +4049,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      method: 1
+      method: 1,
+      total: parseFloat(this.total_value).toFixed(2)
     };
   },
   props: {
     image: String,
     data: Array,
-    total_value: Number
+    total_value: Number,
+    address: Object,
+    user: Object
   },
   methods: {
     getMethods: function getMethods() {
@@ -4063,9 +4066,16 @@ __webpack_require__.r(__webpack_exports__);
         'Authorization': 'Bearer TEST-2544526114453197-120712-813efe3fa26a8b4bf1b81e7ba07bb491-268932955'
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/payment/pix', {
-        headers: headers
+        headers: headers,
+        total_value: this.total,
+        user: this.user,
+        address: this.address
       }).then(function (response) {
         console.log(response.data);
+
+        if (response.data.success) {
+          window.location.href = 'metodo-pagamento/pix';
+        }
       });
     }
   },
@@ -4088,8 +4098,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../components/Header.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../components/Footer.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../components/Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var _components_Footer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../components/Footer.vue */ "./resources/js/components/Footer.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -4099,10 +4113,9 @@ Object(function webpackMissingModule() { var e = new Error("Cannot find module '
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {},
   components: {
-    Header: Object(function webpackMissingModule() { var e = new Error("Cannot find module '../components/Header.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
-    Footer: Object(function webpackMissingModule() { var e = new Error("Cannot find module '../components/Footer.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    Header: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Footer: _components_Footer_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -5702,7 +5715,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.$route = route;
 
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].filter('formatDate', function (value) {
   if (value) {
-    return moment__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).format('MM/DD/YYYY hh:mm');
+    return moment__WEBPACK_IMPORTED_MODULE_2___default()(String(value)).format('DD/MM/YYYY hh:mm');
   }
 });
 
@@ -39991,47 +40004,46 @@ var render = function() {
         _c("div", { staticClass: "bg-gray-700 px-2 py-4" }, [
           _c("div", { staticClass: "md:flex" }, [
             _c("div", { staticClass: "md:w-1/4" }, [
-              _c("h2", { staticClass: "uppercase font-medium text-lg" }, [
+              _c("h2", { staticClass: "uppercase font-medium text-xl" }, [
                 _vm._v("Numero do pedido")
               ]),
               _vm._v(" "),
               _vm.lastOrder != null
-                ? _c("p", [_vm._v("#" + _vm._s(_vm.lastOrder.id))])
+                ? _c("p", [_vm._v("#" + _vm._s(_vm.lastOrder.transaction_id))])
                 : _c("p", [_vm._v("NENHUM")])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "md:w-1/4" }, [
-              _c("h2", { staticClass: "uppercase font-medium text-lg" }, [
+              _c("h2", { staticClass: "uppercase font-medium text-xl" }, [
                 _vm._v("STATUS")
               ]),
               _vm._v(" "),
               _vm.lastOrder != null
-                ? _c("p", [_vm._v("#" + _vm._s(_vm.lastOrder.id))])
+                ? _c("p", [_vm._v(_vm._s(_vm.lastOrder.status))])
                 : _c("p", [_vm._v("NENHUM")])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "md:w-1/4" }, [
-              _c("h2", { staticClass: "uppercase font-medium text-lg" }, [
+              _c("h2", { staticClass: "uppercase font-medium text-xl" }, [
                 _vm._v("Data")
               ]),
               _vm._v(" "),
               _vm.lastOrder != null
                 ? _c("p", [
                     _vm._v(
-                      "#" +
-                        _vm._s(_vm._f("formatDate")(_vm.lastOrder.created_at))
+                      _vm._s(_vm._f("formatDate")(_vm.lastOrder.created_at))
                     )
                   ])
                 : _c("p", [_vm._v("NENHUM")])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "md:w-1/4" }, [
-              _c("h2", { staticClass: "uppercase font-medium text-lg" }, [
+              _c("h2", { staticClass: "uppercase font-medium text-xl" }, [
                 _vm._v("Pagamento")
               ]),
               _vm._v(" "),
               _vm.lastOrder != null
-                ? _c("p", [_vm._v("#" + _vm._s(_vm.lastOrder.id))])
+                ? _c("p", [_vm._v(_vm._s(_vm.lastOrder.payment_method))])
                 : _c("p", [_vm._v("NENHUM")])
             ])
           ])
@@ -41352,16 +41364,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [_c("Header"), _vm._v(" "), _c("div"), _vm._v(" "), _c("Footer")],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("img", { attrs: { src: "", alt: "" } })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -91,12 +91,15 @@ export default {
   data(){
     return {
       method: 1,
+      total: parseFloat(this.total_value).toFixed(2)
     }
   },
   props:{
     image: String,
     data: Array,
     total_value: Number,
+    address: Object,
+    user: Object
   },
   methods: {
     getMethods(){
@@ -104,8 +107,16 @@ export default {
         'Authorization': 'Bearer TEST-2544526114453197-120712-813efe3fa26a8b4bf1b81e7ba07bb491-268932955'
       }
 
-      axios.post('/api/payment/pix', {headers}).then((response) => {
+      axios.post('/api/payment/pix', {
+        headers,
+        total_value: this.total,
+        user: this.user,
+        address: this.address
+      }).then((response) => {
         console.log(response.data)
+        if(response.data.success){
+          window.location.href = 'metodo-pagamento/pix'
+        }
       })
     }
   },

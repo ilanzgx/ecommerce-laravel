@@ -35,23 +35,23 @@
       <div class="bg-gray-700 px-2 py-4">
         <div class="md:flex">
           <div class="md:w-1/4">
-            <h2 class="uppercase font-medium text-lg">Numero do pedido</h2>
-            <p v-if="lastOrder != null">#{{ lastOrder.id }}</p>
+            <h2 class="uppercase font-medium text-xl">Numero do pedido</h2>
+            <p v-if="lastOrder != null">#{{ lastOrder.transaction_id }}</p>
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4"> 
-            <h2 class="uppercase font-medium text-lg">STATUS</h2>
-            <p v-if="lastOrder != null">#{{ lastOrder.id }}</p>
+            <h2 class="uppercase font-medium text-xl">STATUS</h2>
+            <p v-if="lastOrder != null">{{ lastOrder.status }}</p>
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4">
-            <h2 class="uppercase font-medium text-lg">Data</h2>
-            <p v-if="lastOrder != null">#{{ lastOrder.created_at | formatDate }}</p>
+            <h2 class="uppercase font-medium text-xl">Data</h2>
+            <p v-if="lastOrder != null">{{ lastOrder.created_at | formatDate }}</p>
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4">
-            <h2 class="uppercase font-medium text-lg">Pagamento</h2>
-            <p v-if="lastOrder != null">#{{ lastOrder.id }}</p>
+            <h2 class="uppercase font-medium text-xl">Pagamento</h2>
+            <p v-if="lastOrder != null">{{ lastOrder.payment_method }}</p>
             <p v-else>NENHUM</p>
           </div>
         </div>

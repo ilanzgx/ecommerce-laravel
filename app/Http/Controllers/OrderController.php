@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -10,9 +11,6 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use MercadoPago\Payment;
 use MercadoPago\SDK;
-use Mpdf\QrCode\QrCode;
-use Mpdf\QrCode\Output;
-use Mpdf\QrCode\Output\Png;
 
 class OrderController extends Controller
 {
@@ -67,55 +65,68 @@ class OrderController extends Controller
         foreach($data_tmp as $item){
             $total_value += $item['price'];
         }
+
+        $user = Customer::where('email', session('email'))->first();
   
         return Inertia::render('PaymentMethod', [
             'cart' => session('cart'),
+            'user' => $user,
+            'address' => Address::where('customer_id', $user->id)->first(),
             'data'  => $data_aa,
             'total_value' => $total_value 
         ]);
     }
 
-    public function pix_payment(){
+    public function pix_payment(Request $request){
+
+        $values = [
+            'total'   => $request->total_value,
+            'user'    => $request->user,
+            'address' => $request->address,
+        ];
+
         SDK::setAccessToken(config('services.mercadopago.token'));
 
         $payment = new Payment();
-        $payment->transaction_amount = 100;
+        $payment->transaction_amount = $values['total'];
         $payment->description = "Título do produto";
         $payment->payment_method_id = "pix";
         $payment->payer = array(
-            "email" => "test@test.com",
-            "first_name" => "Test",
-            "last_name" => "User",
+            "email" => $values['user']['email'],
+            "first_name" => $values['user']['full_name'],
+            "last_name" => $values['user']['full_name'],
             "identification" => array(
                 "type" => "CPF",
-                "number" => "19119119100"
+                "number" => $values['user']['cpf']
             ),
             "address" =>  array(
-                "zip_code" => "06233200",
-                "street_name" => "Av. das Nações Unidas",
-                "street_number" => "3003",
-                "neighborhood" => "Bonfim",
-                "city" => "Osasco",
-                "federal_unit" => "SP"
+                "zip_code" => $values['address']['cep'],
+                "street_name" => $values['address']['logradouro'],
+                "street_number" => $values['address']['number'],
+                "neighborhood" => $values['address']['district'],
+                "city" => $values['address']['city'],
+                "federal_unit" => $values['address']['uf']
             )
         );
-
+        
         $payment->save();
-        //dd($payment);
 
         $user = Customer::where('email', session('email'))->first();
         $new_order = new Order();  // salvar o id da transação
 
         $new_order->customer_id = $user->id;
         $new_order->transaction_id = $payment->id;
-        $new_order->total_order_price = 100.0;
+        $new_order->total_order_price = $payment->transaction_amount;
         $new_order->status = $payment->status;
         $new_order->payment_method = $payment->payment_method_id;
-        $new_order->payment_type = $payment->payment_method_id;
+        $new_order->payment_type = $payment->payment_type_id;
 
         $new_order->save();
 
-        return json_encode($payment);
+        return json_encode(['success' => true]);
     }
 
+    public function pix_transaction(){
+        return Inertia::render('Payments/Pix.vue');
+    }
 }
