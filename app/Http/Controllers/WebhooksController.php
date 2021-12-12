@@ -26,5 +26,6 @@ class WebhooksController extends Controller
         $new_order->updated_at = $data['date_last_updated'];
 
         $new_order->save();
+        return $request->all();
     }
 }
