@@ -15,12 +15,12 @@ class WebhooksController extends Controller
 
         $data = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
-        ])->get('https://api.mercadopago.com/v1/payments/'. $request->data->id)->json();
+        ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
 
         $new_order = new Order();
 
         $new_order->customer_id = 1;
-        $new_order->payment_id = $request->data->id;
+        $new_order->payment_id = $request->data['id'];
         $new_order->total_order_price = $data['transaction_amount'];
         $new_order->payment_method = $data['payment_method_id'];
         $new_order->payment_type = $data['payment_type_id'];
