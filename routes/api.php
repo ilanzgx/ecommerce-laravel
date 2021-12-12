@@ -5,9 +5,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
-if (App::environment('production')) {
-    URL::forceScheme('https');
-}
 
 Route::post('/login/signin', 'LoginController@signin');
 Route::post('/login/signup', 'LoginController@signup');
@@ -28,4 +25,4 @@ Route::post('/admin/edit/product', 'AdminController@edit_product');
 Route::post('/user/changedata', 'CustomerController@changedata');
 Route::post('/user/change/address', 'CustomerController@changeaddress');
 
-Route::post('/payment/pix', 'OrderController@pix_payment');
+Route::post('/order/payment', 'OrderController@order_payment');

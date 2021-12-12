@@ -47,10 +47,10 @@
             <h1>Valor dos pedidos:<span class="text-purple-400 text-xl font-medium"> R${{ parseFloat(total_value_tmp).toFixed(2) }}</span></h1>
           </div>
           <div class="md:w-1/2 flex md:justify-end justify-start md:py-0 py-3">  
-            <Link class="bg-purple-500 px-2 py-2 rounded-md uppercase flex items-center text-sm" :href="$route('order.payment_method')">
+            <button @click="paymentMethods" class="bg-purple-500 px-2 py-2 rounded-md uppercase flex items-center text-sm">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <p class="px-2">Ir para o pagamento</p>
-            </Link>
+            </button>
 
             <Link class="bg-transparent border border-purple-500 px-2 py-2 mx-2 rounded-md uppercase flex items-center text-sm" :href="$route('index')">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Header from './../components/Header.vue'
 import Footer from './../components/Footer.vue'
 import CartItem from './../components/Cart/Item.vue'
@@ -75,21 +76,43 @@ export default {
       total_value_tmp: this.total_value,
     }
   },
+  props:{
+    products: Array,
+    empty: Boolean,
+    total_value: Number,
+    user: Object,
+    address: Object,
+  },
   methods: {
     updateTotalValue(variable){
       this.total_value_tmp += variable
       if(this.total_value_tmp <= 0){
         this.empty = true
       }
+    },
+
+    paymentMethods(){
+      const headers = {
+        'Authorization': 'Bearer TEST-2544526114453197-120712-813efe3fa26a8b4bf1b81e7ba07bb491-268932955'
+      }
+
+      axios.post('/api/order/payment', {
+        headers,
+        total_value: this.total_value_tmp,
+        user: this.user,
+        address: this.address
+      }).then((response) => {
+        console.log(response.data)
+        if(response.data.action == 1){
+          window.location.href = this.$route('customer.mydata')
+        } else if(response.data.action == 2 && response.data.success){
+          window.location.href = response.data.link
+        }
+      })
     }
   },
   components:{
     Header, Footer, CartItem
-  },
-  props:{
-    products: Array,
-    empty: Boolean,
-    total_value: Number,
   },
 }
 </script>

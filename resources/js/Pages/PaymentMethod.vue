@@ -115,7 +115,7 @@ export default {
       }).then((response) => {
         console.log(response.data)
         if(response.data.success){
-          window.location.href = 'metodo-pagamento/pix'
+          console.log('success');
         }
       })
     }

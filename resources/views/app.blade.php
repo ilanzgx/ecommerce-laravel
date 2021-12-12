@@ -6,10 +6,10 @@
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
     @routes
     <script src="{{ mix('/js/app.js') }}" defer></script>
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <title>Ecommerce</title>
   </head>
   <body class="bg-gray-800 text-gray-50">
     @inertia
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
   </body>
 </html>

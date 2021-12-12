@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "ext-gd": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.4.4",
@@ -14,9 +15,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "mercadopago/dx-php": "2.4.4",
-        "tightenco/ziggy": "^1.4",
         "mpdf/qrcode": "^1.1",
-        "ext-gd": "*"
+        "tightenco/ziggy": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

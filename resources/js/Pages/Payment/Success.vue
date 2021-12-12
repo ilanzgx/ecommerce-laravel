@@ -1,12 +1,11 @@
 <template>
   <div>
     <Header></Header>
-    <div>
-      <div>
-        <img class=" w-64 h-64" :src="'data:image/png;base64,' + data.qr_code_base64" alt="">
+    <div class="mx-2 my-4">
+      <div class="text-center">
+        <h1 class="text-2xl md:text-3xl text-purple-400 font-bold">Pagamento aprovado!</h1>
+        <h2 class="text-sm">Código do pagamento: {{ data.id }}</h2>
       </div>
-      
-      <p>{{  data.qr_code }}</p>
     </div>
     <Footer></Footer>
   </div>
@@ -22,10 +21,6 @@ export default {
   },
   props: {
     data: Object,
-  },
+  }
 }
 </script>
-
-<style>
-
-</style>

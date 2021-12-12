@@ -9,146 +9,161 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
-use MercadoPago\Payer;
-use MercadoPago\Payment;
 use MercadoPago\SDK;
+use MercadoPago\Item;
+use MercadoPago\Payment;
+use MercadoPago\Payer;
+use MercadoPago\Preference;
+
+//use PagSeguro\Configuration\Configure;
+//use PagSeguro\Services\Session;
 
 class OrderController extends Controller
 {
     
-    public function payment_method(){
-        
-        $ids = [];
-        foreach(session('cart') as $product_id => $amount){
-            if($amount >= 1){
-                array_push($ids, $product_id);
-            }
-        }
-        
-        if(empty($ids)){
-            return Inertia::render('Cart', ['empty' => true]);
-        }
-
-        $ids = implode(',', $ids);
-        $results = Product::search_products_by_ids($ids);
-
-        $data_tmp = [];
-        $data_aa = [];
-        foreach(session('cart') as $product_id => $cart_amount){
-            array_push($data_aa, [
-                'id' => $product_id,
-                'amount' => $cart_amount
-            ]);
-            foreach($results as $product){
-                if($product->id == $product_id){
-                    $id = $product->id;
-                    $image = $product->image;
-                    $name = $product->name;
-                    $amount = $cart_amount;
-                    $original_price = $product->price;
-                    $price = $product->price * $amount;
-                    $stock = $product->stock;
-
-                    array_push($data_tmp, [
-                        'id'   => $id,
-                        'name'  => $name,
-                        'image' => $image,
-                        'amount' => $amount,
-                        'price' => $price,                            
-                        'original_price' => $original_price,
-                        'stock' => $stock
-                    ]);
-                    break;
-                }
-            }
-        }
-
-        $total_value = 0;
-        foreach($data_tmp as $item){
-            $total_value += $item['price'];
-        }
-
-        $user = Customer::where('email', session('email'))->first();
-  
-        return Inertia::render('PaymentMethod', [
-            'cart' => session('cart'),
-            'user' => $user,
-            'address' => Address::where('customer_id', $user->id)->first(),
-            'data'  => $data_aa,
-            'total_value' => $total_value 
-        ]);
-    }
-    
-    public function pix_payment(Request $request){
+    public function order_payment(Request $request){
+        SDK::setAccessToken(config('services.mercadopago.token'));
 
         $values = [
             'total'   => $request->total_value,
             'user'    => $request->user,
             'address' => $request->address,
         ];
-
-        SDK::setAccessToken(config('services.mercadopago.token'));
-
-        $payment = new Payment();
-        $payment->transaction_amount = $values['total'];
-        $payment->description = "Título do produto";
-        $payment->payment_method_id = "pix";
         
-        $payment->payer = array(
-            "email" => 'ilan@hotmail.com',
-            "first_name" => 'Ilan Fonseca',
-            "last_name" => 'Silva',
+        // no address
+        if($values['address'] == null){
+            return json_encode(['success' => false, 'action' => 1]);
+        }
+        
+        $preference = new Preference();
+
+        # Building an item
+
+        $data = [];
+        foreach(session('cart') as $id => $amount){
+            $product = Product::where('id', $id)->first();
+
+            $item = new Item();
+            $item->id = $id;
+            $item->title = $product->name;
+            $item->quantity = $amount;
+            $item->unit_price = $product->price;
+            array_push($data, $item);
+        }
+
+        $preference->items = $data;
+
+        
+
+        $payerdata = [
+            "email" => $values['user']['email'],
+            "first_name" => $values['user']['full_name'],
+            "last_name" => $values['user']['full_name'],
             "identification" => [
                 "type" => "CPF",
-                "number" => ''
+                "number" => $values['user']['cpf']
             ],
-            "address" => array(
-                "zip_code" => '',
-                "street_name" => '',
-                "street_number" => '',
-                "neighborhood" => '',
-                "city" => '',
-                "federal_unit" => ''
-            )
+            "address"=>  [
+                "zip_code" => $values['address']['cep'],
+                "street_name" => $values['address']['logradouro'],
+                "street_number" => $values['address']['number'],
+                "neighborhood" => $values['address']['district'],
+                "city" => $values['address']['city'],
+                "federal_unit" => $values['address']['uf']
+            ]
+        ];
+        $payer = new Payer($payerdata);
+        $preference->payer = $payer;
+
+        $preference->payment_methods = array(
+            "excluded_payment_types" => array(
+                //array("id" => "credit_card")
+            ),
+            "installments" => 12
         );
-        
-        $payment->save();
 
-        echo '<pre>';
-        print_r($payment);
-        die();
+        $preference->external_reference = "A Custom External Reference";
 
-        $new_order = new Order();  // salvar o id da transação
+        $preference->back_urls = array(
+            "success" => env('APP_URL') . "/pagamento/sucesso",
+            "failure" => env('APP_URL') . "/pagamento/falha",
+            "pending" => env('APP_URL') . "/pagamento/aguardando"
+        );
+
+        $preference->auto_return = "approved";
+
+        $preference->save();
+        //dd($preference);
+
+        /*$new_order = new Order();  // salvar o id da transação
 
         $new_order->customer_id = $values['user']['id'];
-        $new_order->transaction_id = $payment->id;
-        $new_order->total_order_price = $payment->transaction_amount;
-        $new_order->status = $payment->status;
-        $new_order->payment_method = $payment->payment_method_id;
-        $new_order->payment_type = $payment->payment_type_id;
+        $new_order->transaction_id = $preference->id;
+        $new_order->total_order_price = $values['total'];
+        $new_order->status = 'pending';
+        $new_order->payment_method = $preference->operation_type;
+        $new_order->payment_type = $preference->operation_type;
 
-        $new_order->save();
-
-        return json_encode(['success' => false, 'payment' => $payment]);
+        $new_order->save();*/
+        // ideia: criar a coluna só depois da resposta do checkout
+       
+        return json_encode(['success' => true, 'action' => 2, 'link' => $preference->sandbox_init_point]);
     }
 
-    
-    public function pix_transaction(){
-        //https://api.mercadopago.com/v1/customers/search?email=jhon@doe.com
-        $response = Http::withHeaders([
+    public function payment_success(){
+        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
+            return redirect()->back();
+        }
+
+        $data = Http::withHeaders([
             'Authorization' => 'Bearer '. config('services.mercadopago.token'),
-        ])->get('https://api.mercadopago.com/v1/customers/268932955');
+            'Content-Type'  => 'application/json'
+        ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
 
-        dd($response->json());
+        if($data['status'] != 'approved' || $data['id'] != $_GET['payment_id']){
+            return redirect()->back();
+        }
 
-        $response = Http::withHeaders([
+        return Inertia::render('Payment/Success.vue', [
+            'data' => $data
+        ]);
+    }
+
+    public function payment_pending(){
+        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
+            return redirect()->back();
+        }
+
+        $data = Http::withHeaders([
             'Authorization' => 'Bearer '. config('services.mercadopago.token'),
-        ])->get('https://api.mercadopago.com/v1/payments/1244452575');
+            'Content-Type'  => 'application/json'
+        ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
 
-        $data = $response->json();
+        if(!$data['status'] == 'in_process' || !$data['status'] == $_GET['payment_id']){
+            return redirect()->back();
+        }
 
-        return Inertia::render('Payments/Pix.vue', [
-            'data' => $data['point_of_interaction']['transaction_data']
+        return Inertia::render('Payment/Pending.vue', [
+            'data' => $data
+        ]);
+    }
+
+    public function payment_fail(){
+        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
+            return redirect()->back();
+        }
+
+        $data = Http::withHeaders([
+            'Authorization' => 'Bearer '. config('services.mercadopago.token'),
+            'Content-Type'  => 'application/json'
+        ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
+
+        if($data['status'] != 'rejected' || $data['id'] != $_GET['payment_id']){
+            return redirect()->back();
+        }
+
+        return Inertia::render('Payment/Fail.vue', [
+            'data' => $data
         ]);
     }
 }

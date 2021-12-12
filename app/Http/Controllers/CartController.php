@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,11 +66,13 @@ class CartController extends Controller
 
             //dd($data_tmp);
             
-
+            $user = Customer::where('email', session('email'))->first();
             return Inertia::render('Cart', [
                 'empty' => false, 
                 'products'  => $data_tmp,
-                'total_value' => $total_value 
+                'total_value' => $total_value,
+                'user' => $user,
+                'address' => Address::where('customer_id', $user->id)->first(),
             ]);
         }
     }

@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
-if (App::environment('production')) {
-    URL::forceScheme('https');
-}
 
 /* HomeController */
 Route::get('/', 'HomeController@index')->name('index');
@@ -29,8 +26,11 @@ Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
 
 /* OrderController */
-Route::get('/metodo-pagamento', 'OrderController@payment_method')->name('order.payment_method');
-Route::get('/metodo-pagamento/pix', 'OrderController@pix_transaction')->name('order.pix_payment');
+//Route::get('/carrinho/metodo', 'OrderController@payment_method')->name('order.payment_method');
+//Route::get('/carrinho/pagamento', 'OrderController@payment_transaction')->name('order.payment');
+Route::get('/pagamento/sucesso', 'OrderController@payment_success');
+Route::get('/pagamento/aguardando', "OrderController@payment_pending");
+Route::get('/pagamento/falha', 'OrderController@payment_fail');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){

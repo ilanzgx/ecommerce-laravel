@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('customers');
 
-            $table->bigInteger('transaction_id')->unsigned();
+            $table->longText('transaction_id');
             $table->float('total_order_price');
             $table->text('status');
             $table->text('payment_method');
