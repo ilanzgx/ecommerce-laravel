@@ -55,7 +55,7 @@ class OrderController extends Controller
 
         $preference->items = $data;
 
-        
+        /*
         $payerdata = [
             "email" => $values['user']['email'],
             "first_name" => $values['user']['full_name'],
@@ -69,8 +69,12 @@ class OrderController extends Controller
                 "street_name" => $values['address']['logradouro'],
                 "street_number" => $values['address']['number'],
             ]
-        ];
-        $payer = new Payer($payerdata);
+        ];*/
+        $payer = new Payer();
+        $payer->email = $values['user']['email'];
+        $payer->first_name = $values['user']['full_name'];
+        $payer->last_name = $values['user']['full_name'];
+        
         $preference->payer = $payer;
 
         $preference->payment_methods = array(
