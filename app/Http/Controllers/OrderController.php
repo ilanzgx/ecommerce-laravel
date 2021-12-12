@@ -73,12 +73,6 @@ class OrderController extends Controller
         $payer = new Payer($payerdata);
         $preference->payer = $payer;
 
-        $preference->payer = array(
-            "first_name" => $values['user']['full_name'],
-            "last_name" => $values['user']['full_name'],
-            "email" => $values['user']['email']
-        );
-
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
                 //array("id" => "credit_card")
