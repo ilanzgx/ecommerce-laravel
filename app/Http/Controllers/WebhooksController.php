@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 class WebhooksController extends Controller
 {
     public function __invoke(Request $request){
+        /*
         $data = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data->id)->json();
@@ -25,7 +26,7 @@ class WebhooksController extends Controller
         $new_order->created_at = $data['date_created'];
         $new_order->updated_at = $data['date_last_updated'];
 
-        $new_order->save();
-        return $request->all();
+        $new_order->save();*/
+        return $request;
     }
 }
