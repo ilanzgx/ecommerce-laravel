@@ -55,6 +55,7 @@ class OrderController extends Controller
 
         $preference->items = $data;
 
+        
         $payerdata = [
             "email" => $values['user']['email'],
             "first_name" => $values['user']['full_name'],
@@ -67,13 +68,16 @@ class OrderController extends Controller
                 "zip_code" => $values['address']['cep'],
                 "street_name" => $values['address']['logradouro'],
                 "street_number" => $values['address']['number'],
-                "neighborhood" => $values['address']['district'],
-                "city" => $values['address']['city'],
-                "federal_unit" => $values['address']['uf']
             ]
         ];
         $payer = new Payer($payerdata);
         $preference->payer = $payer;
+
+        $preference->payer = array(
+            "first_name" => $values['user']['full_name'],
+            "last_name" => $values['user']['full_name'],
+            "email" => $values['user']['email']
+        );
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
