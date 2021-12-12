@@ -21,11 +21,12 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('customers');
 
-            $table->longText('transaction_id');
+            $table->bigInteger('payment_id')->unique();
             $table->float('total_order_price');
-            $table->text('status');
             $table->text('payment_method');
             $table->text('payment_type');
+            $table->text('ip_address');
+            $table->text('external_reference');
 
             $table->timestamps();
         });

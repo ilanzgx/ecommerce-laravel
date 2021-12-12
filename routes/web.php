@@ -31,6 +31,7 @@ Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart
 Route::get('/pagamento/sucesso', 'OrderController@payment_success');
 Route::get('/pagamento/aguardando', "OrderController@payment_pending");
 Route::get('/pagamento/falha', 'OrderController@payment_fail');
+Route::post('webhooks', 'WebhooksController');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){

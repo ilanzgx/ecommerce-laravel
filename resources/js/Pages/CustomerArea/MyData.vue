@@ -126,8 +126,8 @@
             </div>
 
             <div class="my-2">
-              <button class="w-full bg-transparent border-2 border-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md uppercase" type="submit">
-                <span @click="addressSubmit">Salvar endereço</span>
+              <button @click="addressSubmit" class="w-full bg-transparent border-2 border-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md uppercase" type="submit">
+                <span>Salvar endereço</span>
               </button>
             </div>
           </form>

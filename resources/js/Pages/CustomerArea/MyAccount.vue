@@ -36,12 +36,12 @@
         <div class="md:flex">
           <div class="md:w-1/4">
             <h2 class="uppercase font-medium text-xl">Numero do pedido</h2>
-            <p v-if="lastOrder != null">#{{ lastOrder.transaction_id }}</p>
+            <p v-if="lastOrder != null">#{{ lastOrder.payment_id }}</p>
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4"> 
-            <h2 class="uppercase font-medium text-xl">STATUS</h2>
-            <p v-if="lastOrder != null">{{ lastOrder.status }}</p>
+            <h2 class="uppercase font-medium text-xl">Preço total</h2>
+            <p v-if="lastOrder != null">R${{ lastOrder.total_order_price }}</p>
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4">
@@ -51,7 +51,7 @@
           </div>
           <div class="md:w-1/4">
             <h2 class="uppercase font-medium text-xl">Pagamento</h2>
-            <p v-if="lastOrder != null">{{ lastOrder.payment_method }}</p>
+            <p v-if="lastOrder != null">{{ lastOrder.payment_type }}</p>
             <p v-else>NENHUM</p>
           </div>
         </div>

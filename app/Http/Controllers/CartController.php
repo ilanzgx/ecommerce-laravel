@@ -65,14 +65,21 @@ class CartController extends Controller
             }
 
             //dd($data_tmp);
-            
-            $user = Customer::where('email', session('email'))->first();
+            if(session('logged')){
+                $user = Customer::where('email', session('email'))->first();
+                return Inertia::render('Cart', [
+                    'empty' => false, 
+                    'products'  => $data_tmp,
+                    'total_value' => $total_value,
+                    'user' => $user,
+                    'address' => Address::where('customer_id', $user->id)->first(),
+                ]);
+            }
+
             return Inertia::render('Cart', [
                 'empty' => false, 
                 'products'  => $data_tmp,
                 'total_value' => $total_value,
-                'user' => $user,
-                'address' => Address::where('customer_id', $user->id)->first(),
             ]);
         }
     }
@@ -142,15 +149,24 @@ class CartController extends Controller
 
     public function total_cart(Request $request){
         $cart = [];
-
         if($request->session()->has('cart')){
             $cart = session('cart');
         }
 
         $total_products = 0;
+        $total_value = 0.0;
         foreach($cart as $amount){
             $total_products += $amount;
         }
-        echo $total_products;
+
+        foreach($cart as $item => $amount){
+            $total_value += Product::where('id', $item)->first()->price * $amount;
+        }
+
+        return json_encode([
+            'success'        => true,
+            'total_products' => $total_products,
+            'total_value'    => $total_value
+        ]);
     }
 }

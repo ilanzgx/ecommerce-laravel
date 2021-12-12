@@ -19,6 +19,9 @@ class HomeController extends Controller
     }
 
     public function login(){
+        if(isset($_GET['action']) && ($_GET['action'] == 1 || $_GET['action'] == 2)){
+            return Inertia::render('Login', ['action' => $_GET['action']]);
+        }
         return Inertia::render('Login');
     }
 

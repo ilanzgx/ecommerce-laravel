@@ -48,12 +48,12 @@ class OrderController extends Controller
             $item->title = $product->name;
             $item->quantity = $amount;
             $item->unit_price = $product->price;
+            $item->description = $product->description;
+            $item->picture_url = env('APP_URL').$product->image;
             array_push($data, $item);
         }
 
         $preference->items = $data;
-
-        
 
         $payerdata = [
             "email" => $values['user']['email'],
@@ -82,7 +82,7 @@ class OrderController extends Controller
             "installments" => 12
         );
 
-        $preference->external_reference = "A Custom External Reference";
+        $preference->external_reference = "Ecommerce";
 
         $preference->back_urls = array(
             "success" => env('APP_URL') . "/pagamento/sucesso",
@@ -93,19 +93,6 @@ class OrderController extends Controller
         $preference->auto_return = "approved";
 
         $preference->save();
-        //dd($preference);
-
-        /*$new_order = new Order();  // salvar o id da transação
-
-        $new_order->customer_id = $values['user']['id'];
-        $new_order->transaction_id = $preference->id;
-        $new_order->total_order_price = $values['total'];
-        $new_order->status = 'pending';
-        $new_order->payment_method = $preference->operation_type;
-        $new_order->payment_type = $preference->operation_type;
-
-        $new_order->save();*/
-        // ideia: criar a coluna só depois da resposta do checkout
        
         return json_encode(['success' => true, 'action' => 2, 'link' => $preference->sandbox_init_point]);
     }
@@ -115,6 +102,10 @@ class OrderController extends Controller
             return redirect()->back();
         }
 
+        if($_GET['status'] == null){
+            return redirect()->route('cart');
+        }
+
         $data = Http::withHeaders([
             'Authorization' => 'Bearer '. config('services.mercadopago.token'),
             'Content-Type'  => 'application/json'
@@ -122,6 +113,24 @@ class OrderController extends Controller
 
         if($data['status'] != 'approved' || $data['id'] != $_GET['payment_id']){
             return redirect()->back();
+        }
+
+        $user = Customer::where('email', session('email'))->first();
+        $paymentid = Order::where('payment_id', $data['id'])->first();
+        if(!$paymentid){
+            $new_order = new Order();  // salvar o id da transação
+
+            $new_order->customer_id = $user->id;
+            $new_order->payment_id = $data['id'];
+            $new_order->total_order_price = $data['transaction_amount'];
+            $new_order->payment_method = $data['payment_method_id'];
+            $new_order->payment_type = $data['payment_type_id'];
+            $new_order->ip_address = $data['additional_info']['ip_address'];
+            $new_order->external_reference = $data['external_reference'];
+            $new_order->created_at = $data['date_created'];
+            $new_order->updated_at = $data['date_last_updated'];
+
+            $new_order->save();
         }
 
         return Inertia::render('Payment/Success.vue', [
@@ -134,6 +143,10 @@ class OrderController extends Controller
             return redirect()->back();
         }
 
+        if($_GET['status'] == null){
+            return redirect()->route('cart');
+        }
+
         $data = Http::withHeaders([
             'Authorization' => 'Bearer '. config('services.mercadopago.token'),
             'Content-Type'  => 'application/json'
@@ -141,6 +154,24 @@ class OrderController extends Controller
 
         if(!$data['status'] == 'in_process' || !$data['status'] == $_GET['payment_id']){
             return redirect()->back();
+        }
+
+        $user = Customer::where('email', session('email'))->first();
+        $paymentid = Order::where('payment_id', $data['id'])->first();
+        if(!$paymentid){
+            $new_order = new Order();  // salvar o id da transação
+
+            $new_order->customer_id = $user->id;
+            $new_order->payment_id = $data['id'];
+            $new_order->total_order_price = $data['transaction_amount'];
+            $new_order->payment_method = $data['payment_method_id'];
+            $new_order->payment_type = $data['payment_type_id'];
+            $new_order->ip_address = $data['additional_info']['ip_address'];
+            $new_order->external_reference = $data['external_reference'];
+            $new_order->created_at = $data['date_created'];
+            $new_order->updated_at = $data['date_last_updated'];
+
+            $new_order->save();
         }
 
         return Inertia::render('Payment/Pending.vue', [
@@ -151,6 +182,10 @@ class OrderController extends Controller
     public function payment_fail(){
         if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
             return redirect()->back();
+        }
+
+        if($_GET['status'] == null){
+            return redirect()->route('cart');
         }
 
         $data = Http::withHeaders([

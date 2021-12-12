@@ -12,12 +12,12 @@
             </Link>
           </div>
           
-          <!-- primary nav -->
+          <!-- primary nav
           <div class="hidden md:flex items-center space-x-1">
             <div class="py-4 px-3 w-full">
               <input v-on:input="(event) => this.$emit('searchChange', event)" class="w-full bg-transparent ring-1 ring-gray-200 italic text-sm rounded-lg py-2 px-6 focus:outline-none transition duration-250 ease-in-out placeholder-white placeholder-opacity-100 focus:placeholder-opacity-30 focus:ring-2 focus:ring-purple-400" placeholder="O que você procura?" type="text" name="" id="">
             </div>
-          </div>
+          </div>-->
         </div>
         <!-- secondary nav -->
         <div class="hidden md:flex items-center space-x-2">
@@ -28,7 +28,7 @@
               <small class="mx-2 md:mx-3">Atendimento</small>
             </a>
 
-            <Link :href="$route('cart')" class="block md:inline no-underline py-4 md:py-0 hover:text-gray-200">
+            <Link :href="$route('cart')" class="block md:flex items-center no-underline py-4 md:py-0 hover:text-gray-200">
               <div class="relative inline-block">
                 <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" class="inline" viewBox="0 0 20 20" fill="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
@@ -37,7 +37,8 @@
               </div>
               
               <small class="mx-2 md:mx-3">
-                Carrinho 
+                <p>Carrinho</p>
+                <p v-if="total_value != null" class="flex justify-center font-bold text-lg text-purple-400">R${{ total_value }}</p>
               </small>
             </Link>
 
@@ -47,10 +48,14 @@
               </div>
             </div>
 
-            <div v-else class="items-center">
+            <div v-else class=" items-center">
               <div v-if="!session.logged">
-                <Link :href="$route('login')" class="font-bold text-purple-50 bg-purple-500 px-3 py-2 rounded-md hover:text-purple-200 no-underline">
-                  Login / Cadastro
+                <Link :href="$route('login', {action: 1})" class="font-bold text-purple-50 bg-purple-500 text-sm px-2 py-2 rounded-md hover:text-purple-200 no-underline mr-2">
+                  Logar
+                </Link>
+
+                <Link :href="$route('login', {action: 2})" class="font-bold text-purple-50 bg-purple-500 text-sm px-2 py-2 rounded-md hover:text-purple-200 no-underline">
+                  Registro
                 </Link>
               </div>
 
@@ -156,12 +161,15 @@ import axios from 'axios'
 
 export default {
   name: 'Cabecalho',
-  async mounted(){
-    await axios.post('/api/cart/total').then((response) => {
-      this.total_products = response.data
-    });
+  mounted(){
+    axios.post('/api/cart/total').then((response) => {
+      if(response.data.success){
+        this.total_products = response.data.total_products
+        this.total_value = parseFloat(response.data.total_value).toFixed(2)
+      }
+    })
 
-    await axios.post('/api/login/header/session').then((response) => {
+    axios.post('/api/login/header/session').then((response) => {
       this.session = response.data;
       this.loading = false
       console.log(this.session);    
@@ -173,6 +181,7 @@ export default {
       search: null,
       loading: true,
       total_products: 0,
+      total_value: null,
       session: {},
     }
   },
