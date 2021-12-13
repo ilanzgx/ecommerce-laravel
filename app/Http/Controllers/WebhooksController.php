@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use MercadoPago\Payer;
 
 class WebhooksController extends Controller
 {
@@ -19,8 +20,9 @@ class WebhooksController extends Controller
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
         
         $new_order = new Order();
+        $payer = new Payer($request->data['user_id']);
 
-        $new_order->customer_id = 1;
+        $new_order->customer_id = $payer->email;
         $new_order->payment_id = $request->data['id'];
         $new_order->total_order_price = $data['transaction_amount'];
         $new_order->payment_method = $data['payment_method_id'];
