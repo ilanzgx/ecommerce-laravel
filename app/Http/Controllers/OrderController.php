@@ -66,7 +66,7 @@ class OrderController extends Controller
                 "street_name" => $values['address']['logradouro'],
                 "street_number" => $values['address']['number'],
             ]
-        ];*/
+        ];
         
         
         $payer = new Payer();
@@ -91,7 +91,7 @@ class OrderController extends Controller
             "zip_code" => "06233200"
         );
         
-        $preference->payer = $payer;
+        $preference->payer = $payer;*/
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
@@ -101,6 +101,25 @@ class OrderController extends Controller
         );
 
         $preference->external_reference = "Ecommerce";
+
+        $preference->payer = (object) array(
+            "name"    => $values['user']['full_name'],
+            "surname" => $values['user']['full_name'],
+            "email"   => $values['user']['email'],
+            "phone" => array(
+                "area_code" => "11",
+                "number" => "4444-4444"
+            ),
+            "identification" => array(
+                "type" => "CPF",
+                "number" => "19119119100"
+            ),
+            "address" => array(
+                "street_name" => "Street",
+                "street_number" => 123,
+                "zip_code" => "06233200"
+            )
+        );
 
         $preference->back_urls = array(
             "success" => env('APP_URL') . "/pagamento/sucesso",
