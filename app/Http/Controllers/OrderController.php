@@ -52,7 +52,7 @@ class OrderController extends Controller
 
         $preference->items = $data;
 
-        
+        /*
         $payerdata = [
             "email" => $values['user']['email'],
             "first_name" => $values['user']['full_name'],
@@ -66,14 +66,14 @@ class OrderController extends Controller
                 "street_name" => $values['address']['logradouro'],
                 "street_number" => $values['address']['number'],
             ]
-        ];
+        ];*/
         
-        /*
+        
         $payer = new Payer();
         
         $payer->name = "Ilan";
         $payer->surname = "Silva";
-        $payer->email = "user@email.com";
+        $payer->email = $data['user']['email'];
         $payer->date_created = "2018-06-02T12:58:41.425-04:00";
         $payer->phone = array(
             "area_code" => "11",
@@ -89,9 +89,9 @@ class OrderController extends Controller
             "street_name" => "Street",
             "street_number" => 123,
             "zip_code" => "06233200"
-        );*/
+        );
         
-        $preference->payer = (object) $payerdata;
+        $preference->payer = $payer;
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
