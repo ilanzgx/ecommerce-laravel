@@ -90,7 +90,7 @@ class OrderController extends Controller
             "zip_code" => "06233200"
         );
         
-        $preference->payer = $payer;
+        $preference->payer = (object)$payer;
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
