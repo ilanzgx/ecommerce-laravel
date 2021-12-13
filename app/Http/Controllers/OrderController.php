@@ -52,7 +52,7 @@ class OrderController extends Controller
 
         $preference->items = $data;
 
-        
+        /*
         $payerdata = [
             "email" => $values['user']['email'],
             "first_name" => $values['user']['full_name'],
@@ -90,7 +90,8 @@ class OrderController extends Controller
             "zip_code" => "06233200"
         );*/
         
-        $preference->payer = (object)$payerdata;
+        //$preference->payer = (object)$payerdata;
+        $preference->payer->email = $values['user']['email'];
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
