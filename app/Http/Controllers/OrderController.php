@@ -67,6 +67,7 @@ class OrderController extends Controller
                 "street_number" => $values['address']['number'],
             ]
         ];*/
+        $payer_data = [];
         $payer = new Payer();
         
         $payer->name = "Ilan";
@@ -88,8 +89,10 @@ class OrderController extends Controller
             "street_number" => 123,
             "zip_code" => "06233200"
         );
+
+        array_push($payer_data, $payer);
         
-        $preference->payer = $payer;
+        $preference->payer = $payer_data;
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(

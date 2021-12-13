@@ -18,10 +18,9 @@ class WebhooksController extends Controller
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
         
-        $user = Customer::where('email', session('email'))->first();
         $new_order = new Order();
 
-        $new_order->customer_id = $user->id;
+        $new_order->customer_id = 1;
         $new_order->payment_id = $request->data['id'];
         $new_order->total_order_price = $data['transaction_amount'];
         $new_order->payment_method = $data['payment_method_id'];
