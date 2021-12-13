@@ -92,7 +92,7 @@ class OrderController extends Controller
 
         array_push($payer_data, $payer);
         
-        $preference->payer = $payer_data;
+        $preference->payer = (object)$payer_data;
 
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
