@@ -80,6 +80,7 @@ class CartController extends Controller
                 'empty' => false, 
                 'products'  => $data_tmp,
                 'total_value' => $total_value,
+                'key' => 'aaa'
             ]);
         }
     }

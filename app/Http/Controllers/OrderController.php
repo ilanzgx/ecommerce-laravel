@@ -131,7 +131,12 @@ class OrderController extends Controller
 
         $preference->save();
        
-        return json_encode(['success' => true, 'action' => 2, 'link' => $preference->sandbox_init_point]);
+        return json_encode([
+            'success' => true, 
+            'action' => 2, 
+            'link' => $preference->sandbox_init_point, 
+            'preference_id' => $preference->id
+        ]);
     }
 
     public function payment_success(){
