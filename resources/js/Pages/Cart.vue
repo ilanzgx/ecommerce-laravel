@@ -56,7 +56,6 @@
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
               <p class="px-2">Continuar comprando</p>
             </Link>
-            <div class="cho-container"></div>
           </div>
 
         </div>
@@ -73,33 +72,15 @@ import Footer from './../components/Footer.vue'
 import CartItem from './../components/Cart/Item.vue'
 
 export default {
-  mounted(){
-    const mp = new MercadoPago('TEST-db91b33a-b08f-4dbc-8fb0-f12a9ec994e2', {
-        locale: 'pt-BR'
-    });
-
-    // Inicialize o checkout
-    mp.checkout({
-      preference: {
-        id: '268932955-fb7faf99-21e1-42a1-a935-c76561f6993b'
-      },
-      render: {
-        container: '.cho-container', // Indique o nome da class onde será exibido o botão de pagamento
-        label: 'Pagar', // Muda o texto do botão de pagamento (opcional)
-      }
-    });
-  },
   data(){
     return {
       total_value_tmp: this.total_value,
-      preference_id: null,
     }
   },
   props:{
     products: Array,
     empty: Boolean,
     total_value: Number,
-    key: String,
     user: Object,
     address: Object,
   },
@@ -126,8 +107,7 @@ export default {
         if(response.data.action == 1){
           window.location.href = this.$route('customer.mydata')
         } else if(response.data.action == 2 && response.data.success){
-          this.preference_id = response.data.preference_id
-          //window.location.href = response.data.link
+          window.location.href = response.data.link
         }
       })
     }

@@ -3230,40 +3230,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    var mp = new MercadoPago('TEST-db91b33a-b08f-4dbc-8fb0-f12a9ec994e2', {
-      locale: 'pt-BR'
-    }); // Inicialize o checkout
-
-    mp.checkout({
-      preference: {
-        id: '268932955-fb7faf99-21e1-42a1-a935-c76561f6993b'
-      },
-      render: {
-        container: '.cho-container',
-        // Indique o nome da class onde será exibido o botão de pagamento
-        label: 'Pagar' // Muda o texto do botão de pagamento (opcional)
-
-      }
-    });
-  },
   data: function data() {
     return {
-      total_value_tmp: this.total_value,
-      preference_id: null
+      total_value_tmp: this.total_value
     };
   },
   props: {
     products: Array,
     empty: Boolean,
     total_value: Number,
-    key: String,
     user: Object,
     address: Object
   },
@@ -3292,7 +3272,7 @@ __webpack_require__.r(__webpack_exports__);
         if (response.data.action == 1) {
           window.location.href = _this.$route('customer.mydata');
         } else if (response.data.action == 2 && response.data.success) {
-          _this.preference_id = response.data.preference_id; //window.location.href = response.data.link
+          window.location.href = response.data.link;
         }
       });
     }
@@ -39914,9 +39894,7 @@ var render = function() {
                             _vm._v("Continuar comprando")
                           ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "cho-container" })
+                      )
                     ],
                     1
                   )

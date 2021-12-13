@@ -26,6 +26,8 @@ class OrderController extends Controller
             'user'    => $request->user,
             'address' => $request->address,
         ];
+
+        dd($values['user']);
         
         // no address
         if($values['address'] == null){
@@ -52,47 +54,6 @@ class OrderController extends Controller
 
         $preference->items = $data;
 
-        /*
-        $payerdata = [
-            "email" => $values['user']['email'],
-            "first_name" => $values['user']['full_name'],
-            "last_name" => $values['user']['full_name'],
-            "identification" => [
-                "type" => "CPF",
-                "number" => $values['user']['cpf']
-            ],
-            "address"=>  [
-                "zip_code" => $values['address']['cep'],
-                "street_name" => $values['address']['logradouro'],
-                "street_number" => $values['address']['number'],
-            ]
-        ];
-        
-        
-        $payer = new Payer();
-        
-        $payer->name = "Ilan";
-        $payer->surname = "Silva";
-        $payer->email = $values['user']['email'];
-        $payer->date_created = "2018-06-02T12:58:41.425-04:00";
-        $payer->phone = array(
-            "area_code" => "11",
-            "number" => "4444-4444"
-        );
-            
-        $payer->identification = array(
-            "type" => "CPF",
-            "number" => "19119119100"
-        );
-            
-        $payer->address = array(
-            "street_name" => "Street",
-            "street_number" => 123,
-            "zip_code" => "06233200"
-        );
-        
-        $preference->payer = $payer;*/
-
         $preference->payment_methods = array(
             "excluded_payment_types" => array(
                 //array("id" => "credit_card")
@@ -102,24 +63,7 @@ class OrderController extends Controller
 
         $preference->external_reference = "Ecommerce";
 
-        $preference->payer = (object) array(
-            "name"    => $values['user']['full_name'],
-            "surname" => $values['user']['full_name'],
-            "email"   => $values['user']['email'],
-            "phone" => array(
-                "area_code" => "11",
-                "number" => "4444-4444"
-            ),
-            "identification" => array(
-                "type" => "CPF",
-                "number" => "19119119100"
-            ),
-            "address" => array(
-                "street_name" => "Street",
-                "street_number" => 123,
-                "zip_code" => "06233200"
-            )
-        );
+        $preference->payer = Customer::search_customer($values['user']['customer_id']);
 
         $preference->back_urls = array(
             "success" => env('APP_URL') . "/pagamento/sucesso",
@@ -130,6 +74,9 @@ class OrderController extends Controller
         $preference->auto_return = "approved";
 
         $preference->save();
+
+        //dd(Customer::create_customer([]));
+        //dd(Customer::update_customer('1038710704-GtecwfklJrZtXE'));
        
         return json_encode([
             'success' => true, 

@@ -79,6 +79,20 @@ class LoginController extends Controller
             $new_customer->status = 'nao-verificado';
             $new_customer->purl_code = Customer::createHash(16, 2);
 
+            // create customer on api
+            $values = [
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'identification' => [
+                    'type' => 'CPF',
+                    'number' => $request->cpf
+                ],
+                "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
+            ];
+            $req = Customer::create_customer($values);
+
+            $new_customer->customer_id = $req['id'];
+            // save new customer
             $new_customer->save();
 
             $response = [

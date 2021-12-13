@@ -24,6 +24,7 @@ class CreateCustomersTable extends Migration
             $table->enum('role', ['usuario', 'administrador']);
             $table->string('number', 80)->nullable();
             $table->text('purl_code');
+            $table->string('customer_id', 200);
             $table->text('birth_date');
             $table->timestamps();
         });
