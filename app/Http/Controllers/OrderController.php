@@ -73,7 +73,7 @@ class OrderController extends Controller
         
         $payer->name = "Ilan";
         $payer->surname = "Silva";
-        $payer->email = $data['user']['email'];
+        $payer->email = $values['user']['email'];
         $payer->date_created = "2018-06-02T12:58:41.425-04:00";
         $payer->phone = array(
             "area_code" => "11",
