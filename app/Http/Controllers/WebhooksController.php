@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,10 +17,11 @@ class WebhooksController extends Controller
         $data = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
-
+        
+        $user = Customer::where('email', session('email'))->first();
         $new_order = new Order();
 
-        $new_order->customer_id = 1;
+        $new_order->customer_id = $user->id;
         $new_order->payment_id = $request->data['id'];
         $new_order->total_order_price = $data['transaction_amount'];
         $new_order->payment_method = $data['payment_method_id'];
