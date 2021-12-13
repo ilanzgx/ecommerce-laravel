@@ -15,9 +15,6 @@ use MercadoPago\Payment;
 use MercadoPago\Payer;
 use MercadoPago\Preference;
 
-//use PagSeguro\Configuration\Configure;
-//use PagSeguro\Services\Session;
-
 class OrderController extends Controller
 {
     
@@ -71,9 +68,26 @@ class OrderController extends Controller
             ]
         ];*/
         $payer = new Payer();
-        $payer->email = $values['user']['email'];
-        $payer->first_name = $values['user']['full_name'];
-        $payer->last_name = $values['user']['full_name'];
+        
+        $payer->name = "Ilan";
+        $payer->surname = "Silva";
+        $payer->email = "user@email.com";
+        $payer->date_created = "2018-06-02T12:58:41.425-04:00";
+        $payer->phone = array(
+            "area_code" => "11",
+            "number" => "4444-4444"
+        );
+            
+        $payer->identification = array(
+            "type" => "CPF",
+            "number" => "19119119100"
+        );
+            
+        $payer->address = array(
+            "street_name" => "Street",
+            "street_number" => 123,
+            "zip_code" => "06233200"
+        );
         
         $preference->payer = $payer;
 
