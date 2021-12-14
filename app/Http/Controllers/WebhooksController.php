@@ -19,7 +19,7 @@ class WebhooksController extends Controller
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
         
         $new_order = new Order();
-        $user = Customer::where('customer_id', $request->data['user_id'])->first();
+        $user = Customer::where('email', $data['payer']['email'])->first();
 
         $new_order->customer_id = $user->id;
         $new_order->payment_id = $request->data['id'];

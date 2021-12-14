@@ -81,7 +81,8 @@ class OrderController extends Controller
         return json_encode([
             'success' => true, 
             'action' => 2, 
-            'link' => $preference->sandbox_init_point, 
+            //'link' => $preference->sandbox_init_point, 
+            'link' => $preference->init_point,
             'preference_id' => $preference->id
         ]);
     }
