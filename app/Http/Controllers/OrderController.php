@@ -26,8 +26,6 @@ class OrderController extends Controller
             'user'    => $request->user,
             'address' => $request->address,
         ];
-
-        dd($values['user']);
         
         // no address
         if($values['address'] == null){

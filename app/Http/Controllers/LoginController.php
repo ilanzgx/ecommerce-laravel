@@ -91,7 +91,7 @@ class LoginController extends Controller
             ];
             $req = Customer::create_customer($values);
 
-            $new_customer->customer_id = $req['id'];
+            $new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
             // save new customer
             $new_customer->save();
 
