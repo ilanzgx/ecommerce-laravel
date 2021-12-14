@@ -61,9 +61,7 @@ class OrderController extends Controller
 
         $preference->external_reference = "Ecommerce";
 
-        $payer = new Payer();
-        $payer = Customer::search_customer($values['user']['customer_id']);
-        $preference->payer = $payer;
+        $preference->payer = Customer::search_customer($values['user']['customer_id']);
         
         $preference->back_urls = array(
             "success" => env('APP_URL') . "/pagamento/sucesso",
@@ -105,24 +103,6 @@ class OrderController extends Controller
             return redirect()->back();
         }
 
-        $user = Customer::where('email', session('email'))->first();
-        $paymentid = Order::where('payment_id', $data['id'])->first();
-        if(!$paymentid){
-            $new_order = new Order();  // salvar o id da transação
-
-            $new_order->customer_id = $user->id;
-            $new_order->payment_id = $data['id'];
-            $new_order->total_order_price = $data['transaction_amount'];
-            $new_order->payment_method = $data['payment_method_id'];
-            $new_order->payment_type = $data['payment_type_id'];
-            $new_order->ip_address = $data['additional_info']['ip_address'];
-            $new_order->external_reference = $data['external_reference'];
-            $new_order->created_at = $data['date_created'];
-            $new_order->updated_at = $data['date_last_updated'];
-
-            $new_order->save();
-        }
-
         return Inertia::render('Payment/Success.vue', [
             'data' => $data
         ]);
@@ -144,24 +124,6 @@ class OrderController extends Controller
 
         if(!$data['status'] == 'in_process' || !$data['status'] == $_GET['payment_id']){
             return redirect()->back();
-        }
-
-        $user = Customer::where('email', session('email'))->first();
-        $paymentid = Order::where('payment_id', $data['id'])->first();
-        if(!$paymentid){
-            $new_order = new Order();  // salvar o id da transação
-
-            $new_order->customer_id = $user->id;
-            $new_order->payment_id = $data['id'];
-            $new_order->total_order_price = $data['transaction_amount'];
-            $new_order->payment_method = $data['payment_method_id'];
-            $new_order->payment_type = $data['payment_type_id'];
-            $new_order->ip_address = $data['additional_info']['ip_address'];
-            $new_order->external_reference = $data['external_reference'];
-            $new_order->created_at = $data['date_created'];
-            $new_order->updated_at = $data['date_last_updated'];
-
-            $new_order->save();
         }
 
         return Inertia::render('Payment/Pending.vue', [
