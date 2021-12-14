@@ -45,7 +45,7 @@ class Customer extends Model
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
         ])->get('https://api.mercadopago.com/v1/customers/'. $customer_id);
 
-        return $response->json();
+        return (object)$response->json();
 
     }
 
