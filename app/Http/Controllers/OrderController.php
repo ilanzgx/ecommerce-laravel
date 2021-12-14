@@ -61,16 +61,18 @@ class OrderController extends Controller
 
         $preference->external_reference = "Ecommerce";
 
-        $preference->payer = Customer::search_customer($values['user']['customer_id']);
-
+        $payer = new Payer();
+        $payer = Customer::search_customer($values['user']['customer_id']);
+        $preference->payer = $payer;
+        
         $preference->back_urls = array(
             "success" => env('APP_URL') . "/pagamento/sucesso",
             "failure" => env('APP_URL') . "/pagamento/falha",
             "pending" => env('APP_URL') . "/pagamento/aguardando"
         );
-
+        
         $preference->auto_return = "approved";
-
+        
         $preference->save();
 
         //dd(Customer::create_customer([]));

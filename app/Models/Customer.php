@@ -26,7 +26,7 @@ class Customer extends Model
         ])->post('https://api.mercadopago.com/v1/customers', [
             'email' => $data['email'],
             'first_name' => $data['full_name'],
-            'last_name' => $data['full_name'],
+            'last_name' => 'aaaaa',
             'identification' => [
                 'type' => 'CPF',
                 'number' => $data['identification']['number'],

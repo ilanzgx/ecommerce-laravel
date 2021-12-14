@@ -14,7 +14,6 @@ class WebhooksController extends Controller
             return http_response_code(200);
         }
 
-        if($request->data['type'] == 'payment'){
             $data = Http::withHeaders([
                 'Authorization' => 'Bearer ' . config('services.mercadopago.token')
             ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
@@ -32,7 +31,7 @@ class WebhooksController extends Controller
             $new_order->updated_at = $data['date_last_updated'];
 
             $new_order->save();
-        }
+            
         return http_response_code(200);
     }
 }

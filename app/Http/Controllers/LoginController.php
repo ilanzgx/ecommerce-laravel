@@ -74,7 +74,7 @@ class LoginController extends Controller
             $new_customer->password = Hash::make($request->password);
             $new_customer->genre = $request->genre;
             $new_customer->birth_date = $request->birth_date;
-            $new_customer->cpf = $request->cpf;
+            $new_customer->cpf = preg_replace( '/[^0-9]/', '', $request->cpf);
             $new_customer->role = 'usuario';
             $new_customer->status = 'nao-verificado';
             $new_customer->purl_code = Customer::createHash(16, 2);
@@ -85,7 +85,7 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'identification' => [
                     'type' => 'CPF',
-                    'number' => $request->cpf
+                    'number' => preg_replace( '/[^0-9]/', '', $request->cpf)
                 ],
                 "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
             ];
