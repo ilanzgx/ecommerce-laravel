@@ -14,23 +14,24 @@ class WebhooksController extends Controller
             return http_response_code(200);
         }
 
-            $data = Http::withHeaders([
-                'Authorization' => 'Bearer ' . config('services.mercadopago.token')
-            ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
-            
-            $new_order = new Order();
+        $data = Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
+        ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
+        
+        $new_order = new Order();
+        $user = Customer::where('customer_id', $request->data['user_id'])->first();
 
-            $new_order->customer_id = 1;
-            $new_order->payment_id = $request->data['id'];
-            $new_order->total_order_price = $data['transaction_amount'];
-            $new_order->payment_method = $data['payment_method_id'];
-            $new_order->payment_type = $data['payment_type_id'];
-            $new_order->ip_address = $data['additional_info']['ip_address'];
-            $new_order->external_reference = $data['external_reference'];
-            $new_order->created_at = $data['date_created'];
-            $new_order->updated_at = $data['date_last_updated'];
+        $new_order->customer_id = $user->id;
+        $new_order->payment_id = $request->data['id'];
+        $new_order->total_order_price = $data['transaction_amount'];
+        $new_order->payment_method = $data['payment_method_id'];
+        $new_order->payment_type = $data['payment_type_id'];
+        $new_order->ip_address = $data['additional_info']['ip_address'];
+        $new_order->external_reference = $data['external_reference'];
+        $new_order->created_at = $data['date_created'];
+        $new_order->updated_at = $data['date_last_updated'];
 
-            $new_order->save();
+        $new_order->save();
             
         return http_response_code(200);
     }
