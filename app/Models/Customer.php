@@ -43,7 +43,7 @@ class Customer extends Model
         
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
-        ])->get('/v1/customers/'. $customer_id);
+        ])->get('https://api.mercadopago.com/v1/customers/'. $customer_id);
 
         return $response->json();
 
