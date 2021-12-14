@@ -19,8 +19,9 @@ class WebhooksController extends Controller
         ])->get('https://api.mercadopago.com/v1/payments/'. $request->data['id'])->json();
         
         $user = Customer::where('email', $data['payer']['email'])->first();
-        
-        if($request->data['action'] === 'payment.created'){
+        $order = Order::where('payment_id', $request->data['id'])->first();
+
+        if(!$order){
 
             $new_order = new Order();
             $new_order->customer_id = $user->id;
@@ -37,17 +38,13 @@ class WebhooksController extends Controller
 
             $new_order->save();
 
-        } else if($request->data['action'] === 'payment.updated'){
-
-            $order = Order::where('payment_id', $request->data['id'])->first();
+        } else {
 
             $order->status = $data['status'];
             $order->status_detail = $data['status_detail'];
 
             $order->save();
 
-        } else {
-            return http_response_code(500);
         }
             
         return http_response_code(200);
