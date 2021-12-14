@@ -25,6 +25,8 @@ class CreateOrdersTable extends Migration
             $table->float('total_order_price');
             $table->text('payment_method');
             $table->text('payment_type');
+            $table->string('status', 100);
+            $table->string('status_detail', 100);
             $table->text('ip_address');
             $table->text('external_reference');
 

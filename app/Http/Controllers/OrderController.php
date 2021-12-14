@@ -99,10 +99,6 @@ class OrderController extends Controller
             'Content-Type'  => 'application/json'
         ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
 
-        if($data['status'] != 'approved' || $data['id'] != $_GET['payment_id']){
-            return redirect()->back();
-        }
-
         return Inertia::render('Payment/Success.vue', [
             'data' => $data
         ]);
@@ -122,10 +118,6 @@ class OrderController extends Controller
             'Content-Type'  => 'application/json'
         ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
 
-        if(!$data['status'] == 'in_process' || !$data['status'] == $_GET['payment_id']){
-            return redirect()->back();
-        }
-
         return Inertia::render('Payment/Pending.vue', [
             'data' => $data
         ]);
@@ -144,10 +136,6 @@ class OrderController extends Controller
             'Authorization' => 'Bearer '. config('services.mercadopago.token'),
             'Content-Type'  => 'application/json'
         ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
-
-        if($data['status'] != 'rejected' || $data['id'] != $_GET['payment_id']){
-            return redirect()->back();
-        }
 
         return Inertia::render('Payment/Fail.vue', [
             'data' => $data
