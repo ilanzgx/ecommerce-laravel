@@ -34,8 +34,6 @@ class OrderController extends Controller
         
         $preference = new Preference();
 
-        # Building an item
-
         $data = [];
         foreach(session('cart') as $id => $amount){
             $product = Product::where('id', $id)->first();
@@ -64,17 +62,14 @@ class OrderController extends Controller
         $preference->payer = Customer::search_customer($values['user']['customer_id']);
         
         $preference->back_urls = array(
-            "success" => env('APP_URL') . "/pagamento/sucesso",
-            "failure" => env('APP_URL') . "/pagamento/falha",
-            "pending" => env('APP_URL') . "/pagamento/aguardando"
+            "success" => route('order.payment'),
+            "failure" => route('order.payment'),
+            "pending" => route('order.payment')
         );
         
         $preference->auto_return = "approved";
         
         $preference->save();
-
-        //dd(Customer::create_customer([]));
-        //dd(Customer::update_customer('1038710704-GtecwfklJrZtXE'));
        
         return json_encode([
             'success' => true, 
@@ -85,8 +80,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function payment_success(){
-        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
+    public function payment(Request $request)   {
+        if(!isset($_GET['payment_id'])){
             return redirect()->back();
         }
 
@@ -99,46 +94,36 @@ class OrderController extends Controller
             'Content-Type'  => 'application/json'
         ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
 
-        return Inertia::render('Payment/Success.vue', [
-            'data' => $data
-        ]);
-    }
+        $request->session()->forget('cart');
 
-    public function payment_pending(){
-        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
-            return redirect()->back();
+        switch($data['status']){
+            case 'approved':{
+                return Inertia::render('Payment/Success.vue', [
+                    'data' => $data,
+                    'items' => $data['additional_info']['items']
+                ]);
+                break;
+            }
+            case 'pending':{
+                return Inertia::render('Payment/Pending.vue', [
+                    'data' => $data,
+                    'items' => $data['additional_info']['items']
+                ]);
+                break;
+            }
+            case 'cancelled':
+            case 'fail':{
+                return Inertia::render('Payment/Fail.vue', [
+                    'data' => $data,
+                    'items' => $data['additional_info']['items']
+                ]);
+                break;
+            }
+            default: {
+                return $data;
+            }
         }
 
-        if($_GET['status'] == null){
-            return redirect()->route('cart');
-        }
-
-        $data = Http::withHeaders([
-            'Authorization' => 'Bearer '. config('services.mercadopago.token'),
-            'Content-Type'  => 'application/json'
-        ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
-
-        return Inertia::render('Payment/Pending.vue', [
-            'data' => $data
-        ]);
-    }
-
-    public function payment_fail(){
-        if(!isset($_GET['payment_id']) || !isset($_GET['preference_id'])){
-            return redirect()->back();
-        }
-
-        if($_GET['status'] == null){
-            return redirect()->route('cart');
-        }
-
-        $data = Http::withHeaders([
-            'Authorization' => 'Bearer '. config('services.mercadopago.token'),
-            'Content-Type'  => 'application/json'
-        ])->get('https://api.mercadopago.com/v1/payments/'.$_GET['payment_id'])->json();
-
-        return Inertia::render('Payment/Fail.vue', [
-            'data' => $data
-        ]);
+        return http_response_code(500);
     }
 }

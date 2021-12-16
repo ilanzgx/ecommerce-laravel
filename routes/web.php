@@ -26,17 +26,20 @@ Route::get('/carrinho', 'CartController@index')->name('cart');
 Route::get('/precarrinho/{productid?}', 'CartController@precart')->name('precart');
 
 /* OrderController */
-//Route::get('/carrinho/metodo', 'OrderController@payment_method')->name('order.payment_method');
-//Route::get('/carrinho/pagamento', 'OrderController@payment_transaction')->name('order.payment');
 Route::get('/pagamento/sucesso', 'OrderController@payment_success');
 Route::get('/pagamento/aguardando', "OrderController@payment_pending");
 Route::get('/pagamento/falha', 'OrderController@payment_fail');
+
+Route::get('/pedido/pagamento', 'OrderController@payment')->name('order.payment');
+
+/* WebHooksController */
 Route::post('webhooks', 'WebhooksController');
 
 /* CustomerController */
 Route::middleware(['logged'])->group(function(){
-    Route::get('/minhaconta', 'CustomerController@myaccount')->name('customer.myaccount');
-    Route::get('/minhaconta/meusdados', 'CustomerController@mydata')->name('customer.mydata');
+    Route::get('/minha-conta', 'CustomerController@myaccount')->name('customer.myaccount');
+    Route::get('/minha-conta/meus-dados', 'CustomerController@mydata')->name('customer.mydata');
+    Route::get('/minha-conta/pedidos', 'CustomerController@orders')->name('customer.orders');
 });
 
 /* Back office */

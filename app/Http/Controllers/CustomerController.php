@@ -47,6 +47,14 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function orders(){
+        $user = Customer::where('email', session('email'))->first();
+        $data = Order::where('customer_id', $user->id)->get(); // testes
+        return Inertia::render('CustomerArea/Orders.vue', [
+            'data' => $data
+        ]);
+    }
+
     public function changedata(Request $request){
         $values = [
             'name'       => $request->name,

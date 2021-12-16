@@ -1,7 +1,10 @@
 import Vue from 'vue'
+Vue.config.devtools = true
+
 import { createInertiaApp, Link } from '@inertiajs/inertia-vue'
 Vue.component('Link', Link)
 Vue.prototype.$route = route
+
 import moment from 'moment';
 
 Vue.filter('formatDate', function(value) {

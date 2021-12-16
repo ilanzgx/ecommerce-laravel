@@ -4,8 +4,27 @@
     <div class="mx-2 my-4">
       <div class="text-center">
         <h1 class="text-2xl md:text-3xl text-purple-400 font-bold">Pagamento aprovado!</h1>
-        <h2 class="text-sm">Código do pagamento: {{ data.id }}</h2>
+        <h2 class="text-sm pb-6">Código do pagamento: {{ data.id }}</h2>
+        <p class="pb-6">Seu pagamento foi aprovado, apenas aguarde o produto chegar até você!</p>
       </div>
+
+      <div class="grid md:grid-cols-2 grid-cols-1 gap-4 my-3 mx-3 border-t border-b border-gray-900 p-2 border-opacity-40">
+        <div class="md:flex justify-center" v-for="item in items" :key="item.id">
+          <div class="">
+            <img class="flex w-24 h-24" :src="item.image">
+          </div>
+          <div class="ml-6">
+            <p class="text-lg font-semibold">{{ item.title }}</p>
+            <p>R${{ item.unit_price }} x {{ item.quantity }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center uppercase font-semibold">
+        <Link class="bg-purple-500 py-2 px-4 rounded-md" :href="$route('index')">Voltar à loja</Link>
+        <Link class="bg-purple-500 py-2 px-4 ml-4 rounded-md" :href="$route('customer.orders')">Ver meus pedidos</Link>
+      </div>
+
     </div>
     <Footer></Footer>
   </div>
@@ -21,6 +40,7 @@ export default {
   },
   props: {
     data: Object,
+    items: Object
   }
 }
 </script>
