@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlaced;
+use App\Mail\OrderShipped;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Rules\FullName;
+use App\Rules\ValidGenre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -49,13 +55,37 @@ class CustomerController extends Controller
 
     public function orders(){
         $user = Customer::where('email', session('email'))->first();
-        $data = Order::where('customer_id', $user->id)->get(); // testes
+        $data = Order::orderBy('created_at', 'desc')->where('customer_id', $user->id)->get();
+        Mail::to('ilan-_@hotmail.com')->send(new OrderPlaced());
         return Inertia::render('CustomerArea/Orders.vue', [
             'data' => $data
         ]);
     }
 
     public function changedata(Request $request){
+
+        try{
+            $messages = [
+                'name.required' => 'O campo nome é obrigatório.',
+                'email.required' => 'O campo email é obrigatório.',
+                'genre.required' => 'O campo genre é obrigatório.',
+                'birth_date.required' => 'O campo data de nascimento é obrigatório.',
+                'cpf.required' => 'O campo CPF é obrigatório.',                
+            ];
+
+            $validator = $request->validate([
+                'name' => ['required', new FullName],
+                'email' => 'required|email',
+                'genre' => ['required', new ValidGenre],
+                'birth_date' => 'required',
+                'cpf' => 'required|cpf|formato_cpf',
+                'number' => 'celular_com_ddd'
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
         $values = [
             'name'       => $request->name,
             'email'      => $request->email,
@@ -67,36 +97,46 @@ class CustomerController extends Controller
 
         $user = Customer::where('email', $values['email'])->first();
 
-        if(!empty($values['name'])){
-            $user->full_name = $values['name'];
-        }
-
-        if(!empty($values['email'])){
-            $user->email = $values['email'];
-        }
-
-        if(!empty($values['genre'])){
-            $user->genre = $values['genre'];
-        }
-
-        if(!empty($values['birth_date'])){
-            $user->birth_date = $values['birth_date'];
-        }
-
-        if(!empty($values['cpf'])){
-            $user->cpf = $values['cpf'];
-        }
-
-        if(!empty($values['number'])){
-            $user->number = $values['number'];
-        }
-
+        $user->full_name = $values['name'];
+        $user->email = $values['email'];
+        $user->genre = $values['genre'];
+        $user->birth_date = $values['birth_date'];
+        $user->cpf = $values['cpf'];
+        $user->number = $values['number'];
         $user->save();
 
         return json_encode(['success' => true]);
     }
 
     public function changeaddress(Request $request){
+        try{
+            $messages = [
+                'cep.required' => 'O campo CEP é obrigatório.',
+                'identificacao.required' => 'O campo indentificação é obrigatório.',
+                'logradouro.required' => 'O campo logradouro é obrigatório.',
+                'numero.required' => 'O campo numero é obrigatório.',
+                'complemento.required' => 'O campo complemento é obrigatório.',
+                'ponto_referencia.required' => 'O campo ponto de referencia é obrigatório.',
+                'bairro.required' => 'O campo bairro é obrigatório.',
+                'cidade.required' => 'O campo cidade é obrigatório.',
+                'uf.required' => 'O campo UF(sigla do estado) é obrigatório.',
+            ];
+
+            $validator = $request->validate([
+                'cep'              => 'required|formato_cep',
+                'identificacao'    => 'required',
+                'logradouro'       => 'required',
+                'numero'           => 'required|numeric',
+                'complemento'      => 'required',
+                'ponto_referencia' => 'required',
+                'bairro'           => 'required',
+                'cidade'           => 'required',
+                'uf'               => 'required|uf'
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
 
         $values = [
             'bairro'           => $request->bairro,

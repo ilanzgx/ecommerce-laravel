@@ -14,6 +14,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
+        "laravellegends/pt-br-validator": "^8.0",
         "mercadopago/dx-php": "2.4.4",
         "mpdf/qrcode": "^1.1",
         "tightenco/ziggy": "^1.4"

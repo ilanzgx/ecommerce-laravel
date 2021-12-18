@@ -17,38 +17,68 @@
           <form @submit.prevent="submitForm()" class="text-gray-400 text-sm space-y-12">
             <div class="space-y-4">
               <div class="">
-                <p>Nome</p>
-                <input v-model="full_name" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" id="text_name" type="text" placeholder="Nome completo">
+                <label class="text-gray-50 text-sm">Nome</label>
+                <input :class="{'border-red-500': customer_errors != undefined && customer_errors.name}" v-model="full_name" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" id="text_name" type="text" placeholder="Nome completo">
+                <div v-if="customer_errors != undefined && customer_errors.name">
+                  <ul v-for="customer_errors in customer_errors.name" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="">
-                <p>Email</p>
-                <input v-model="email" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" id="text_email" type="email" placeholder="joaozinho@exemplo.com">
+                <label class="text-gray-50 text-sm">Email</label>
+                <input :class="{'border-red-500': customer_errors != undefined && customer_errors.email}" v-model="email" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" id="text_email" type="email" placeholder="joaozinho@exemplo.com">
+                <div v-if="customer_errors != undefined && customer_errors.email">
+                  <ul v-for="customer_errors in customer_errors.email" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="">
-                <p>Gênero</p>
-                <select v-model="genre" class="w-full border bg-transparent text-gray-100 outline-none px-3 py-2" name="" id="">
+                <label class="text-gray-50 text-sm">Gênero</label>
+                <select :class="{'border-red-500': customer_errors != undefined && customer_errors.genre}" v-model="genre" class="w-full border bg-transparent text-gray-100 outline-none px-3 py-2" name="" id="">
                   <option class="bg-gray-900  outline-none" value="Selecione seu genero" selected>Selecione seu genero</option>
                   <option class="bg-gray-900  outline-none" value="Masculino">Masculino</option>
                   <option class="bg-gray-900  outline-none" value="Feminino">Feminino</option>
                   <option class="bg-gray-900  outline-none" value="Nao Binario">Não binário</option>
                 </select>
+                <div v-if="customer_errors != undefined && customer_errors.genre">
+                  <ul v-for="customer_errors in customer_errors.genre" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="">
-                <p>CPF</p>
-                <input v-model="cpf" @input="cpfCheck" maxlength="14" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="text" id="text_cpf" placeholder="CPF ou CNPJ">
+                <label class="text-gray-50 text-sm">CPF</label>
+                <input :class="{'border-red-500': customer_errors != undefined && customer_errors.cpf}" v-model="cpf" @input="cpfCheck" maxlength="14" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="text" id="text_cpf" placeholder="CPF ou CNPJ">
+                <div v-if="customer_errors != undefined && customer_errors.cpf">
+                  <ul v-for="customer_errors in customer_errors.cpf" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="">
-                <label for="datemin">Data de nascimento</label>
-                <input v-model="birth_date" class="bg-transparent text-gray-100 outline-none w-full border px-2 py-2" type="text" id="datemin" name="datemin" placeholder="dd/mm/yyyy">
+                <label class="text-gray-50 text-sm">Data de nascimento</label>
+                <input :class="{'border-red-500': customer_errors != undefined && customer_errors.birth_date}" v-model="birth_date" class="bg-transparent text-gray-100 outline-none w-full border px-2 py-2" type="text" id="datemin" name="datemin" placeholder="dd/mm/yyyy">
+                <div v-if="customer_errors != undefined && customer_errors.birth_date">
+                  <ul v-for="customer_errors in customer_errors.birth_date" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="">
-                <p>Número do celular</p>
-                <input v-model="number" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="tel" id="text_number" placeholder="(DDD) + 9 + Número">
+                <label class="text-gray-50 text-sm">Número de celular</label>
+                <input :class="{'border-red-500': customer_errors != undefined && customer_errors.number}" v-model="number" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="tel" id="text_number" placeholder="(DDD) + Número">
+                <div v-if="customer_errors != undefined && customer_errors.number">
+                  <ul v-for="customer_errors in customer_errors.number" :key="customer_errors.id">
+                    <li class="text-red-500 text-sm">{{ customer_errors }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
           
@@ -74,7 +104,12 @@
             <div class="flex">
               <div class="w-4/5">
                 <label for="">CEP (*)</label>
-                <input @input="cepCheck" maxlength="9" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cep" type="text">
+                <input :class="{'border-red-500': address_errors != undefined && address_errors.cep}" @input="cepCheck" maxlength="9" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cep" type="text">
+                <div v-if="address_errors != undefined && address_errors.cep">
+                  <ul v-for="address_errors in address_errors.cep" :key="address_errors.id">
+                    <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                  </ul>
+                </div>
               </div>
 
               <div class="w-1/5 flex items-end ml-2">
@@ -84,43 +119,83 @@
 
             <div>
               <label for="">Identificação (*)</label>
-              <input placeholder="Ex: Minha casa, trabalho, etc." class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="identificacao" type="text">
+              <input :class="{'border-red-500': address_errors != undefined && address_errors.identificacao}" placeholder="Ex: Minha casa, trabalho, etc." class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="identificacao" type="text">
+              <div v-if="address_errors != undefined && address_errors.identificacao">
+                <ul v-for="address_errors in address_errors.identificacao" :key="address_errors.id">
+                  <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                </ul>
+              </div>
             </div>
 
             <div class="flex">
               <div class="w-2/3">
                 <label for="">Logradouro (*)</label>
-                <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="logradouro" type="text">
+                <input :class="{'border-red-500': address_errors != undefined && address_errors.logradouro}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="logradouro" type="text">
+                <div v-if="address_errors != undefined && address_errors.logradouro">
+                  <ul v-for="address_errors in address_errors.logradouro" :key="address_errors.id">
+                    <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                  </ul>
+                </div>
               </div>
               <div class="w-1/3 ml-2">
                 <label for="">Numero (*)</label>
-                <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="numero" type="text">
+                <input :class="{'border-red-500': address_errors != undefined && address_errors.numero}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="numero" type="text">
+                <div v-if="address_errors != undefined && address_errors.numero">
+                  <ul v-for="address_errors in address_errors.numero" :key="address_errors.id">
+                    <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
             <div>
               <label for="">Complemento (*)</label>
-              <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="complemento" type="text">
+              <input :class="{'border-red-500': address_errors != undefined && address_errors.complemento}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="complemento" type="text">
+              <div v-if="address_errors != undefined && address_errors.complemento">
+                <ul v-for="address_errors in address_errors.complemento" :key="address_errors.id">
+                  <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                </ul>
+              </div>
             </div>
 
             <div>
               <label for="">Ponto de Referência (*)</label>
-              <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="ponto_referencia" type="text">
+              <input :class="{'border-red-500': address_errors != undefined && address_errors.ponto_referencia}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="ponto_referencia" type="text">
+              <div v-if="address_errors != undefined && address_errors.ponto_referencia">
+                <ul v-for="address_errors in address_errors.ponto_referencia" :key="address_errors.id">
+                  <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                </ul>
+              </div>
             </div>
 
             <div>
               <label for="">Bairro (*)</label>
-              <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="bairro" type="text">
+              <input :class="{'border-red-500': address_errors != undefined && address_errors.bairro}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="bairro" type="text">
+              <div v-if="address_errors != undefined && address_errors.bairro">
+                <ul v-for="address_errors in address_errors.bairro" :key="address_errors.id">
+                  <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                </ul>
+              </div>
             </div>
 
             <div class="flex">
               <div class="w-2/3">
                 <label for="">Cidade (*)</label>
-                <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cidade" type="text">
+                <input :class="{'border-red-500': address_errors != undefined && address_errors.cidade}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="cidade" type="text">
+                <div v-if="address_errors != undefined && address_errors.cidade">
+                  <ul v-for="address_errors in address_errors.cidade" :key="address_errors.id">
+                    <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                  </ul>
+                </div>
               </div>
               <div class="w-1/3 ml-2">
                 <label for="">UF (*)</label>
-                <input class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="uf" type="text">
+                <input :class="{'border-red-500': address_errors != undefined && address_errors.uf}" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" v-model="uf" type="text">
+                <div v-if="address_errors != undefined && address_errors.uf">
+                  <ul v-for="address_errors in address_errors.uf" :key="address_errors.id">
+                    <li class="text-red-500 text-sm">{{ address_errors }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
             </div>
@@ -148,6 +223,8 @@ export default {
   data() {
     return {
       loading: false,
+      customer_errors: {},
+      address_errors: {},
       full_name: this.data.full_name,
       email: this.data.email,
       genre: this.data.genre,
@@ -176,6 +253,7 @@ export default {
         cpf: this.cpf,
         number: this.number
       }).then((response) => {
+        this.customer_errors = response.data.errors
         if(response.data.success){
           window.location.reload()
         }
@@ -194,7 +272,7 @@ export default {
         cidade: this.cidade,
         uf: this.uf,
       }).then((response) => {
-        console.log('');
+        this.address_errors = response.data.errors
         if(response.data.success){
           window.location.reload()
         }

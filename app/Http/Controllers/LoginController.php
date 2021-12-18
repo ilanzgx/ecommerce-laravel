@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerRequest;
+use App\Mail\AccountVerify;
 use App\Models\Customer;
+use App\Rules\FullName;
+use App\Rules\ValidGenre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
     public function signin(Request $request){
-        $data = [
-            'email' => filter_var($request->email, FILTER_SANITIZE_EMAIL),
-            'password' => $request->password
-        ];
+        
+        try{
+            $messages = [
+                'email.required' => 'O campo email é obrigatório.',
+                'email.email' => 'Digite um email válido',
+                'password.required' => 'O campo senha é obrigatório.',
+            ];
 
-        $user = Customer::where('email', $data['email'])->first();
+            $validator = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+        
+        $user = Customer::where('email', $request->email)->first();
         if(!$user){
             $response = [
                 'message' => 'Essa conta não existe',
@@ -24,7 +43,7 @@ class LoginController extends Controller
             return json_encode($response);
         }
 
-        if(Hash::check($data['password'], $user->password)){
+        if(Hash::check($request->password, $user->password)){
             $response = [
                 'message' => 'Logado com sucesso',
                 'success' => true
@@ -49,12 +68,32 @@ class LoginController extends Controller
     }
 
     public function signup(Request $request){
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
 
-        $user = Customer::where('email', $data['email'])->first();
+        try{
+            $messages = [
+                'full_name.required' => 'O campo nome é obrigatório.',
+                'email.required' => 'O campo email é obrigatório.',
+                'password.required' => 'O campo senha é obrigatório.',
+                'genre.required' => 'O campo gênero é obrigatório.',
+                'birth_date.required' => 'O campo data de nascimento é obrigatório.',
+                'cpf.required' => 'O campo CPF é obrigatório.',
+                'password.confirmed' => 'A confirmação da senha não bateu com a senha'
+            ];
+
+            $validator = $request->validate([
+                'full_name' => ['required', new FullName],
+                'email' => 'required|email',
+                'password' => 'required|confirmed',
+                'genre' => ['required', new ValidGenre],
+                'birth_date' => 'required',
+                'cpf' => 'required|cpf|formato_cpf'
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $user = Customer::where('email', $request->email)->first();
 
         if($user){
             
@@ -89,11 +128,14 @@ class LoginController extends Controller
                 ],
                 "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
             ];
-            $req = Customer::create_customer($values);
+            //$req = Customer::create_customer($values);
 
-            $new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
+            //$new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
+            $new_customer->customer_id = 'teste';
             // save new customer
             $new_customer->save();
+
+            Mail::to($request->email)->send(new AccountVerify());
 
             $response = [
                 'success' => true,

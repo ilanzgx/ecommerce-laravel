@@ -9,28 +9,28 @@
       </div>
 
       <div class="my-4"> 
-        <div v-for="item in data" :key="item.id" class="my-2 flex bg-gray-700 px-3 py-4">
-          <div class="w-1/5">
+        <div v-for="item in data" :key="item.id" class="my-2 md:flex bg-gray-700 px-3 py-4">
+          <div class="md:w-1/5">
             <h1 class="text-lg uppercase font-semibold">Número do pedido</h1>
             <p class="text-sm">#{{ item.payment_id }}</p>
           </div>
 
-          <div class="w-1/5">
+          <div class="md:w-1/5">
             <h1 class="text-lg uppercase font-semibold">Status</h1>
             <p class="text-sm font-medium" :class="getOrderStatus(item.status)[1]">{{ getOrderStatus(item.status)[0] }}</p>
           </div>
 
-          <div class="w-1/5">
+          <div class="md:w-1/5">
             <h1 class="text-lg uppercase font-semibold">Data</h1>
             <p class="text-sm">{{ item.created_at | formatDate }}</p>
           </div>
 
-          <div class="w-1/5">
+          <div class="md:w-1/5">
             <h1 class="text-lg uppercase font-semibold">Pagamento</h1>
             <p class="text-sm">{{ item.payment_method }} ({{ item.payment_type }})</p>
           </div>
 
-          <div class="w-1/5">
+          <div class="md:w-1/5">
             <h1 class="text-lg uppercase font-semibold mb-2">Detalhes do pedido</h1>
             <Link class="text-sm bg-purple-500 px-3 py-1 rounded-md my-4" :href="$route('order.payment') + '?payment_id=' + item.payment_id + '&status=' + item.payment_method">Dados do pedido</Link>
           </div>

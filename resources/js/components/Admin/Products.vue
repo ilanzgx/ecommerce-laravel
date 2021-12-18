@@ -22,6 +22,7 @@
                   <svg class="w-56 h-56" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                   </label>
                   <input @change="onFileChange" type="file" id="text_image" class="w-full px-2 py-1 mx-1" placeholder="Digite o nome do produto" hidden>
+                  
                 </div>
 
                 <div v-else>
@@ -33,17 +34,32 @@
               <div class="md:w-1/2 px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700">
                 <div class=" my-2">
                   <label class="text-gray-50 font-medium" for="">Nome do produto (*)</label>
-                  <input v-model="ProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+                  <input :class="{'border-red-500': errors != undefined && errors.name}" v-model="ProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+                  <div v-if="errors != undefined && errors.name">
+                    <ul v-for="errors in errors.name" :key="errors.id">
+                      <li class="text-red-500 text-sm">{{ errors }}</li>
+                    </ul>
+                  </div>
                 </div>
                 <div class=" my-2">
                   <label class="text-gray-50 font-medium" for="">Descrição (*)</label>
-                  <input v-model="ProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+                  <input :class="{'border-red-500': errors != undefined && errors.description}" v-model="ProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+                  <div v-if="errors != undefined && errors.description">
+                    <ul v-for="errors in errors.description" :key="errors.id">
+                      <li class="text-red-500 text-sm">{{ errors }}</li>
+                    </ul>
+                  </div>
                 </div>
 
                 <div class="my-2 flex">
                   <div class="w-1/2">
                     <label class="text-gray-50 font-medium" for="">Preço (*)</label>
-                    <input v-model="ProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                    <input :class="{'border-red-500': errors != undefined && errors.price}" v-model="ProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                    <div v-if="errors != undefined && errors.price">
+                      <ul v-for="errors in errors.price" :key="errors.id">
+                        <li class="text-red-500 text-sm">{{ errors }}</li>
+                      </ul>
+                    </div>
                   </div>
                   
                   <div class="w-1/2">
@@ -55,12 +71,22 @@
                 <div class="my-2 flex">
                   <div class="w-1/2">
                     <label class="text-gray-50 font-medium" for="">Estoque total (*)</label>
-                    <input v-model="ProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                    <input :class="{'border-red-500': errors != undefined && errors.stock}" v-model="ProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                    <div v-if="errors != undefined && errors.stock">
+                      <ul v-for="errors in errors.stock" :key="errors.id">
+                        <li class="text-red-500 text-sm">{{ errors }}</li>
+                      </ul>
+                    </div>
                   </div>
                   
                   <div class="w-1/2">
                     <label class="text-gray-50 font-medium ml-2" for="">Categoria (*)</label>
-                    <input v-model="ProductCategory" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="text" name="" id="">
+                    <input :class="{'border-red-500': errors != undefined && errors.category}" v-model="ProductCategory" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="text" name="" id="">
+                    <div v-if="errors != undefined && errors.category">
+                      <ul v-for="errors in errors.category" :key="errors.id">
+                        <li class="text-red-500 text-sm">{{ errors }}</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -144,6 +170,7 @@ import axios from 'axios'
 export default {
   data(){
     return {
+      errors: {},
       showNewProductModal: false,
       createProduct: false,
       loading: false,
@@ -169,6 +196,7 @@ export default {
         category: this.ProductCategory,
       }).then((response) => {
         console.log(response.data);
+        this.errors = response.data.errors
         this.loading = false
         if(response.data.success){
           this.ProductImage = ''

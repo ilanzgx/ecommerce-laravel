@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class AdminController extends Controller
@@ -47,6 +48,29 @@ class AdminController extends Controller
     }
 
     public function create_product(Request $request){
+
+        try{
+            $messages = [
+                'name.required' => 'O campo nome é obrigatório.',
+                'description.required' => 'O campo description é obrigatório.',
+                'price.required' => 'O campo preço é obrigatório.',
+                'category.required' => 'O campo categoria é obrigatório.',
+                'stock.required' => 'O campo estoque é obrigatório.',
+            ];
+
+            $validator = $request->validate([
+                'name'        => 'required',
+                'description' => 'required',
+                'price'       => 'required',
+                'category'    => 'required',
+                'stock'       => 'required|numeric',
+                
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
         $values = [
             'image'       =>     $request->image,
             'name'        =>     $request->name,

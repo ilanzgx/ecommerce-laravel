@@ -126,11 +126,11 @@
       <div v-else>
 
         <div v-if="!session.logged">
-          <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 no-underline hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+          <Link :href="$route('login', {action: 1})" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
             Entrar
           </Link>
 
-          <Link :href="$route('login')" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
+          <Link :href="$route('login', {action: 2})" class="block py-2 px-4 text-sm font-bold text-purple-400 hover:text-purple-200 hover:bg-gray-800 border-t-2 border-gray-700 hover:border-opacity-30">
             Cadastrar
           </Link>
         </div>

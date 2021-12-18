@@ -14,7 +14,7 @@
 <script>
 import Header from './../components/Header.vue'
 import Footer from './../components/Footer.vue'
-import SignIn from '../components/Login/SignIn.vue'
+import SignIn from './../components/Login/SignIn.vue'
 import SignUp from './../components/Login/SignUp.vue'
 
 export default {
@@ -24,7 +24,7 @@ export default {
     }
   },
   props:{
-    action: Number,
+    action: String,
   },
   components:{
     Header, Footer, SignIn, SignUp
