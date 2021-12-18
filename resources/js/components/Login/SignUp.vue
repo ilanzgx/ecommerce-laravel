@@ -22,7 +22,7 @@
           <div class="">
             <label class="text-gray-50 text-sm" for="">Email</label>
             <input :class="{'border-red-500': errors != undefined && errors.email}" v-model="email" class="w-full text-gray-300 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" id="text_email" type="email" placeholder="Digite um email válido">
-            <div v-if="errors.email">
+            <div v-if="errors != undefined && errors.email">
               <ul v-for="errors in errors.email" :key="errors.id">
                 <li class="text-red-500 text-sm">{{ errors }}</li>
               </ul>
