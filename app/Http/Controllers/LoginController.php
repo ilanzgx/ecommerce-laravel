@@ -124,14 +124,13 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'identification' => [
                     'type' => 'CPF',
-                    'number' => preg_replace( '/[^0-9]/', '', $request->cpf)
+                    'number' => $request->cpf
                 ],
                 "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
             ];
-            //$req = Customer::create_customer($values);
-
-            //$new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
-            $new_customer->customer_id = 'teste';
+            
+            $req = Customer::create_customer($values);
+            $new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
             // save new customer
             $new_customer->save();
 
