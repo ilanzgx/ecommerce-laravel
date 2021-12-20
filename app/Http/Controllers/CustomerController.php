@@ -33,6 +33,7 @@ class CustomerController extends Controller
     public function mydata(){
         $user = Customer::where('email', session('email'))->first();
         $address = Address::where('customer_id', $user->id)->first();
+        session()->reflash();
         if(empty($address)){
             $address = new Address();
 
@@ -49,7 +50,8 @@ class CustomerController extends Controller
 
         return Inertia::render('CustomerArea/MyData.vue', [
             'data' => $user,
-            'address' => $address
+            'address' => $address,
+            'flash' => session('_flash')
         ]);
     }
 

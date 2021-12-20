@@ -29,6 +29,7 @@ class OrderController extends Controller
         
         // no address
         if($values['address'] == null){
+            $request->session()->flash('Digite seu endereço antes de fazer uma compra.');
             return json_encode(['success' => false, 'action' => 1]);
         }
         

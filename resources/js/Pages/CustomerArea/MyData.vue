@@ -93,13 +93,16 @@
           </form>
         </div>
 
-        <div class="md:w-1/2 bg-gray-700 text-gray-50 mr-2 p-2 mt-4 md:mt-0">
+        <div id="address" class="md:w-1/2 bg-gray-700 text-gray-50 mr-2 p-2 mt-4 md:mt-0">
           <div class="flex items-center uppercase font-semibold my-5 text-justify">
             <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <p class="px-3 uppercase">Endereço</p>
           </div>
 
           <form class="mx-5 text-sm" @submit.prevent="" action="">
+            <div v-if="flash.new.length != 0" class="bg-red-500 text-gray-50 my-2 px-3 py-1">
+              <p class="font-medium">{{ flash.new[0] }}</p>
+            </div>
             <div class="space-y-2">
             <div class="flex">
               <div class="w-4/5">
@@ -322,6 +325,7 @@ export default {
   props: {
     data: Object,
     address: Object,
+    flash: Object,
   }
 }
 </script>

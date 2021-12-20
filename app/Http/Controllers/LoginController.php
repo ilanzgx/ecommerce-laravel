@@ -12,9 +12,29 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {
+
+    public function verification($token){
+        $user = Customer::where('purl_code', $token)->first();
+
+        if(!isset($user['status']) || empty($token) || $user['status'] == 'verificado'){
+            return redirect()->route('index');
+        }
+
+        if($user && $user['purl_code'] == $token){
+
+            $user->status = 'verificado';
+            $user->save();
+
+            return Inertia::render('CustomerArea/AccountVerification.vue');
+        }
+
+        return redirect()->back();
+    }
+
     public function signin(Request $request){
         
         try{
@@ -130,18 +150,15 @@ class LoginController extends Controller
             ];
 
             $req = Customer::create_customer($values);
-            $new_customer->customer_id = $req['id']; // erro message: "Undefined index: id"
+            $new_customer->customer_id = $req['id'];
+            //$new_customer->customer_id = 'teste';
             // save new customer
             $new_customer->save();
-
-            Mail::to($request->email)->send(new AccountVerify());
 
             $response = [
                 'success' => true,
                 'message' => 'Registrado com sucesso',
             ];
-
-            // send email
 
             session([
                 'email'  => $request->email,
@@ -149,6 +166,9 @@ class LoginController extends Controller
                 'name'   => $request->full_name,
                 'role'   => 'usuario'
             ]);
+
+            // send email
+            Mail::to($request->email)->send(new AccountVerify());
 
             return json_encode($response);
         }

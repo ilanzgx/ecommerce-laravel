@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,6 +14,8 @@ class AccountVerify extends Mailable
 
     public function build()
     {
-        return $this->view('Mail.account_verify');
+        return $this->view('Mail.account_verify', [
+            'data' => Customer::where('email', session('email'))->first()
+        ]);
     }
 }

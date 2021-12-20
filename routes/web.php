@@ -19,7 +19,7 @@ Route::get('/produto/{produtoid?}', 'ProdutoController@index')->name('produto.id
 /* LoginController */
 Route::get('/login', 'HomeController@login')->name('login')->middleware('notlogged');
 Route::get('/mudarsenha', 'HomeController@changePassword')->name('login.changepassword')->middleware('logged');
-Route::get('/verificar/{token}', 'HomeController@verification')->name('login.verification')->middleware('logged');
+Route::get('/verificar/{token}', 'LoginController@verification')->name('login.verification')->middleware('logged');
 
 /* CartController */
 Route::get('/carrinho', 'CartController@index')->name('cart');

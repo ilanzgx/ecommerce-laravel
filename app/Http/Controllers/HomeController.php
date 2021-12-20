@@ -31,6 +31,9 @@ class HomeController extends Controller
 
     public function releases(){
         $releases = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        if($releases->isEmpty()){
+            return Inertia::render('Categories/Releases.vue', ['empty' => true]);
+        }
         return Inertia::render('Categories/Releases.vue', [
             'products' => $releases
         ]);
@@ -38,16 +41,31 @@ class HomeController extends Controller
 
     public function highlights(){
         $highlights = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        if($highlights->isEmpty()){
+            return Inertia::render('Categories/Highlights.vue', ['empty' => true]);
+        }
         return Inertia::render('Categories/Highlights.vue', [
             'products' => $highlights
         ]);
     }
 
     public function topSellers(){
-        return Inertia::render('Categories/TopSellers.vue');
+        $topsellers = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        if($topsellers->isEmpty()){
+            return Inertia::render('Categories/TopSellers.vue', ['empty' => true]);
+        }
+        return Inertia::render('Categories/TopSellers.vue', [
+            'products' => $topsellers
+        ]);
     }
 
     public function offers(){
-        return Inertia::render('Categories/Offers.vue');
+        $offers = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        if($offers->isEmpty()){
+            return Inertia::render('Categories/Offers.vue', ['empty' => true]);
+        }
+        return Inertia::render('Categories/Offers.vue', [
+            'products' => $offers
+        ]);
     }
 }

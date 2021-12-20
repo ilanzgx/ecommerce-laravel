@@ -48,6 +48,9 @@
           </div>
           <div class="md:w-1/2 flex md:justify-end justify-start md:py-0 py-3">  
             <button @click="paymentMethods" class="bg-purple-500 px-2 py-2 rounded-md uppercase flex items-center text-sm">
+              <div v-if="loading" class="flex justify-center items-center mr-4">
+                <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+              </div>
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <p class="px-2">Ir para o pagamento</p>
             </button>
@@ -74,6 +77,7 @@ import CartItem from './../components/Cart/Item.vue'
 export default {
   data(){
     return {
+      loading: false,
       total_value_tmp: this.total_value,
     }
   },
@@ -93,19 +97,16 @@ export default {
     },
 
     paymentMethods(){
-      const headers = {
-        'Authorization': 'Bearer TEST-2544526114453197-120712-813efe3fa26a8b4bf1b81e7ba07bb491-268932955'
-      }
-
+      this.loading = true;
       axios.post('/api/order/payment', {
-        headers,
         total_value: this.total_value_tmp,
         user: this.user,
         address: this.address
       }).then((response) => {
+        this.loading = false
         console.log(response.data)
         if(response.data.action == 1){
-          window.location.href = this.$route('customer.mydata')
+          window.location.href = this.$route('customer.mydata') + '#address'
         } else if(response.data.action == 2 && response.data.success){
           window.location.href = response.data.link
         }
