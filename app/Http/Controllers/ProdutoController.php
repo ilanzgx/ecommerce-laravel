@@ -6,7 +6,10 @@ use App\Models\Assessment;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ProdutoController extends Controller
 {
@@ -16,12 +19,18 @@ class ProdutoController extends Controller
             return redirect()->back();
         }
 
-        $assessment = Assessment::where('product_id', $produtoid)->get();
+        $assessments = DB::table('assessments')->where('product_id', $produtoid)->get();
+
+        if($assessments->isEmpty()){
+            return Inertia::render('Product', [
+                'product' => $data[0], 
+                'app_name' => config('app.name')
+            ]);
+        }
 
         return Inertia::render('Product', [
             'product' => $data[0], 
-            'assessments' => $assessment,
-            'customer_data' => Customer::where('id', $assessment->customer_id)->first(),
+            'assessments' => $assessments,
             'app_name' => config('app.name')
         ]);
     }
