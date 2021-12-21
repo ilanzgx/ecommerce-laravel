@@ -22,6 +22,8 @@ class AvailableAssessment extends Model
 
         $user = Customer::where('id', $customerid)->first();
 
-        Mail::to($user->email)->send(new ProductAssessment($paymentid, $productid));
+        //Mail::to($user->email)->send(new ProductAssessment($paymentid, $productid));
+
+        return 1;
     }
 }

@@ -50,7 +50,7 @@ class WebhooksController extends Controller
 
             if($data['status'] == 'approved'){
                 foreach($data['additional_info']['items'] as $item){
-                    AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item->id);
+                    AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item['id']);
                 }
             }
 
