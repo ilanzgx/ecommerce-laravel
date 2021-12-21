@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\ProductAssessment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +18,13 @@ class AvailableAssessment extends Model
             'customer_id' => $customerid,
             'payment_id' => $paymentid,
             'product_id' => $productid,
-            'token' => Customer::createHash(32, 2)
+            'token' => Customer::createHash(32, 2),
+            'created_at' => Carbon::now()
         ]);
 
         $user = Customer::where('id', $customerid)->first();
 
-        //Mail::to($user->email)->send(new ProductAssessment($paymentid, $productid));
+        Mail::to($user->email)->send(new ProductAssessment($paymentid, $productid));
 
         return 1;
     }
