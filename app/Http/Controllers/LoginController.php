@@ -153,9 +153,9 @@ class LoginController extends Controller
                 "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
             ];
 
-            //$req = Customer::create_customer($values);
-            //$new_customer->customer_id = $req['id'];
-            $new_customer->customer_id = 'teste';
+            $req = Customer::create_customer($values);
+            $new_customer->customer_id = $req['id'];
+            //$new_customer->customer_id = 'teste';
             // save new customer
             $new_customer->save();
 
@@ -224,9 +224,11 @@ class LoginController extends Controller
 
             Mail::to($request->emailModal)->send(new PasswordForget($generateToken));
 
+            //$request->session()->flash('Informe seu endereço antes de fazer uma compra.');
             return json_encode(['success' => true, 'message' => 'Link enviado através de seu email!']);
 
         } else {
+            //$request->session()->flash('');
             return json_encode(['success' => false, 'message' => 'Não existe nenhuma conta com esse email']);
         }
     }

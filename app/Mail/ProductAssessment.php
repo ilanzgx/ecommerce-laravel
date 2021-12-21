@@ -22,15 +22,12 @@ class ProductAssessment extends Mailable
     }
 
     public function build(){
-        $product_data = DB::select("select * from products where id=:id", ['id' => $this->productid]);
-
-        $payment_data = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
-        ])->get('https://api.mercadopago.com/v1/payments/'. $this->paymentid)->json();
+        $trueToken = DB::table('available_assessment')
+            ->where('payment_id', '=', $this->paymentid)
+            ->where('product_id', '=', $this->productid)->first();
 
         return $this->view('Mail.product_assessment', [
-            'product_data' => $product_data[0],
-            'payment_data' => $payment_data
+            'token' => $trueToken->token
         ]);
     }
 }

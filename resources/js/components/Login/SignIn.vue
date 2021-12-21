@@ -61,6 +61,8 @@
             </div>
           </div>
 
+          <p :class="{'text-purple-500': responseModal.success}" class="text-red-500 text-sm font-semibold">{{ responseModal.message }}</p>
+
           <button class="w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md mt-8" type="submit">
             Enviar
           </button>
@@ -84,6 +86,7 @@ export default {
       showError: 0,
       errors: {},
       errorsModal: {},
+      responseModal: {},
       showModal: false,
       emailModal: '',
     }
@@ -116,6 +119,7 @@ export default {
       axios.post('/api/password/forget', {
         emailModal: this.emailModal
       }).then((response) => {
+        this.responseModal = response.data
         this.errorsModal = response.data.errors
       })
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ProductAssessment;
+use App\Models\AvailableAssessment;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class WebhooksController extends Controller
 
             if($data['status'] == 'approved'){
                 foreach($data['additional_info']['items'] as $item){
-                    Mail::to($data['payer']['email'])->send(new ProductAssessment($data['id'], $item['id']));
+                    AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item->id);
                 }
             }
 

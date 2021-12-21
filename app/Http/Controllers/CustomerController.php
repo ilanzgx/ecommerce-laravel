@@ -66,16 +66,15 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function myassessment($paymentid, $productid){
-        $product_data = DB::select("select * from products where id=:id", ['id' => $productid]);
+    public function myassessment($token){
+        $data = DB::table('available_assessment')->where('token', $token)->first();
 
-        $payment_data = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
-        ])->get('https://api.mercadopago.com/v1/payments/'. $paymentid)->json();
+        if($token !== $data->token){
+            return redirect()->route('index');
+        }
 
         return Inertia::render('CustomerArea/MyAssessment.vue', [
-            'product_data' => $product_data,
-            'payment_data' => $payment_data
+            'token' => $token
         ]);
     }
 

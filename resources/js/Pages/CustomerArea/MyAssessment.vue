@@ -79,8 +79,7 @@ export default {
     }
   },
   props: {
-    product_data: Array,
-    payment_data: Array,
+    token: String
   },
   components: {
     Header, Footer
