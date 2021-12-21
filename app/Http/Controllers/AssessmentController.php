@@ -30,7 +30,7 @@ class AssessmentController extends Controller{
 
         $new_assessment->customer_id = $dataThroughToken->customer_id;
         $new_assessment->payment_id = $dataThroughToken->payment_id;
-        $new_assessment->product_id = $dataThroughToken->productid_id;
+        $new_assessment->product_id = $dataThroughToken->product_id;
         $new_assessment->title = $request->title;
         $new_assessment->text = $request->text;
         $new_assessment->stars = $request->stars;

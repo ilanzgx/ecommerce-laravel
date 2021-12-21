@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div class="my-4 mx-2">
-      <h1 class="mb-5">Avalie: {{ product_data.name }}</h1>
+      <h1 class="mb-5 text-xl">Avalie: <span class="font-semibold">{{ product_data.name }}</span></h1>
 
       <form @submit.prevent="sendData">
         <div class="">
