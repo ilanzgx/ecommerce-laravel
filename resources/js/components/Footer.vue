@@ -1,6 +1,6 @@
 <template>
   <footer class="px-4 pt-12 bg-gray-900">
-    <div class="grid grid-cols-2 sm:grid-cols-3 pb-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 pb-6">
 
       <div class="p-1 pb-6">
         <h1 class="text-2xl font-semibold uppercase mb-4">Mais ajuda</h1>
@@ -56,7 +56,7 @@
         </ul>
       </div>
 
-      <div class="md:col-span-1 col-span-3 p-1">
+      <div class="lg:col-span-2 md:col-span-1 col-span-3 p-1">
         <h1 class="text-2xl font-semibold uppercase mb-6">Formas de pagamento</h1>
         <img src="https://imgmp.mlstatic.com/org-img/MLB/MP/BANNERS/tipo2_575X40.jpg?v=1" alt="Mercado Pago - Meios de pagamento" title="Mercado Pago - Meios de pagamento" width="575" height="40"/>
       </div>

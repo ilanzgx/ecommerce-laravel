@@ -2,7 +2,7 @@
   <div class="">
     <Header v-on:searchChange="handleSearch"></Header>
     <Categories></Categories>
-    <div class="my-4">
+    <div class="my-4 mx-2">
 
       <div v-if="empty">
         <h1 class="text-2xl font-medium text-center">Não há nada no catalogo</h1>

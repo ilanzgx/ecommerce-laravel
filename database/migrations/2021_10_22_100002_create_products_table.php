@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
@@ -21,6 +16,7 @@ class CreateProductsTable extends Migration
             $table->string('category', 100);
             $table->float('price');
             $table->integer('stock')->default(0);
+            $table->boolean('visible')->default(true);
             $table->boolean('discount')->default(0);
             $table->float('old_price')->nullable();
             $table->timestamps();

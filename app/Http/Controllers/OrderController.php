@@ -27,9 +27,13 @@ class OrderController extends Controller
             'address' => $request->address,
         ];
         
+        if(!session()->exists('logged')){
+            $request->session()->flash('Entre ou crie uma conta antes de fazer uma compra.');
+            return json_encode(['success' => false, 'action' => 3]);
+        }
         // no address
         if($values['address'] == null){
-            $request->session()->flash('Digite seu endereço antes de fazer uma compra.');
+            $request->session()->flash('Informe seu endereço antes de fazer uma compra.');
             return json_encode(['success' => false, 'action' => 1]);
         }
         

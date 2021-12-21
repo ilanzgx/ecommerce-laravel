@@ -149,9 +149,9 @@ class LoginController extends Controller
                 "date_registered" => date(DATE_ATOM, mktime(0, 0, 0, 7, 1, 2000))
             ];
 
-            $req = Customer::create_customer($values);
-            $new_customer->customer_id = $req['id'];
-            //$new_customer->customer_id = 'teste';
+            //$req = Customer::create_customer($values);
+            //$new_customer->customer_id = $req['id'];
+            $new_customer->customer_id = 'teste';
             // save new customer
             $new_customer->save();
 

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProductAssessment;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class WebhooksController extends Controller
 {
@@ -44,6 +46,12 @@ class WebhooksController extends Controller
             $order->status_detail = $data['status_detail'];
 
             $order->save();
+
+            if($data['status'] == 'approved'){
+                foreach($data['additional_info']['items'] as $item){
+                    Mail::to($data['payer']['email'])->send(new ProductAssessment($data['id'], $item['id']));
+                }
+            }
 
         }
             

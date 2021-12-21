@@ -81,6 +81,10 @@
           </svg>
           <p class="px-6 md:text-2xl text-lg">Avaliações</p>
         </div>
+
+        <Assessment></Assessment>
+        <Assessment></Assessment>
+        <Assessment></Assessment>
         
       </div>
     </div>
@@ -92,11 +96,12 @@
 
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import Assessment from './../components/Store/Assessment.vue'
 import axios from 'axios'
 
 export default {
   components:{
-    Header, Footer
+    Header, Footer, Assessment
   },
   data(){
     return {

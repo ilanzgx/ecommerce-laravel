@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OrderPlaced;
 use App\Mail\OrderShipped;
+use App\Mail\ProductAssessment;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
@@ -11,6 +12,7 @@ use App\Rules\FullName;
 use App\Rules\ValidGenre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -58,9 +60,22 @@ class CustomerController extends Controller
     public function orders(){
         $user = Customer::where('email', session('email'))->first();
         $data = Order::orderBy('created_at', 'desc')->where('customer_id', $user->id)->get();
-        Mail::to('ilan-_@hotmail.com')->send(new OrderPlaced());
+        Mail::to(session('email'))->send(new ProductAssessment(18967923770, 1));
         return Inertia::render('CustomerArea/Orders.vue', [
             'data' => $data
+        ]);
+    }
+
+    public function myassessment($paymentid, $productid){
+        $product_data = DB::select("select * from products where id=:id", ['id' => $productid]);
+
+        $payment_data = Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
+        ])->get('https://api.mercadopago.com/v1/payments/'. $paymentid)->json();
+
+        return Inertia::render('CustomerArea/MyAssessment.vue', [
+            'product_data' => $product_data,
+            'payment_data' => $payment_data
         ]);
     }
 

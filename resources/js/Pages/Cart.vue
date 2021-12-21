@@ -109,6 +109,8 @@ export default {
           window.location.href = this.$route('customer.mydata') + '#address'
         } else if(response.data.action == 2 && response.data.success){
           window.location.href = response.data.link
+        } else if(response.data.action == 3){
+          window.location.href = this.$route('login')
         }
       })
     }

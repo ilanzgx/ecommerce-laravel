@@ -15,11 +15,21 @@ class CreateAssessmentsTable extends Migration
     {
         Schema::create('assessments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('customer_id')->unsigned()->index();
+            $table->bigInteger('customer_id')->unsigned();
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers');
-                
+
+            $table->bigInteger('payment_id');
+            $table->foreign('payment_id')
+                ->references('payment_id')
+                ->on('orders');
+
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products');
+            
             $table->string('title', 100);
             $table->string('text', 600);
             $table->integer('stars')->nullable();
