@@ -82,9 +82,14 @@
           <p class="px-6 md:text-2xl text-lg">Avaliações</p>
         </div>
 
-        <Assessment></Assessment>
-        <Assessment></Assessment>
-        <Assessment></Assessment>
+        <div v-for="assessment in assessments" :key="assessment.id">
+          <Assessment 
+            :stars="assessment.stars" 
+            :title="assessment.title" 
+            :text="assessment.text" 
+            :customer_id="assessment.customer_id">
+          </Assessment>
+        </div>
         
       </div>
     </div>
@@ -110,6 +115,8 @@ export default {
   },
   props:{
     product: Object,
+    assessments: Object,
+    customer_data: Object,
     app_name: String,
   },
   methods: {

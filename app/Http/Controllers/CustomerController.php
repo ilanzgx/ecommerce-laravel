@@ -61,7 +61,6 @@ class CustomerController extends Controller
     public function orders(){
         $user = Customer::where('email', session('email'))->first();
         $data = Order::orderBy('created_at', 'desc')->where('customer_id', $user->id)->get();
-        Mail::to(session('email'))->send(new ProductAssessment(18967923770, 1));
         return Inertia::render('CustomerArea/Orders.vue', [
             'data' => $data
         ]);
