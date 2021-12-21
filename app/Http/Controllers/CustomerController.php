@@ -8,6 +8,7 @@ use App\Mail\ProductAssessment;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use App\Rules\FullName;
 use App\Rules\ValidGenre;
 use Illuminate\Http\Request;
@@ -74,7 +75,8 @@ class CustomerController extends Controller
         }
 
         return Inertia::render('CustomerArea/MyAssessment.vue', [
-            'token' => $token
+            'token' => $token,
+            'product_data' => Product::where('id', $data->product_id)->first()
         ]);
     }
 

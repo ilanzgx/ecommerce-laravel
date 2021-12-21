@@ -27,6 +27,7 @@ class ProductAssessment extends Mailable
             ->where('product_id', '=', $this->productid)->first();
 
         return $this->view('Mail.product_assessment', [
+            'product_data' => Product::where('id', $this->productid)->first(),
             'token' => $trueToken->token
         ]);
     }

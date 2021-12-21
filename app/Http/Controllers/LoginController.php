@@ -235,9 +235,11 @@ class LoginController extends Controller
 
     public function change_password($token){
         $trueToken = DB::table('password_resets')->where('token', $token)->first();
+        
         if($token !== $trueToken->token){
             return redirect()->route('index');
         }
+
         return Inertia::render('ResetPassword', [
             'token' => $token
         ]);

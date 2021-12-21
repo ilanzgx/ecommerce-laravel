@@ -2,6 +2,8 @@
   <div>
     <Header></Header>
     <div class="my-4 mx-2">
+      <h1 class="mb-5">Avalie: {{ product_data.name }}</h1>
+
       <form @submit.prevent="sendData">
         <div class="">
           <label class="text-gray-50 text-sm" for="">Quantas estrelas esse produto merece?</label>
@@ -79,7 +81,8 @@ export default {
     }
   },
   props: {
-    token: String
+    token: String,
+    product_data: Object,
   },
   components: {
     Header, Footer
@@ -90,10 +93,14 @@ export default {
       axios.post('/api/assessment/create', {
         title: this.title,
         text: this.text,
-        stars: this.stars
+        stars: this.stars,
+        token: this.token
       }).then((response) => {
         this.loading = false
         this.errors = response.data.errors
+        if(response.data.success){
+          window.location.href = this.$route('customer.orders')
+        }
       })
     }
   }

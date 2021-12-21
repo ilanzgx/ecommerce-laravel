@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assessment;
+use App\Models\AvailableAssessment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -14,7 +15,7 @@ class AssessmentController extends Controller{
                 'text.required'  => 'O campo texto é obrigatório'
             ];
 
-            $validator = $request->validate([
+            $request->validate([
                 'title' => 'required',
                 'text'  => 'required' 
             ], $messages);
@@ -23,8 +24,13 @@ class AssessmentController extends Controller{
             return json_encode(['errors' => $e->errors()]);
         }
 
+        $dataThroughToken = AvailableAssessment::where('token', $request->token)->first();
+
         $new_assessment = new Assessment();
 
+        $new_assessment->customer_id = $dataThroughToken->customer_id;
+        $new_assessment->payment_id = $dataThroughToken->payment_id;
+        $new_assessment->product_id = $dataThroughToken->productid_id;
         $new_assessment->title = $request->title;
         $new_assessment->text = $request->text;
         $new_assessment->stars = $request->stars;
