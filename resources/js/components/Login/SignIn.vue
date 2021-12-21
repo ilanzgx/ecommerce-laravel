@@ -20,7 +20,7 @@
 
           <div class="flex justify-between">
             <label class="block text-gray-50" for="text_senha">Senha</label>
-            <Link class="text-xs hover:underline text-gray-400" :href="$route('login.changepassword')">Esqueceu sua senha?</Link>
+            <span @click="showModal=true" class="text-xs hover:underline text-gray-400 cursor-pointer">Esqueceu sua senha?</span>
           </div>
           <input :class="{'border-red-500': errors != undefined && errors.password}" v-model="password" class="w-full text-gray-100 px-4 py-2 rounded-md bg-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50" type="password" id="text_senha" placeholder="*****">
           <div v-if="errors != undefined && errors.password">
@@ -44,6 +44,28 @@
         </div>
         
       </form>
+
+      <t-modal class="text-black" v-model="showModal">
+        <form @submit.prevent="resetPassword">
+          <h1 class="text-3xl text-purple-500 text-center font-medium mb-4">Esqueci a senha</h1>
+          <p>Digite seu e-mail de cadastro abaixo e clique em enviar.</p>
+          <p>Nós lhe enviaremos um e-mail com link para recadastrar sua senha.</p>
+
+          <div>
+            <label class="text-gray-900 text-sm" for="">Email</label>
+            <input :class="{'border-red-500': errorsModal != undefined && errorsModal.emailModal}" class="w-full text-gray-900 px-4 py-2 rounded-md bg-transparent border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-opacity-0 focus:ring-opacity-50" v-model="emailModal" type="text">
+            <div v-if="errorsModal != undefined && errorsModal.emailModal">
+              <ul v-for="errorsModal in errorsModal.emailModal" :key="errorsModal.id">
+                <li class="text-red-500 text-sm">{{ errorsModal }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <button class="w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md mt-8" type="submit">
+            Enviar
+          </button>
+        </form>
+      </t-modal>
     </div>
   </div>
 </template>
@@ -60,7 +82,10 @@ export default {
       response: {},
       loading: false,
       showError: 0,
-      errors: {}
+      errors: {},
+      errorsModal: {},
+      showModal: false,
+      emailModal: '',
     }
   },
   props:{
@@ -86,6 +111,13 @@ export default {
 
       //this.email = null
       this.password = null
+    },
+    resetPassword(){
+      axios.post('/api/password/forget', {
+        emailModal: this.emailModal
+      }).then((response) => {
+        this.errorsModal = response.data.errors
+      })
     }
   },
 }

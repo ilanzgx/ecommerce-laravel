@@ -109,17 +109,37 @@
       <table class="table-auto w-full bg-gray-700 my-4">
         <thead>
           <tr class="md:text-lg border-b border-gray-600 uppercase">
+            <th class="border-r border-gray-600">Modificações</th>
             <th class="border-r border-gray-600">Imagem</th>
             <th class="border-r border-gray-600">Id</th>
             <th class="border-r border-gray-600">Nome</th>
             <th class="border-r border-gray-600">Preço</th>
             <th class="border-r border-gray-600">Estoque</th>
             <th class="border-r border-gray-600">Criado em</th>
-            <th class="border-r border-gray-600">Modificações</th>
           </tr>
         </thead>
         <tbody>
           <tr class="border-b border-gray-600 text-center" v-for="item in data" :key="item.id">
+            <td class="px-3">
+              
+              <t-dropdown text="MENU">
+                <div slot-scope="{ hide, blurHandler }">
+                  <button @click="removeProduct(item.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                    Remover
+                  </button>
+
+                  <button @click="editProduct(item.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                    Editar
+                  </button>
+
+                  <button class="block w-full px-4 py-2 text-sm leading-5 text-red-500 transition duration-150 ease-in-out border-t hover:bg-gray-100 focus:outline-none focus:bg-gray-100" @click="hide">
+                    Fechar
+                  </button>
+                </div>
+              </t-dropdown>
+              
+            </td>
+
             <td class="px-3 flex justify-center py-3">
               <img class="w-20 h-20" :src="item.image">
             </td>
@@ -143,19 +163,7 @@
             <td class="px-3">
               {{ item.created_at | formatDate }}
             </td>
-            <td class="px-3">
-              
-              <t-dropdown text="MENU">
-                <div class="py-1 rounded-md shadow-xs">
-                  <button @click="removeProduct(item.id)" class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem">
-                    Remover
-                  </button>
-                  <button @click="editProduct(item.id)" class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem">
-                    Editar
-                  </button>
-                </div>
-              </t-dropdown>
-            </td>
+            
           </tr>
         </tbody>
       </table>

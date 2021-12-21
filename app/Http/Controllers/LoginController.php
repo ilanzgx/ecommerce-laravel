@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Mail\AccountVerify;
+use App\Mail\PasswordForget;
 use App\Models\Customer;
 use App\Rules\FullName;
 use App\Rules\ValidGenre;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Monolog\Handler\IFTTTHandler;
 
 class LoginController extends Controller
 {
@@ -188,5 +192,86 @@ class LoginController extends Controller
     public function logout(Request $request){
         $request->session()->flush();
         return json_encode(['success' => true]);
+    }
+
+    public function forget_password(Request $request){
+        try{
+
+            $messages = [
+                'emailModal.required' => 'O campo email é obrigatório.',
+                'emailModal.email' => 'O campo email deve ter um email válido',
+            ];
+
+            $request->validate([
+                'emailModal' => 'required|email'
+            ], $messages);
+
+        } catch(ValidationException $e){
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $user = Customer::where('email', $request->emailModal)->first();
+
+        if($user){
+
+            $generateToken = Customer::createHash(32, 2);
+
+            DB::table('password_resets')->insert([
+                'email' => $request->emailModal,
+                'token' => $generateToken,
+                'created_at' => Carbon::now()
+            ]);
+
+            Mail::to($request->emailModal)->send(new PasswordForget($generateToken));
+
+            return json_encode(['success' => true, 'message' => 'Link enviado através de seu email!']);
+
+        } else {
+            return json_encode(['success' => false, 'message' => 'Não existe nenhuma conta com esse email']);
+        }
+    }
+
+    public function change_password($token){
+        $trueToken = DB::table('password_resets')->where('token', $token)->first();
+        if($token !== $trueToken->token){
+            return redirect()->route('index');
+        }
+        return Inertia::render('ResetPassword', [
+            'token' => $token
+        ]);
+    }
+
+    public function reset_password(Request $request){
+        try{
+
+            $messages = [
+                'email.required' => 'O campo email é obrigatório.',
+                'password.required' => 'O campo nova senha é obrigatório.',
+                'email.email' => 'O campo email deve ter um email válido',
+                'password.confirmed' => 'As senhas não batem'
+            ];
+
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|confirmed',
+            ], $messages);
+
+        } catch(ValidationException $e){
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $trueToken = DB::table('password_resets')->where('token', $request->token)->first();
+
+        if($trueToken->email != $request->email){
+            return json_encode(['success' => false, 'message' => 'Email inválido']);
+        }
+
+        $user = Customer::where('email', $request->email)->first();
+
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        return json_encode(['success' => true, 'message' => 'Senha trocada']);
     }
 }
