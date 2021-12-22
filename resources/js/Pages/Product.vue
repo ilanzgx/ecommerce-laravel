@@ -140,6 +140,4 @@ export default {
   },
 }
 
-//:href="$route('')"
-
 </script>

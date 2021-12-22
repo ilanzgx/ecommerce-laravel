@@ -19,7 +19,7 @@ class ProdutoController extends Controller
             return redirect()->back();
         }
 
-        $assessments = DB::table('assessments')->where('product_id', $produtoid)->get();
+        $assessments = Assessment::where('product_id', $produtoid)->get();
 
         if($assessments->isEmpty()){
             return Inertia::render('Product', [
@@ -28,19 +28,10 @@ class ProdutoController extends Controller
             ]);
         }
 
-        $name = Customer::where('id', $assessments->customer_id)->first();
-
-        /*$ids = [];
-        foreach($assessments as $item){
-            array_push($ids, $item->customer_id);
-        }
-
-        $customer_data = DB::select("select id,full_name from customers where id in ($ids)");*/
-
         return Inertia::render('Product', [
             'product' => $data[0], 
             'assessments' => $assessments,
-            'customer_name' => $name->name,
+            'customer_name' => $assessments->user->full_name,
             'app_name' => config('app.name')
         ]);
     }
