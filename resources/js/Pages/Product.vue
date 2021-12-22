@@ -87,7 +87,8 @@
             :stars="assessment.stars" 
             :title="assessment.title" 
             :text="assessment.text" 
-            :customer_id="assessment.customer_id">
+            :customer_id="assessment.customer_id"
+            :customer_name="customer_name">
           </Assessment>
         </div>
         
@@ -116,7 +117,7 @@ export default {
   props:{
     product: Object,
     assessments: Object,
-    customer_data: Object,
+    customer_name: String,
     app_name: String,
   },
   methods: {

@@ -40,8 +40,8 @@ Route::middleware(['logged'])->group(function(){
     Route::get('/minha-conta', 'CustomerController@myaccount')->name('customer.myaccount');
     Route::get('/minha-conta/meus-dados', 'CustomerController@mydata')->name('customer.mydata');
     Route::get('/minha-conta/pedidos', 'CustomerController@orders')->name('customer.orders');
-    Route::get('/minha-conta/opiniao-produto/{token}', 'CustomerController@myassessment')->name('customer.myassessment');
 });
+Route::get('/minha-conta/opiniao-produto/{token}', 'CustomerController@myassessment')->name('customer.myassessment');
 
 /* Back office */
 Route::middleware(['admin'])->group(function() {
