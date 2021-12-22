@@ -19,7 +19,7 @@ class ProdutoController extends Controller
             return redirect()->back();
         }
 
-        $assessments = Assessment::with('user')->where('product_id', $produtoid)->get();
+        $assessments = Assessment::where('product_id', $produtoid)->get();
 
         if($assessments->isEmpty()){
             return Inertia::render('Product', [
@@ -31,7 +31,6 @@ class ProdutoController extends Controller
         return Inertia::render('Product', [
             'product' => $data[0], 
             'assessments' => $assessments,
-            'customer_name' => $assessments->user->full_name,
             'app_name' => config('app.name')
         ]);
     }
