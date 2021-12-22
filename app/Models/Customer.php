@@ -9,6 +9,10 @@ class Customer extends Model
 {
     protected $table = 'customers';
 
+    public function assessments(){
+        return $this->hasMany(Assessment::class);
+    }
+
     public static function createHash($num_chars, $complexity){
         $chars = [
             'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz',

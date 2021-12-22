@@ -19,7 +19,7 @@ class ProdutoController extends Controller
             return redirect()->back();
         }
 
-        $assessments = Assessment::where('product_id', $produtoid)->get();
+        $assessments = Assessment::with('user')->where('product_id', $produtoid)->get();
 
         if($assessments->isEmpty()){
             return Inertia::render('Product', [
