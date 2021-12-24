@@ -46,7 +46,7 @@ class OrderController extends Controller
             $item = new Item();
             $item->id = $id;
             $item->title = $product->name;
-            if($amount > $product->amount){
+            if($amount > $product->stock){
                 return json_encode(['success' => false, 'message' => 'Estoque indisponivel']);
             }
             $item->quantity = $amount;
