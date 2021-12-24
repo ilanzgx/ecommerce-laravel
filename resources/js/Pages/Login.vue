@@ -1,8 +1,10 @@
 <template>
   <div class="">
     <Header></Header>
-      <div v-if="flash != undefined" class="bg-red-500 text-gray-50 my-2 px-3 py-1">
-        <p class="font-medium">{{ flash.new[0] }}</p>
+      <div v-if="flash != undefined">
+        <t-alert variant="danger" show>
+          {{ flash.new[0] }}
+        </t-alert>
       </div>
       <div v-if="state == 1">
         <SignIn v-on:mudarEstado="changeState"></SignIn>

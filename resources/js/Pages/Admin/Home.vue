@@ -38,15 +38,23 @@
               <p class="px-3">Usuários</p>
             </button>
           </div>
+
+          <div @click="changePage(4)" class="hover:bg-gray-600 cursor-pointer ">
+            <button class="flex py-3 mx-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
+              <p class="px-3">Categorias</p>
+            </button>
+          </div>
           
         </div>
       </div>
       
       <div class="w-full md:w-4/5 p-2">
-        <Dashboard v-if="page == 0"></Dashboard>
+        <Dashboard v-if="page == 0" :data="dashboard"></Dashboard>
         <Orders v-else-if="page == 1" :data="orders"></Orders>
-        <Products v-else-if="page == 2" :data="products"></Products>
+        <Products v-else-if="page == 2" :data="products" :categories="categories"></Products>
         <Users v-else-if="page == 3" :data="users"></Users>
+        <Categories v-else-if="page == 4" :data="categories"></Categories>
       </div>
     </div>
   </div>
@@ -54,6 +62,7 @@
 
 <script>
 import Dashboard from '../../components/Admin/Dashboard.vue'
+import Categories from '../../components/Admin/Categories.vue'
 import Orders from '../../components/Admin/Orders.vue'
 import Products from '../../components/Admin/Products.vue'
 import Users from '../../components/Admin/Users.vue'
@@ -62,10 +71,11 @@ export default {
   data(){
     return {
       /* page numbers
-      ** dashboard - 0
-      ** orders - 1
-      ** products - 2
-      ** users - 3
+      ** dashboard -  0
+      ** orders -     1
+      ** products -   2
+      ** users -      3
+      ** categories - 4
       */
       page: 2,
     }
@@ -76,16 +86,14 @@ export default {
     }
   },
   props: {
+    dashboard: Object,
     products: Array,
     orders: Array,
     users: Array,
+    categories: Array,
   },
   components: {
-    Dashboard, Orders, Products, Users
+    Dashboard, Orders, Products, Users, Categories
   }
 }
 </script>
-
-<style>
-
-</style>

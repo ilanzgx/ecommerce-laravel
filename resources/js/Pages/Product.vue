@@ -60,7 +60,7 @@
         
       </div>
 
-      <!-- Infos tecnicas -->
+      <!-- Infos tecnicas
       <div class="mt-6">
     
         <div class="flex items-center border-b border-opacity-60 uppercase font-semibold my-5 text-justify">
@@ -70,7 +70,7 @@
           <p class="px-6 md:text-2xl text-lg">Informações técnicas</p>
         </div>
 
-      </div>
+      </div>-->
 
       <!-- Comentários -->
       <div class="mt-6" id="assessments">
@@ -82,13 +82,15 @@
           <p class="px-6 md:text-2xl text-lg">Avaliações</p>
         </div>
 
+        <div v-if="empty"> Este produto não há nenhuma avaliação, por enquanto. </div>
         <div v-for="assessment in assessments" :key="assessment.id">
           <Assessment 
-            :stars="assessment.stars" 
-            :title="assessment.title" 
-            :text="assessment.text" 
-            :customer_id="assessment.customer_id"
-            :customer_name="customer_name">
+            :stars="assessment[0].stars" 
+            :title="assessment[0].title" 
+            :text="assessment[0].text" 
+            :customer_id="assessment[0].customer_id"
+            :customer_name="assessment[0].customer.full_name"
+            :created_at="assessment[0].created_at">
           </Assessment>
         </div>
         
@@ -116,9 +118,10 @@ export default {
   },
   props:{
     product: Object,
-    assessments: Object,
+    assessments: Array,
     customer_name: String,
     app_name: String,
+    empty: Boolean,
   },
   methods: {
     calculateDiscount(v1, v2){

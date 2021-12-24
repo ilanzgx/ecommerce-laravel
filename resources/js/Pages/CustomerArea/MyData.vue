@@ -100,8 +100,10 @@
           </div>
 
           <form class="mx-5 text-sm" @submit.prevent="" action="">
-            <div v-if="flash.new.length != 0" class="bg-red-500 text-gray-50 my-2 px-3 py-1">
-              <p class="font-medium">{{ flash.new[0] }}</p>
+            <div class="mb-2" v-if="flash.new.length != 0">
+              <t-alert variant="danger" show>
+                {{ flash.new[0] }}
+              </t-alert>
             </div>
             <div class="space-y-2">
             <div class="flex">

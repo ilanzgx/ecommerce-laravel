@@ -1,28 +1,30 @@
 <template>
   <div>
     <h1 class="md:text-2xl text-lg font-semibold uppercase">Pedidos</h1>
-    <table class="table-auto w-full bg-gray-700 my-4">
-      <thead>
-        <tr class="md:text-lg border-b border-gray-600 uppercase">
-          <th class="border-r border-gray-600">Id Pedido</th>
-          <th class="border-r border-gray-600">Id Usuario</th>
-          <th class="border-r border-gray-600">Id Produto</th>
-          <th class="border-r border-gray-600">Preço</th>
-          <th class="border-r border-gray-600">Quantidade</th>
-          <th class="border-r border-gray-600">Data</th>
+    <t-table :headers="['ID', 'Comprador', 'Pagamento ID', 'Preço', 'Estado', 'Metodo']" :data="data" class="text-gray-900">
+      <template slot="row" slot-scope="props">
+        <tr>
+          <td :class="props.tdClass">
+            {{ props.row.id }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.customer.full_name }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.payment_id }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.total_order_price }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.status }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.payment_method }}
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <tr class="border-b border-gray-600 text-center" v-for="item in data" :key="item.id">
-          <td class="px-3">{{ item.id }}</td>
-          <td class="px-3">{{ item.customer_id }}</td>
-          <td class="px-3">{{ item.product_id }}</td>
-          <td class="px-3">{{ item.price }}</td>
-          <td class="px-3">{{ item.amount }}</td>
-          <td class="px-3">{{ item.created_at | formatDate }}</td>
-        </tr>
-      </tbody>
-    </table>
+      </template>
+    </t-table>
   </div>
 </template>
 
@@ -33,7 +35,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

@@ -13,7 +13,12 @@ class CreateProductsTable extends Migration
             $table->string('name', 100);
             $table->longText('description');
             $table->string('image', 200);
-            $table->string('category', 100);
+
+            $table->bigInteger('category_id')->unsigned();
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories');
+
             $table->float('price');
             $table->integer('stock')->default(0);
             $table->boolean('visible')->default(true);

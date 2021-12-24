@@ -8,7 +8,11 @@ class Assessment extends Model
 {
     protected $table = 'assessments';
 
-    public function user(){
-        return $this->belongsTo(Customer::class);
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 }

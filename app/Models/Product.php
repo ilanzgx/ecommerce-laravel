@@ -10,6 +10,10 @@ class Product extends Model
 {
     protected $table = 'products';
 
+    public function assessments(){
+        return $this->hasMany(Assessment::class, 'product_id', 'id');
+    }
+
     public static function search_products_by_ids($ids){
         return DB::select("select * from products where id in ($ids)");
     }
@@ -31,7 +35,7 @@ class Product extends Model
         }
 
         $product->stock = $data['stock'];
-        $product->category = $data['category'];
+        $product->category_id = $data['category'];
 
         $product->save();
         return $data;

@@ -203,6 +203,9 @@ class CustomerController extends Controller
 
         }
 
+        $customer = Customer::where('email', session('email'))->first();
+        Customer::update_address_customer($customer->customer_id, $values);
+
         return json_encode(['success' => true]);
     }
 }

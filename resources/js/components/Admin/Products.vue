@@ -2,7 +2,7 @@
   <div>
     <div class="">
       <div class="flex justify-end mx-6">
-        <button @click="ShowHideCreateProduct()" class="flex bg-purple-400 px-2 py-1 rounded-md" type="button" data-modal-toggle="default-modal">
+        <button @click="showModal=true" class="flex bg-purple-400 px-2 py-1 rounded-md" type="button" data-modal-toggle="default-modal">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
           <p class="px-2">Criar um novo produto</p>
         </button>
@@ -14,121 +14,134 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             <h1 class="text-2xl">Adicionar novo produto</h1>
           </div>
-          <form class="mt-6" @submit.prevent="createNewProduct()">
-            <div class="md:flex">
-              <div class="md:w-1/2 flex justify-center px-6 bg-gray-600 py-2">
-                <div v-if="!ProductImage">
-                  <label class="cursor-pointer" for="text_image">
-                  <svg class="w-56 h-56" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                  </label>
-                  <input @change="onFileChange" type="file" id="text_image" class="w-full px-2 py-1 mx-1" placeholder="Digite o nome do produto" hidden>
-                  
-                </div>
-
-                <div v-else>
-                  <img class="w-36 h-56" :src="ProductImage">
-                  <button class="bg-red-400 px-2 py-1 rounded-md" @click="removeImage">Remover imagem</button>
-                </div>
-                
-              </div>
-              <div class="md:w-1/2 px-6 py-4 text-gray-50 bg-gray-600 border-l border-gray-700">
-                <div class=" my-2">
-                  <label class="text-gray-50 font-medium" for="">Nome do produto (*)</label>
-                  <input :class="{'border-red-500': errors != undefined && errors.name}" v-model="ProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
-                  <div v-if="errors != undefined && errors.name">
-                    <ul v-for="errors in errors.name" :key="errors.id">
-                      <li class="text-red-500 text-sm">{{ errors }}</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class=" my-2">
-                  <label class="text-gray-50 font-medium" for="">Descrição (*)</label>
-                  <input :class="{'border-red-500': errors != undefined && errors.description}" v-model="ProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
-                  <div v-if="errors != undefined && errors.description">
-                    <ul v-for="errors in errors.description" :key="errors.id">
-                      <li class="text-red-500 text-sm">{{ errors }}</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="my-2 flex">
-                  <div class="w-1/2">
-                    <label class="text-gray-50 font-medium" for="">Preço (*)</label>
-                    <input :class="{'border-red-500': errors != undefined && errors.price}" v-model="ProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
-                    <div v-if="errors != undefined && errors.price">
-                      <ul v-for="errors in errors.price" :key="errors.id">
-                        <li class="text-red-500 text-sm">{{ errors }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div class="w-1/2">
-                    <label class="text-gray-50 font-medium" for="">Preço antigo</label>
-                    <input v-model="ProductOldPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="number" step=".01" name="" id="">
-                  </div>
-                </div>
-
-                <div class="my-2 flex">
-                  <div class="w-1/2">
-                    <label class="text-gray-50 font-medium" for="">Estoque total (*)</label>
-                    <input :class="{'border-red-500': errors != undefined && errors.stock}" v-model="ProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
-                    <div v-if="errors != undefined && errors.stock">
-                      <ul v-for="errors in errors.stock" :key="errors.id">
-                        <li class="text-red-500 text-sm">{{ errors }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div class="w-1/2">
-                    <label class="text-gray-50 font-medium ml-2" for="">Categoria (*)</label>
-                    <input :class="{'border-red-500': errors != undefined && errors.category}" v-model="ProductCategory" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="text" name="" id="">
-                    <div v-if="errors != undefined && errors.category">
-                      <ul v-for="errors in errors.category" :key="errors.id">
-                        <li class="text-red-500 text-sm">{{ errors }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="my-2">
-              <button class="bg-purple-400 px-2 py-1 rounded-lg w-full font-medium text-lg" type="submit">
-                <div v-if="loading" class="flex justify-center items-center">
-                  <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
-                </div>
-                <span v-else>Criar produto</span>
-              </button>
-            </div>
-          </form>
+          
         </div>
       </div>
     </div>
+
+    <t-modal class="" v-model="showModal">
+      <form class="mt-6" @submit.prevent="createNewProduct()">
+        <div class="md:flex text-sm">
+          <div class="md:w-1/2 flex text-gray-900 px-6 py-2">
+            <div v-if="!ProductImage">
+              <label class="cursor-pointer" for="text_image">
+              <svg class="w-56 h-56" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </label>
+              <input @change="onFileChange" type="file" id="text_image" class="w-full px-2 py-1 mx-1" placeholder="Digite o nome do produto" hidden>
+              
+            </div>
+
+            <div v-else>
+              <img class="w-36 h-56" :src="ProductImage">
+              <button class="bg-red-400 px-2 py-1 rounded-md" @click="removeImage">Remover imagem</button>
+            </div>
+            
+          </div>
+          <div class="md:w-1/2 text-gray-900 px-6 py-4 border-l border-gray-700">
+            <div class=" my-2">
+              <label class="text-gray-900 font-medium" for="">Nome do produto (*)</label>
+              <input :class="{'border-red-500': errors != undefined && errors.name}" v-model="ProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="errors != undefined && errors.name">
+                <ul v-for="errors in errors.name" :key="errors.id">
+                  <li class="text-red-500 text-sm">{{ errors }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class=" my-2">
+              <label class="text-gray-900 font-medium" for="">Descrição (*)</label>
+              <input :class="{'border-red-500': errors != undefined && errors.description}" v-model="ProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="errors != undefined && errors.description">
+                <ul v-for="errors in errors.description" :key="errors.id">
+                  <li class="text-red-500 text-sm">{{ errors }}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="my-2 flex text-gray-900">
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Preço (*)</label>
+                <input :class="{'border-red-500': errors != undefined && errors.price}" v-model="ProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                <div v-if="errors != undefined && errors.price">
+                  <ul v-for="errors in errors.price" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Preço antigo</label>
+                <input v-model="ProductOldPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="number" step=".01" name="" id="">
+              </div>
+            </div>
+
+            <div class="my-2 flex text-gray-900">
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Estoque (*)</label>
+                <input :class="{'border-red-500': errors != undefined && errors.stock}" v-model="ProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" min="1" type="number" name="" id="">
+                <div v-if="errors != undefined && errors.stock">
+                  <ul v-for="errors in errors.stock" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="w-1/2 text-gray-900">
+                <label class="text-gray-900 font-medium ml-2 block" for="category">Categoria (*)</label>
+                
+                <select v-model="ProductCategory" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2">
+                  <option class="bg-gray-700 text-gray-50" :value="null">Selecione uma categoria</option>
+                  <option class="bg-gray-700 text-gray-50" v-for="category in categories" :key="category.id" :value="category.id" >{{ category.name }}</option>
+                </select>
+
+                <div v-if="errors != undefined && errors.category">
+                  <ul v-for="errors in errors.category" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="my-2">
+          <button class="bg-purple-600 px-2 py-1 rounded-lg w-full font-medium text-lg" type="submit">
+            <div v-if="loading" class="flex justify-center items-center">
+              <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-200"></div>
+            </div>
+            <span v-else>Criar produto</span>
+          </button>
+
+          <t-alert v-if="response.success" class="my-2" variant="success">
+            <span>{{ response.message }}</span>
+          </t-alert>
+        </div>
+      </form>
+    </t-modal>
     
     <!--<div class="bg-red-500 my-4">-->
       <h1 class="md:text-2xl text-lg font-semibold uppercase">Produtos no catálogo</h1>
-      <table class="table-auto w-full bg-gray-700 my-4">
-        <thead>
-          <tr class="md:text-lg border-b border-gray-600 uppercase">
-            <th class="border-r border-gray-600">Modificações</th>
-            <th class="border-r border-gray-600">Imagem</th>
-            <th class="border-r border-gray-600">Id</th>
-            <th class="border-r border-gray-600">Nome</th>
-            <th class="border-r border-gray-600">Preço</th>
-            <th class="border-r border-gray-600">Estoque</th>
-            <th class="border-r border-gray-600">Criado em</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b border-gray-600 text-center" v-for="item in data" :key="item.id">
-            <td class="px-3">
-              
+      <t-table :headers="['ID', 'Nome', 'Preço', 'Estoque', 'Ações']" :data="data" class="text-gray-900">
+        <template slot="row" slot-scope="props">
+          <tr>
+            <td :class="props.tdClass">
+              {{ props.row.id }}
+            </td>
+            <td :class="props.tdClass">
+              {{ props.row.name }}
+            </td>
+            <td :class="props.tdClass">
+              {{ props.row.price }}
+            </td>
+            <td :class="props.tdClass">
+              {{ props.row.stock }}
+            </td>
+            <td :class="props.tdClass">
               <t-dropdown text="MENU">
                 <div slot-scope="{ hide, blurHandler }">
-                  <button @click="removeProduct(item.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                  <button @click="showRemoveModal=true" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
                     Remover
                   </button>
 
-                  <button @click="editProduct(item.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                  <button @click="showEditModal=true;getProductData(product)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
                     Editar
                   </button>
 
@@ -137,38 +150,109 @@
                   </button>
                 </div>
               </t-dropdown>
-              
             </td>
-
-            <td class="px-3 flex justify-center py-3">
-              <img class="w-20 h-20" :src="item.image">
-            </td>
-
-            <td class="px-3">
-              {{ item.id }}
-            </td>
-
-            <td class="px-3 break-words md:w-36">
-              {{ item.name }}
-            </td>
-
-            <td class="px-3">
-              R${{ item.price }}
-            </td>
-
-            <td class="px-3">
-              {{ item.stock }}
-            </td>
-            
-            <td class="px-3">
-              {{ item.created_at | formatDate }}
-            </td>
-            
           </tr>
-        </tbody>
-      </table>
+        </template>
+      </t-table>
+    
+    <t-modal class="text-gray-900" v-model="showEditModal">
+      <form @submit.prevent="editProduct">
+        <div class="md:flex text-sm">
+          <div class="md:w-1/2 flex text-gray-900 px-6 py-2">
+            <div v-if="!EditProductImage">
+              <label class="cursor-pointer" for="text_image">
+              <svg class="w-56 h-56" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </label>
+              <input @change="onFileChange" type="file" id="text_image" class="w-full px-2 py-1 mx-1" placeholder="Digite o nome do produto" hidden>
+              
+            </div>
 
-    <!--</div>-->
+            <div v-else>
+              <img class="w-36 h-56" :src="EditProductImage">
+              <button class="bg-red-400 px-2 py-1 rounded-md" @click="removeImage">Remover imagem</button>
+            </div>
+            
+          </div>
+          <div class="md:w-1/2 text-gray-900 px-6 py-4 border-l border-gray-700">
+            <div class=" my-2">
+              <label class="text-gray-900 font-medium" for="">Nome do produto (*)</label>
+              <input :class="{'border-red-500': errors != undefined && errors.name}" v-model="EditProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="errors != undefined && errors.name">
+                <ul v-for="errors in errors.name" :key="errors.id">
+                  <li class="text-red-500 text-sm">{{ errors }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class=" my-2">
+              <label class="text-gray-900 font-medium" for="">Descrição (*)</label>
+              <input :class="{'border-red-500': errors != undefined && errors.description}" v-model="EditProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="errors != undefined && errors.description">
+                <ul v-for="errors in errors.description" :key="errors.id">
+                  <li class="text-red-500 text-sm">{{ errors }}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="my-2 flex text-gray-900">
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Preço (*)</label>
+                <input :class="{'border-red-500': errors != undefined && errors.price}" v-model="EditProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                <div v-if="errors != undefined && errors.price">
+                  <ul v-for="errors in errors.price" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Preço antigo</label>
+                <input v-model="EditProductOldPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2" type="number" step=".01" name="" id="">
+              </div>
+            </div>
+
+            <div class="my-2 flex text-gray-900">
+              <div class="w-1/2">
+                <label class="text-gray-900 font-medium" for="">Estoque (*)</label>
+                <input :class="{'border-red-500': errors != undefined && errors.stock}" v-model="EditProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" min="1" type="number" name="" id="">
+                <div v-if="errors != undefined && errors.stock">
+                  <ul v-for="errors in errors.stock" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="w-1/2 text-gray-900">
+                <label class="text-gray-900 font-medium ml-2 block" for="category">Categoria (*)</label>
+                
+                <select v-model="EditProductCategory" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1 ml-2">
+                  <option class="bg-gray-700 text-gray-50" :value="null">Selecione uma categoria</option>
+                  <option class="bg-gray-700 text-gray-50" v-for="category in categories" :key="category.id" :value="category.id" >{{ category.name }}</option>
+                </select>
+
+                <div v-if="errors != undefined && errors.category">
+                  <ul v-for="errors in errors.category" :key="errors.id">
+                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="my-2">
+          <button class="text-gray-50 bg-purple-600 px-2 py-1 rounded-lg w-full font-medium text-lg" type="submit">
+            <span>Salvar novos dados</span>
+          </button>
+
+          <t-alert v-if="response.success" class="my-2" variant="success">
+            <span>{{ response.message }}</span>
+          </t-alert>
+        </div>
+      </form>
+    </t-modal>
+
+    <t-modal class="text-gray-900" v-model="showRemoveModal">
+      Hello World
+    </t-modal>
   </div>
 </template>
 
@@ -188,7 +272,18 @@ export default {
       ProductPrice: '',
       ProductOldPrice: '',
       ProductStock: '',
-      ProductCategory: '',
+      ProductCategory: null,
+      EditProductImage: '',
+      EditProductName: '',
+      EditProductDescription: '',
+      EditProductPrice: '',
+      EditProductOldPrice: '',
+      EditProductStock: '',
+      EditProductCategory: null,
+      showModal: false,
+      showEditModal: false,
+      showRemoveModal: false,
+      response: {}
     }
   },
   methods: {
@@ -207,6 +302,7 @@ export default {
         this.errors = response.data.errors
         this.loading = false
         if(response.data.success){
+          this.response = response.data
           this.ProductImage = ''
           this.ProductName = ''
           this.ProductDescription = ''
@@ -240,6 +336,16 @@ export default {
       })
     },
 
+    getProductData(productid){
+      axios.post('/api/admin/get/product', {
+        'productid': productid
+      }).then((response) => {
+        if(response.data.success){
+
+        }
+      })
+    },
+
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
@@ -264,10 +370,9 @@ export default {
       this.createProduct = !this.createProduct
     }
   },
-  components: {
-  },
   props: {
     data: Array,
+    categories: Array,
   }
 }
 </script>

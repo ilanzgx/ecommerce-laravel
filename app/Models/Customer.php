@@ -10,7 +10,7 @@ class Customer extends Model
     protected $table = 'customers';
 
     public function assessments(){
-        return $this->hasMany(Assessment::class);
+        return $this->hasMany(Assessment::class, 'customer_id', 'id');
     }
 
     public static function createHash($num_chars, $complexity){
@@ -53,33 +53,21 @@ class Customer extends Model
 
     }
 
-    public static function update_customer($customer_id){
+    public static function update_address_customer($customer_id, $data){
         
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.mercadopago.token')
         ])->put('https://api.mercadopago.com/v1/customers/' . $customer_id, [
-            'first_name' => 'Ilan',
-            'last_name' => 'Silva',
-            'phone' => [
-                'area_code' => "86",
-                'number' => '999794220'
-            ],
-            'identification' => [
-                'type' => 'CPF',
-                'number' => '06025012377',
-            ],
             'default_address' => 'Home',
             'address' => [
-                'id' => 'Casa',
-                'zip_code' => '64082440',
-                'street_name' => 'Rua estrela do norte',
-                'street_number' => 1665
-            ],
-            "date_registered" => "2000-01-18",
-            "description" => "Description del user",
+                'id' => $data['identificacao'],
+                'zip_code' => $data['cep'],
+                'street_name' => $data['logradouro'],
+                'street_number' => $data['numero']
+            ]
         ]);
 
         return $response->json();
-
+        
     }
 }

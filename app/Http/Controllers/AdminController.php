@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -20,10 +21,16 @@ class AdminController extends Controller
     }
 
     public function dashboard(Request $request){  
+        $customers = Customer::orderBy('role', 'desc')->get();
         return Inertia::render('Admin/Home.vue', [
-            'products' => Product::all(),
-            'orders'   => Order::all(),
-            'users'    => Customer::all(),
+            'dashboard' => [
+                'customers_count' => $customers->count(),
+                'total_value'     => Order::where('status', 'approved')->sum('total_order_price')
+            ],
+            'products'   => Product::all(),
+            'orders'     => Order::orderBy('created_at')->with('customer')->get(),
+            'users'      => $customers,
+            'categories' => Category::all()
         ]);
     }
 
@@ -85,7 +92,6 @@ class AdminController extends Controller
         $b64 = $values['image'];
         $formated = explode(',', $b64);
         $data = base64_decode($formated[1]);
-        
         $im = imagecreatefromstring($data);
 
         if(!$im){
@@ -115,9 +121,10 @@ class AdminController extends Controller
         $values['image'] = '/'.$img_file;
         
         // sql
-        Product::create_new_product($values);
+        $aaa = Product::create_new_product($values);
+        
 
-        return json_encode(['success' => true]);
+        return json_encode(['success' => true, 'message' => 'Produto criado com sucesso']);
     }
 
     public function remove_product(Request $request){
@@ -133,5 +140,35 @@ class AdminController extends Controller
         return $request;
     }
 
-    
+    public function create_category(Request $request){
+
+        try{
+
+            $messages = [
+                'name.required' => 'O campo nome é obrigatório',
+                'description.required' => 'O campo descrição é obrigatório'
+            ];
+
+            $request->validate([
+                'name' =>        'required',
+                'description' => 'required'
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $new_category = new Category();
+
+        $new_category->name = $request->name;
+        $new_category->description = $request->description;
+
+        $new_category->save();
+
+        return json_encode(['success' => true, 'message' => 'Categoria criada com sucesso']);
+    }
+
+    public function get_product_data(Request $request){
+        
+    }
 }
