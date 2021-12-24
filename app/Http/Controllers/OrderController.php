@@ -46,12 +46,16 @@ class OrderController extends Controller
             $item = new Item();
             $item->id = $id;
             $item->title = $product->name;
+            if($amount > $product->amount){
+                return json_encode(['success' => false, 'message' => 'Estoque indisponivel']);
+            }
             $item->quantity = $amount;
             $item->unit_price = $product->price;
             $item->description = $product->description;
             $item->picture_url = env('APP_URL').$product->image;
             array_push($data, $item);
         }
+
 
         $preference->items = $data;
 

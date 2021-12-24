@@ -6,7 +6,9 @@ use App\Mail\ProductAssessment;
 use App\Models\AvailableAssessment;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
@@ -41,6 +43,10 @@ class WebhooksController extends Controller
 
             $new_order->save();
 
+            foreach($data['additional_info']['items'] as $item){
+                DB::table('products')->where('id', $item->id)->decrement('stock', $item->quantify);
+            }
+
         } else {
 
             $order->status = $data['status'];
@@ -48,12 +54,18 @@ class WebhooksController extends Controller
 
             $order->save();
 
-            if($data['status'] == 'approved'){
-                foreach($data['additional_info']['items'] as $item){
-                    AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item['id']);
-                }
-            }
+        }
 
+        if($data['status'] == 'approved'){
+            foreach($data['additional_info']['items'] as $item){
+                AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item['id']);
+            }
+        }
+
+        if($data['status'] == 'expired'){
+            foreach($data['additional_info']['items'] as $item){
+                DB::table('products')->where('id', $item->id)->increment('stock', $item->quantify);
+            }
         }
             
         return http_response_code(200);
