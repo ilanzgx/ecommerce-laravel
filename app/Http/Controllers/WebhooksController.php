@@ -62,7 +62,7 @@ class WebhooksController extends Controller
             }
         }
 
-        if($data['status'] == 'expired'){
+        if($data['status'] == 'expired' || $data['status'] == 'cancelled' || $data['status'] == 'fail'){
             foreach($data['additional_info']['items'] as $item){
                 DB::table('products')->where('id', $item->id)->increment('stock', $item->quantify);
             }
