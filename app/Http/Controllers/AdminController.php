@@ -59,7 +59,7 @@ class AdminController extends Controller
         try{
             $messages = [
                 'name.required' => 'O campo nome é obrigatório.',
-                'description.required' => 'O campo description é obrigatório.',
+                'description.required' => 'O campo descrição é obrigatório.',
                 'price.required' => 'O campo preço é obrigatório.',
                 'category.required' => 'O campo categoria é obrigatório.',
                 'stock.required' => 'O campo estoque é obrigatório.',
@@ -137,7 +137,56 @@ class AdminController extends Controller
     }
 
     public function edit_product(Request $request){
-        return $request;
+        
+        try{
+            $messages = [
+                'name.required' => 'O campo nome é obrigatório.',
+                'description.required' => 'O campo descrição é obrigatório.',
+                'price.required' => 'O campo preço é obrigatório.',
+                //'category.required' => 'O campo categoria é obrigatório.',
+                'stock.required' => 'O campo estoque é obrigatório.',
+            ];
+
+            $request->validate([
+                'name'        => 'required',
+                'description' => 'required',
+                'price'       => 'required',
+                //'category'    => 'required',
+                'stock'       => 'required|numeric',
+                
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $values = [
+            'id'          =>     $request->id,
+            'image'       =>     $request->image,
+            'name'        =>     $request->name,
+            'description' =>     $request->description,
+            'price'       =>     $request->price,
+            'old_price'   =>     $request->old_price,
+            'category'    =>     $request->category_id,
+            'stock'       =>     $request->stock
+        ];
+
+        $product = Product::where('id', $values['id'])->first();
+
+        $product->image = $values['image'];
+        $product->name = $values['name'];
+        $product->description = $values['description'];
+        $product->price = $values['price'];
+        $product->old_price = $values['old_price'];
+        $product->category_id = $values['category'];
+        $product->stock = $values['stock'];
+
+        $product->save();
+
+        return json_encode([
+            'success' => true,
+            'message' => 'Produto editado com sucesso'
+        ]);
     }
 
     public function create_category(Request $request){
@@ -169,6 +218,30 @@ class AdminController extends Controller
     }
 
     public function get_product_data(Request $request){
-        
+        $data = Product::where('id', $request->productid)->first();
+
+        return json_encode([
+            'success'=> true,
+            'image' => $data->image,
+            'name'  => $data->name,
+            'description' => $data->description,
+            'price' => $data->price,
+            'old_price' => $data->old_price,
+            'category_id' => $data->category_id,
+            'stock' => $data->stock
+        ]);
+    }
+
+    public function set_product_visible(Request $request){
+        $data = Product::where('id', $request->id)->first();
+
+        if($data->visible){
+            $data->visible = false;
+        }else{
+            $data->visible = true;
+        }
+
+        $data->save();
+        return json_encode(['success' => true]);
     }
 }

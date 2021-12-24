@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $produtos = DB::table('products')->orderBy('stock', 'desc')->get();
+        $produtos = DB::table('products')->orderBy('stock', 'desc')->where('visible', '<>', 0)->get();
         if($produtos->isEmpty()){
             return Inertia::render('Home', ['empty' => true]);
         }
@@ -43,7 +43,7 @@ class HomeController extends Controller
     }
 
     public function highlights(){
-        $highlights = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        $highlights = DB::table('products')->orderBy('created_at', 'asc')->where('visible', '<>', 0)->take(10)->get();
         if($highlights->isEmpty()){
             return Inertia::render('Categories/Highlights.vue', ['empty' => true]);
         }
@@ -53,7 +53,7 @@ class HomeController extends Controller
     }
 
     public function topSellers(){
-        $topsellers = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        $topsellers = DB::table('products')->orderBy('created_at', 'asc')->where('visible', '<>', 0)->take(10)->get();
         if($topsellers->isEmpty()){
             return Inertia::render('Categories/TopSellers.vue', ['empty' => true]);
         }
@@ -63,7 +63,7 @@ class HomeController extends Controller
     }
 
     public function offers(){
-        $offers = DB::table('products')->orderBy('created_at', 'asc')->take(10)->get();
+        $offers = DB::table('products')->orderBy('created_at', 'asc')->where('visible', '<>', 0)->take(10)->get();
         if($offers->isEmpty()){
             return Inertia::render('Categories/Offers.vue', ['empty' => true]);
         }

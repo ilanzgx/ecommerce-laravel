@@ -119,7 +119,7 @@
     
     <!--<div class="bg-red-500 my-4">-->
       <h1 class="md:text-2xl text-lg font-semibold uppercase">Produtos no catálogo</h1>
-      <t-table :headers="['ID', 'Nome', 'Preço', 'Estoque', 'Ações']" :data="data" class="text-gray-900">
+      <t-table :headers="['ID', 'Nome', 'Preço', 'Estoque', 'Visivel', 'Ações']" :data="data" class="text-gray-900">
         <template slot="row" slot-scope="props">
           <tr>
             <td :class="props.tdClass">
@@ -135,13 +135,20 @@
               {{ props.row.stock }}
             </td>
             <td :class="props.tdClass">
+              {{ (props.row.visible) ? 'Sim' : 'Não'}}
+              <button @click="changeProductVisible(props.row.id);props.row.visible= !props.row.visible" class="block bg-purple-600 px-3 py-1 text-sm font-medium text-gray-50 uppercase">
+                <span v-if="props.row.visible">Deixar invisivel</span>
+                <span v-else>Deixar visivel</span>
+              </button>
+            </td>
+            <td :class="props.tdClass">
               <t-dropdown text="MENU">
                 <div slot-scope="{ hide, blurHandler }">
-                  <button @click="showRemoveModal=true" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                  <button @click="showRemoveModal=true;removeProductId=props.row.id" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
                     Remover
                   </button>
 
-                  <button @click="showEditModal=true;getProductData(product)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                  <button @click="showEditModal=true;getProductData(props.row.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
                     Editar
                   </button>
 
@@ -155,6 +162,7 @@
         </template>
       </t-table>
     
+    <!-- edit product -->
     <t-modal class="text-gray-900" v-model="showEditModal">
       <form @submit.prevent="editProduct">
         <div class="md:flex text-sm">
@@ -176,19 +184,19 @@
           <div class="md:w-1/2 text-gray-900 px-6 py-4 border-l border-gray-700">
             <div class=" my-2">
               <label class="text-gray-900 font-medium" for="">Nome do produto (*)</label>
-              <input :class="{'border-red-500': errors != undefined && errors.name}" v-model="EditProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
-              <div v-if="errors != undefined && errors.name">
-                <ul v-for="errors in errors.name" :key="errors.id">
-                  <li class="text-red-500 text-sm">{{ errors }}</li>
+              <input :class="{'border-red-500': editErrors != undefined && editErrors.name}" v-model="EditProductName" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="editErrors != undefined && editErrors.name">
+                <ul v-for="editErrors in editErrors.name" :key="editErrors.id">
+                  <li class="text-red-500 text-sm">{{ editErrors }}</li>
                 </ul>
               </div>
             </div>
             <div class=" my-2">
               <label class="text-gray-900 font-medium" for="">Descrição (*)</label>
-              <input :class="{'border-red-500': errors != undefined && errors.description}" v-model="EditProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
-              <div v-if="errors != undefined && errors.description">
-                <ul v-for="errors in errors.description" :key="errors.id">
-                  <li class="text-red-500 text-sm">{{ errors }}</li>
+              <input :class="{'border-red-500': editErrors != undefined && editErrors.description}" v-model="EditProductDescription" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="text" name="" id="">
+              <div v-if="editErrors != undefined && editErrors.description">
+                <ul v-for="editErrors in editErrors.description" :key="editErrors.id">
+                  <li class="text-red-500 text-sm">{{ editErrors }}</li>
                 </ul>
               </div>
             </div>
@@ -196,10 +204,10 @@
             <div class="my-2 flex text-gray-900">
               <div class="w-1/2">
                 <label class="text-gray-900 font-medium" for="">Preço (*)</label>
-                <input :class="{'border-red-500': errors != undefined && errors.price}" v-model="EditProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
-                <div v-if="errors != undefined && errors.price">
-                  <ul v-for="errors in errors.price" :key="errors.id">
-                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                <input :class="{'border-red-500': editErrors != undefined && editErrors.price}" v-model="EditProductPrice" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" type="number" step=".01" name="" id="">
+                <div v-if="editErrors != undefined && editErrors.price">
+                  <ul v-for="editErrors in editErrors.price" :key="editErrors.id">
+                    <li class="text-red-500 text-sm">{{ editErrors }}</li>
                   </ul>
                 </div>
               </div>
@@ -213,10 +221,10 @@
             <div class="my-2 flex text-gray-900">
               <div class="w-1/2">
                 <label class="text-gray-900 font-medium" for="">Estoque (*)</label>
-                <input :class="{'border-red-500': errors != undefined && errors.stock}" v-model="EditProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" min="1" type="number" name="" id="">
-                <div v-if="errors != undefined && errors.stock">
-                  <ul v-for="errors in errors.stock" :key="errors.id">
-                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                <input :class="{'border-red-500': editErrors != undefined && editErrors.stock}" v-model="EditProductStock" class="bg-transparent px-2 py-1 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-opacity-0 focus:ring-opacity-50 mt-1" min="1" type="number" name="" id="">
+                <div v-if="editErrors != undefined && editErrors.stock">
+                  <ul v-for="editErrors in editErrors.stock" :key="editErrors.id">
+                    <li class="text-red-500 text-sm">{{ editErrors }}</li>
                   </ul>
                 </div>
               </div>
@@ -229,9 +237,9 @@
                   <option class="bg-gray-700 text-gray-50" v-for="category in categories" :key="category.id" :value="category.id" >{{ category.name }}</option>
                 </select>
 
-                <div v-if="errors != undefined && errors.category">
-                  <ul v-for="errors in errors.category" :key="errors.id">
-                    <li class="text-red-500 text-sm">{{ errors }}</li>
+                <div v-if="editErrors != undefined && editErrors.category">
+                  <ul v-for="editErrors in editErrors.category" :key="editErrors.id">
+                    <li class="text-red-500 text-sm">{{ editErrors }}</li>
                   </ul>
                 </div>
               </div>
@@ -243,15 +251,18 @@
             <span>Salvar novos dados</span>
           </button>
 
-          <t-alert v-if="response.success" class="my-2" variant="success">
-            <span>{{ response.message }}</span>
+          <t-alert v-if="editResponse.success" class="my-2" variant="success">
+            <span>{{ editResponse.message }}</span>
           </t-alert>
         </div>
       </form>
     </t-modal>
 
     <t-modal class="text-gray-900" v-model="showRemoveModal">
-      Hello World
+      <p class="mb-4">Você tem certeza que deseja remover esse produto da sua loja?</p>
+      <button @click="removeProduct(removeProductId)" class="text-gray-50 bg-purple-600 px-2 py-1 rounded-lg w-full font-medium text-lg">
+        <span>Tenho certeza, remover</span>
+      </button>
     </t-modal>
   </div>
 </template>
@@ -263,6 +274,7 @@ export default {
   data(){
     return {
       errors: {},
+      editErrors: {},
       showNewProductModal: false,
       createProduct: false,
       loading: false,
@@ -283,7 +295,9 @@ export default {
       showModal: false,
       showEditModal: false,
       showRemoveModal: false,
-      response: {}
+      response: {},
+      editResponse: {},
+      removeProductId: null,
     }
   },
   methods: {
@@ -315,13 +329,11 @@ export default {
     },
 
     removeProduct(productid){
-      console.log(productid)
-
       axios.post('/api/admin/remove/product', {
         id: productid
       }).then((response) => {
         if(response.data.success){
-
+          this.showRemoveModal = false
         }
       })
     },
@@ -330,15 +342,49 @@ export default {
       console.log(productid)
 
       axios.post('/api/admin/edit/product', {
-        id: productid
+        id: productid,
+        image: this.EditProductImage,
+        name: this.EditProductName,
+        description: this.EditProductDescription,
+        price: this.EditProductPrice,
+        old_price: this.EditProductOldPrice,
+        stock: this.EditProductStock,
+        category_id: this.EditProductCategory,
       }).then((response) => {
-        
+        this.editErrors = response.data.errors
+        if(response.data.success){
+          this.editResponse = response.data
+
+          this.EditProductImage = ''
+          this.EditProductName = ''
+          this.EditProductDescription = ''
+          this.EditProductPrice = ''
+          this.EditProductOldPrice = ''
+          this.EditProductStock = ''
+          this.EditProductCategory = ''
+        }
       })
     },
 
     getProductData(productid){
       axios.post('/api/admin/get/product', {
         'productid': productid
+      }).then((response) => {
+        if(response.data.success){
+          this.EditProductImage = response.data.image
+          this.EditProductName = response.data.name
+          this.EditProductDescription = response.data.description
+          this.EditProductPrice = response.data.price
+          this.EditProductOldPrice = response.data.old_price
+          this.EditProductStock = response.data.stock
+          this.EditProductCategory = response.data.category_id
+        }
+      })
+    },
+
+    changeProductVisible(productid){
+      axios.put('/api/admin/set/produto/visible', {
+        id: productid
       }).then((response) => {
         if(response.data.success){
 

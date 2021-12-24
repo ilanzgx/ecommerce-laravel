@@ -23,6 +23,7 @@ Route::post('/admin/remove/product', 'AdminController@remove_product');
 Route::post('/admin/edit/product', 'AdminController@edit_product');
 Route::post('/admin/create/category', 'AdminController@create_category');
 Route::post('/admin/get/product', 'AdminController@get_product_data');
+Route::put('/admin/set/produto/visible', 'AdminController@set_product_visible');
 
 Route::post('/user/changedata', 'CustomerController@changedata');
 Route::post('/user/change/address', 'CustomerController@changeaddress');

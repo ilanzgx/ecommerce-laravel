@@ -224,11 +224,9 @@ class LoginController extends Controller
 
             Mail::to($request->emailModal)->send(new PasswordForget($generateToken));
 
-            //$request->session()->flash('Informe seu endereço antes de fazer uma compra.');
             return json_encode(['success' => true, 'message' => 'Link enviado através de seu email!']);
 
         } else {
-            //$request->session()->flash('');
             return json_encode(['success' => false, 'message' => 'Não existe nenhuma conta com esse email']);
         }
     }
