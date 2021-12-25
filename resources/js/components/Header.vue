@@ -7,17 +7,10 @@
           <!-- logo -->
           <div>
             <Link class="flex items-center py-3 px-2 text-gray-200" :href="$route('index')">
-              <img width="80" height="80" class="mr-2" src="/storage/logo1.png">
-              <span>Loja virtual</span>
+              <img width="80" height="80" class="mr-2" src="/storage/logo1.png">             
             </Link>
           </div>
           
-          <!-- primary nav
-          <div class="hidden md:flex items-center space-x-1">
-            <div class="py-4 px-3 w-full">
-              <input v-on:input="(event) => this.$emit('searchChange', event)" class="w-full bg-transparent ring-1 ring-gray-200 italic text-sm rounded-lg py-2 px-6 focus:outline-none transition duration-250 ease-in-out placeholder-white placeholder-opacity-100 focus:placeholder-opacity-30 focus:ring-2 focus:ring-purple-400" placeholder="O que você procura?" type="text" name="" id="">
-            </div>
-          </div>-->
         </div>
         <!-- secondary nav -->
         <div class="hidden md:flex items-center space-x-2">
@@ -94,8 +87,8 @@
               </div>
               
               <small class="mx-2 md:mx-3">
-                <p v-if="total_value != null">Carrinho</p>
-                <p v-if="total_value != null" class="flex justify-center font-bold text-lg text-purple-400">R${{ total_value }}</p>
+                <p v-if="total_value != null" class="text-xs">Carrinho</p>
+                <p v-if="total_value != null" class="flex justify-center font-bold text-sm text-purple-400">R${{ total_value }}</p>
               </small>
             </Link>
 
