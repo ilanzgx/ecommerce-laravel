@@ -44,7 +44,7 @@ class WebhooksController extends Controller
             $new_order->save();
 
             foreach($data['additional_info']['items'] as $item){
-                DB::table('products')->where('id', $item->id)->decrement('stock', 1);
+                DB::table('products')->where('id', $item['id'])->decrement('stock', $item['quantity']);
             }
 
         } else {
@@ -64,7 +64,7 @@ class WebhooksController extends Controller
 
         if($data['status'] == 'expired' || $data['status'] == 'cancelled' || $data['status'] == 'fail'){
             foreach($data['additional_info']['items'] as $item){
-                DB::table('products')->where('id', $item->id)->increment('stock', $item->quantity);
+                DB::table('products')->where('id', $item['id'])->increment('stock', $item['quantity']);
             }
         }
             
