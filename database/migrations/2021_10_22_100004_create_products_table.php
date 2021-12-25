@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->integer('stock')->default(0);
             $table->boolean('visible')->default(true);
+            $table->integer('total_sold')->default(0);
             $table->boolean('discount')->default(0);
             $table->float('old_price')->nullable();
             $table->timestamps();

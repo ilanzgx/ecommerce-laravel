@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->text('payment_type');
             $table->string('status', 100);
             $table->string('status_detail', 100);
+            $table->integer('logistic_status')->default(1);
             $table->text('ip_address');
             $table->text('external_reference');
 

@@ -45,18 +45,18 @@
             <p v-else>NENHUM</p>
           </div>
           <div class="md:w-1/4">
+            <h2 class="uppercase font-medium text-xl">Pagamento</h2>
+            <p v-if="lastOrder != null">{{ lastOrder.payment_method }}</p>
+            <p v-else>NENHUM</p>
+          </div>
+          <div class="md:w-1/4">
             <h2 class="uppercase font-medium text-xl">Data</h2>
             <p v-if="lastOrder != null">{{ lastOrder.created_at | formatDate }}</p>
             <p v-else>NENHUM</p>
           </div>
-          <div class="md:w-1/4">
-            <h2 class="uppercase font-medium text-xl">Pagamento</h2>
-            <p v-if="lastOrder != null">{{ lastOrder.payment_type }}</p>
-            <p v-else>NENHUM</p>
-          </div>
         </div>
 
-        <Link class="my-6 bg-purple-500 py-1 px-3 rounded-md uppercase text-sm font-medium" :href="$route('customer.orders')">Ver todos os meus pedidos</Link>
+        <Link class="my-8 bg-purple-500 py-1 px-8 rounded-md uppercase text-sm font-medium" :href="$route('customer.orders')">Ver todos os meus pedidos</Link>
       </div>
 
     </div>

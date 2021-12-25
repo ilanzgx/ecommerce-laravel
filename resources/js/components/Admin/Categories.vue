@@ -87,9 +87,10 @@ export default {
         this.errors = response.data.errors
         if(response.data.success){
           this.response = response.data
-
           this.CategoryName = ''
           this.CategoryDescription = ''
+
+          window.location.reload()
         }
       })
     }

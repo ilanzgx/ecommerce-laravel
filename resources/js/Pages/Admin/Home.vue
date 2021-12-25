@@ -25,21 +25,28 @@
             </button>
           </div>
 
-          <div @click="changePage(2)" class="hover:bg-gray-600 cursor-pointer ">
+          <div @click="changePage(2)" class="hover:bg-gray-600 cursor-pointer">
+            <button class="flex py-3 mx-2">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+              <p class="px-3">Pedidos aprovados</p>
+            </button>
+          </div>
+
+          <div @click="changePage(3)" class="hover:bg-gray-600 cursor-pointer ">
             <button class="flex py-3 mx-2">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <p class="px-3">Produtos</p>
             </button>
           </div>
 
-          <div @click="changePage(3)" class="hover:bg-gray-600 cursor-pointer ">
+          <div @click="changePage(4)" class="hover:bg-gray-600 cursor-pointer ">
             <button class="flex py-3 mx-2">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               <p class="px-3">Usuários</p>
             </button>
           </div>
 
-          <div @click="changePage(4)" class="hover:bg-gray-600 cursor-pointer ">
+          <div @click="changePage(5)" class="hover:bg-gray-600 cursor-pointer ">
             <button class="flex py-3 mx-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
               <p class="px-3">Categorias</p>
@@ -50,11 +57,30 @@
       </div>
       
       <div class="w-full md:w-4/5 p-2">
-        <Dashboard v-if="page == 0" :data="dashboard"></Dashboard>
-        <Orders v-else-if="page == 1" :data="orders"></Orders>
-        <Products v-else-if="page == 2" :data="products" :categories="categories"></Products>
-        <Users v-else-if="page == 3" :data="users"></Users>
-        <Categories v-else-if="page == 4" :data="categories"></Categories>
+        <Dashboard 
+          v-if="page == 0" 
+          :data="dashboard"></Dashboard>
+
+        <Orders 
+          v-else-if="page == 1" 
+          :data="orders"></Orders>
+
+        <OrdersAccepted 
+          v-else-if="page == 2" 
+          :data="orders_accepted"></OrdersAccepted>
+
+        <Products 
+          v-else-if="page == 3" :data="products" 
+          :categories="categories"></Products>
+
+        <Users 
+          v-else-if="page == 4" 
+          :data="users"></Users>
+
+        <Categories 
+          v-else-if="page == 5" 
+          :data="categories"></Categories>
+
       </div>
     </div>
   </div>
@@ -64,6 +90,7 @@
 import Dashboard from '../../components/Admin/Dashboard.vue'
 import Categories from '../../components/Admin/Categories.vue'
 import Orders from '../../components/Admin/Orders.vue'
+import OrdersAccepted from '../../components/Admin/OrdersAccepted.vue'
 import Products from '../../components/Admin/Products.vue'
 import Users from '../../components/Admin/Users.vue'
 
@@ -71,11 +98,12 @@ export default {
   data(){
     return {
       /* page numbers
-      ** dashboard -  0
-      ** orders -     1
-      ** products -   2
-      ** users -      3
-      ** categories - 4
+      ** dashboard -       0
+      ** orders -          1
+      ** orders accepted - 2
+      ** products -        3
+      ** users -           4
+      ** categories -      5
       */
       page: 2,
     }
@@ -89,11 +117,12 @@ export default {
     dashboard: Object,
     products: Array,
     orders: Array,
+    orders_accepted: Array,
     users: Array,
     categories: Array,
   },
   components: {
-    Dashboard, Orders, Products, Users, Categories
+    Dashboard, Orders, Products, Users, Categories, OrdersAccepted
   }
 }
 </script>

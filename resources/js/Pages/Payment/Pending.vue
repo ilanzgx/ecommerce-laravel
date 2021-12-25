@@ -9,11 +9,11 @@
       </div>
 
       <div class="grid md:grid-cols-2 grid-cols-1 gap-4 my-3 mx-3 border-t border-b border-gray-900 p-2 border-opacity-40">
-        <div class="flex justify-center" v-for="item in items" :key="item.id">
-          <div class="">
-            <img class="flex w-24 h-24" :src="item.image">
+        <div class="text-center" v-for="item in items" :key="item.id">
+          <div class="flex justify-center">
+            <img class="w-24 h-24" :src="item.image">
           </div>
-          <div class="ml-6">
+          <div class="">
             <p class="text-lg font-semibold">{{ item.title }}</p>
             <p>R${{ item.unit_price }} x {{ item.quantity }}</p>
           </div>
@@ -40,7 +40,7 @@ export default {
   },
   props: {
     data: Object,
-    items: Object
+    items: Array
   }
 }
 </script>

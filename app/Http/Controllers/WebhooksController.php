@@ -37,6 +37,7 @@ class WebhooksController extends Controller
             $new_order->ip_address = $data['additional_info']['ip_address'];
             $new_order->status = $data['status'];
             $new_order->status_detail = $data['status_detail'];
+            $new_order->logistic_status = Order::getLogisticStatus($data['status']);
             $new_order->external_reference = $data['external_reference'];
             $new_order->created_at = $data['date_created'];
             $new_order->updated_at = $data['date_last_updated'];
@@ -45,12 +46,14 @@ class WebhooksController extends Controller
 
             foreach($data['additional_info']['items'] as $item){
                 DB::table('products')->where('id', $item['id'])->decrement('stock', $item['quantity']);
+                DB::table('products')->where('id', $item['id'])->increment('total_sold', $item['quantity']);
             }
 
         } else {
 
             $order->status = $data['status'];
             $order->status_detail = $data['status_detail'];
+            $order->logistic_status = Order::getLogisticStatus($data['status']);
 
             $order->save();
 
@@ -65,6 +68,7 @@ class WebhooksController extends Controller
         if($data['status'] == 'expired' || $data['status'] == 'cancelled' || $data['status'] == 'fail'){
             foreach($data['additional_info']['items'] as $item){
                 DB::table('products')->where('id', $item['id'])->increment('stock', $item['quantity']);
+                DB::table('products')->where('id', $item['id'])->decrement('total_sold', $item['quantity']);
             }
         }
             

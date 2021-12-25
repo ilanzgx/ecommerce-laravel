@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
@@ -20,17 +21,18 @@ class AdminController extends Controller
         return Inertia::render('Admin/Index.vue');
     }
 
-    public function dashboard(Request $request){  
+    public function dashboard(){  
         $customers = Customer::orderBy('role', 'desc')->get();
         return Inertia::render('Admin/Home.vue', [
             'dashboard' => [
                 'customers_count' => $customers->count(),
                 'total_value'     => Order::where('status', 'approved')->sum('total_order_price')
             ],
-            'products'   => Product::all(),
-            'orders'     => Order::orderBy('created_at')->with('customer')->get(),
-            'users'      => $customers,
-            'categories' => Category::all()
+            'products'        => Product::all(),
+            'orders'          => Order::orderBy('created_at')->with('customer')->get(),
+            'orders_accepted' => Order::with('customer', 'address')->where('logistic_status', '>', 1)->get(),
+            'users'           => $customers,
+            'categories'      => Category::all()
         ]);
     }
 
@@ -240,6 +242,28 @@ class AdminController extends Controller
         }else{
             $data->visible = true;
         }
+
+        $data->save();
+        return json_encode(['success' => true]);
+    }
+
+    public function set_order_sended(Request $request){
+        $data = Order::where('id', $request->id)->first();
+
+        if($data->logistic_status == 2){
+            $data->logistic_status = 3;
+        }else{
+            $data->logistic_status = 2;
+        }
+
+        $data->save();
+        return json_encode(['success' => true]);
+    }
+
+    public function set_order_received(Request $request){
+        $data = Order::where('id', $request->id)->first();
+
+        $data->logistic_status = Order::ENTREGUE;
 
         $data->save();
         return json_encode(['success' => true]);
