@@ -28,7 +28,7 @@ class Order extends Model
                 return Order::PENDENTE;
                 break;
             }
-            case 'accepted':{
+            case 'approved':{
                 return Order::PAGO;
                 break;
             }

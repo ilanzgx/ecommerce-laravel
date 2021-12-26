@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assessment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,11 +12,15 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $produtos = DB::table('products')->orderBy('stock', 'desc')->where('visible', '<>', 0)->get();
-        if($produtos->isEmpty()){
+        $products = Product::with('assessments')->where('visible', '<>', 0)->get();
+
+        if($products->isEmpty()){
             return Inertia::render('Home', ['empty' => true]);
         }
-        return Inertia::render('Home', ['products' => $produtos, 'empty' => false]);
+        return Inertia::render('Home', [
+            'products' => $products,
+            'empty' => false
+        ]);
     }
 
     public function login(){
@@ -53,7 +58,7 @@ class HomeController extends Controller
     }
 
     public function topSellers(){
-        $topsellers = DB::table('products')->orderBy('created_at', 'asc')->where('visible', '<>', 0)->take(10)->get();
+        $topsellers = DB::table('products')->orderBy('total_sold', 'desc')->where('visible', '<>', 0)->take(10)->get();
         if($topsellers->isEmpty()){
             return Inertia::render('Categories/TopSellers.vue', ['empty' => true]);
         }
@@ -63,7 +68,7 @@ class HomeController extends Controller
     }
 
     public function offers(){
-        $offers = DB::table('products')->orderBy('created_at', 'asc')->where('visible', '<>', 0)->take(10)->get();
+        $offers = DB::table('products')->orderBy('price', 'asc')->where('visible', '<>', 0)->take(10)->get();
         if($offers->isEmpty()){
             return Inertia::render('Categories/Offers.vue', ['empty' => true]);
         }
