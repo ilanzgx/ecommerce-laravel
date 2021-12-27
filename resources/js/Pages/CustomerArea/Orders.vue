@@ -34,7 +34,7 @@
             <h1 class="text-lg uppercase font-semibold mb-2">Detalhes do pedido</h1>
             <div class="flex">
               <Link class="text-sm uppercase font-medium bg-purple-500 px-4 py-1 rounded-md" :href="$route('order.payment') + '?payment_id=' + item.payment_id + '&status=' + item.payment_method">Dados do pedido</Link>
-              <button v-if="item.logistic_status != 4 || item.logistic_status != 1 || item.logistic_status != 5" @click="showModal=true" class="text-sm uppercase font-medium bg-purple-600 px-4 py-1 rounded-md ml-2">Já recebí o pedido</button>
+              <button v-if="item.logistic_status == 3" @click="showModal=true" class="text-sm uppercase font-medium bg-purple-600 px-4 py-1 rounded-md ml-2">Já recebí o pedido</button>
             </div>
 
             <t-modal class="text-gray-900" v-model="showModal">
