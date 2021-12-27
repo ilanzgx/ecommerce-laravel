@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $products = Product::with('assessments')->where('visible', '<>', 0)->get();
+        $products = Product::with('assessments')->orderBy('total_sold', 'desc')->where('visible', '<>', 0)->get();
 
         if($products->isEmpty()){
             return Inertia::render('Home', ['empty' => true]);
