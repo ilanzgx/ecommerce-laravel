@@ -104,7 +104,8 @@ class AdminController extends Controller
         if($formated[0] == 'data:image/jpeg;base64'){
 
             $img_file = "storage/products/$filename.jpg";
-            imagejpeg($im, $img_file, 0);
+            // remove after presentation
+            //imagejpeg($im, $img_file, 0);
 
         } else if($formated[0] == 'data:image/png;base64'){
 
@@ -114,7 +115,8 @@ class AdminController extends Controller
             imagesavealpha($im, true);
             imagefill($im, 0, 0, $trans);
 
-            imagepng($im, $img_file);
+            // remove after presentation
+            //imagepng($im, $img_file);
 
         } else {
             die('error is not png even jpg');
