@@ -354,7 +354,6 @@ export default {
         this.editErrors = response.data.errors
         if(response.data.success){
           this.editResponse = response.data
-
           this.EditProductImage = ''
           this.EditProductName = ''
           this.EditProductDescription = ''

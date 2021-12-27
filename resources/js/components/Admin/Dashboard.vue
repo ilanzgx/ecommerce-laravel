@@ -34,7 +34,7 @@
 
     <div class="w-full bg-gray-700 text-gray-50 mt-6">
       <div class="text-gray-900">
-        <apexchart class="w-full h-6" type="line" :options="options" :series="series"></apexchart>
+        <VueApexCharts class="w-full h-6" type="line" :options="options" :series="series"></VueApexCharts>
       </div>
     </div>
 
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import VueApexCharts from 'vue-apexcharts'
+
 export default {
   data(){
     return{
@@ -61,7 +63,11 @@ export default {
   },
   props: {
     data: Object,
+  },
+  components: {
+    VueApexCharts
   }
+  
 }
 </script>
 

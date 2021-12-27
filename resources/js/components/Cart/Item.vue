@@ -110,8 +110,6 @@ export default {
             this.price_tmp -= parseFloat(this.original_price)
             this.$emit('updateTotal', parseFloat(this.original_price)*-1)
           }
-        }).catch((error) => {
-          console.log(error)
         })
       }
     },
@@ -127,8 +125,6 @@ export default {
             this.$emit('updateTotal', parseFloat(this.price_tmp)*-1)
             //window.location.reload() // temporario
           }
-        }).catch((error) => {
-          console.log(error)
         })
       }
     }

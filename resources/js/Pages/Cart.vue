@@ -104,7 +104,6 @@ export default {
         address: this.address
       }).then((response) => {
         this.loading = false
-        console.log(response.data)
         if(response.data.action == 1){
           window.location.href = this.$route('customer.mydata') + '#address'
         } else if(response.data.action == 2 && response.data.success){

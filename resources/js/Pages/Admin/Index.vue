@@ -30,12 +30,9 @@ export default {
         password: this.password,
       }).then((response) => {
         this.response = response
-        console.log(response)
         if(response.data.success){
           window.location.reload()
         }
-      }).catch((error) => {
-        console.log(error.response.data)
       })
 
       this.password = null

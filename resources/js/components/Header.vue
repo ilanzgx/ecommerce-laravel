@@ -179,7 +179,6 @@ export default {
     axios.post('/api/login/header/session').then((response) => {
       this.session = response.data;
       this.loading = false
-      console.log(this.session);    
     });
   },
   data(){

@@ -288,7 +288,6 @@ export default {
       let cep_tmp = this.cep
       cep_tmp = cep_tmp.replace(/[^0-9]/g, '')
       axios.get(`https://viacep.com.br/ws/${cep_tmp}/json/`).then((response) => {
-        console.log(response.data)
         if(response.data.erro != true){
           this.bairro = response.data.bairro
           this.logradouro = response.data.logradouro
