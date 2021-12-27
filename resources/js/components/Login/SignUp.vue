@@ -56,7 +56,7 @@
 
           <div class="">
             <label class="text-gray-50 text-sm" for="">Data de nascimento</label>
-            <input :class="{'border-red-500': errors != undefined && errors.birth_date}" v-model="birth_date" class="bg-transparent outline-none w-full border px-2 py-2" type="text" id="datemin" name="datemin" placeholder="dd/mm/yyyy">
+            <input :class="{'border-red-500': errors != undefined && errors.birth_date}" v-model="birth_date" @input="birthDateCheck" minlength="10" maxlength="10" class="bg-transparent outline-none w-full border px-2 py-2" type="text" id="datemin" name="datemin" placeholder="dd/mm/yyyy">
             <div v-if="errors != undefined && errors.birth_date">
               <ul v-for="errors in errors.birth_date" :key="errors.id">
                 <li class="text-red-500 text-sm">{{ errors }}</li>
@@ -161,6 +161,13 @@ export default {
         this.cpf += '.'
       if(this.cpf.length == 11)
         this.cpf += '-'
+    },
+    birthDateCheck(value){
+      if(value.data == null)
+        return;
+
+      if(this.birth_date.length == 2 || this.birth_date.length == 5)
+        this.birth_date += '/'
     },
   }
 }

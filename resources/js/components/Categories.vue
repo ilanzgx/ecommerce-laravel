@@ -8,7 +8,7 @@
         <Link :href="$route('home.highlights')">Destaques</Link>
       </div>
       <div class="w-1/4 flex justify-center">
-        <Link :href="$route('home.topsellers')">Lançamentos</Link>
+        <Link :href="$route('home.topsellers')">Mais vendidos</Link>
       </div>
       <div class="w-1/4 flex justify-center">
         <Link :href="$route('home.offers')">Ofertas</Link>

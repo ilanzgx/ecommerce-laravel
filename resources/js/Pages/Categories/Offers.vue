@@ -20,7 +20,8 @@
               :preco="data.price" 
               :estoque="data.stock" 
               :promocao="!!data.discount" 
-              :preco_antigo="data.old_price">
+              :preco_antigo="data.old_price"
+              :assessments="data.assessments">
             </Item>
         </div>
 
