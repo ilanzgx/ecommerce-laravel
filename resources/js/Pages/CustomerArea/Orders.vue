@@ -34,20 +34,20 @@
             <h1 class="text-lg uppercase font-semibold mb-2">Detalhes do pedido</h1>
             <div class="flex">
               <Link class="text-sm uppercase font-medium bg-purple-500 px-4 py-1 rounded-md" :href="$route('order.payment') + '?payment_id=' + item.payment_id + '&status=' + item.payment_method">Dados do pedido</Link>
-              <button v-if="item.logistic_status == 3" @click="showModal=true" class="text-sm uppercase font-medium bg-purple-600 px-4 py-1 rounded-md ml-2">Já recebí o pedido</button>
+              <button v-if="item.logistic_status == 3" @click="idSelected=item.id;showModal=true" class="text-sm uppercase font-medium bg-purple-600 px-4 py-1 rounded-md ml-2">Já recebí o pedido</button>
             </div>
-
-            <t-modal class="text-gray-900" v-model="showModal">
-              <p>O pedido <span class="font-semibold">{{ item.payment_id }}</span> realizado em <span class="font-semibold">{{ item.created_at | formatDate }}</span> realmente chegou?</p>
-              <button @click="orderReceived(item.id)" class="text-gray-50 bg-purple-600 px-2 py-1 rounded-lg w-full font-medium text-lg mt-6">
-                Confirmar
-              </button>
-            </t-modal>
 
           </div>
 
         </div>
       </div>
+
+      <t-modal v-if="idSelected != null" class="text-gray-900" v-model="showModal">
+        <p>Este pedido realmente foi entregue?</p>
+        <button @click="orderReceived(idSelected)" class="text-gray-50 bg-purple-600 px-2 py-1 rounded-lg w-full font-medium text-lg mt-6">
+          Confirmar
+        </button>
+      </t-modal>
 
     </div>
     
@@ -67,6 +67,7 @@ export default {
   data(){
     return {
       showModal: false,
+      idSelected: null,
     }
   },
   props: {
