@@ -105,7 +105,7 @@ export default {
       ** users -           4
       ** categories -      5
       */
-      page: 2,
+      page: 0,
     }
   },
   methods: {
