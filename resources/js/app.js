@@ -13,10 +13,6 @@ Vue.filter('formatDate', function(value) {
   }
 });
 
-
-//Vue.use(VueApexCharts)
-//Vue.component('apexchart', VueApexCharts)
-
 import VueTailwind from 'vue-tailwind'
 import { TDropdown, TModal, TTable, TAlert, TSelect } from 'vue-tailwind/dist/components'
 
@@ -87,11 +83,11 @@ const settings = {
     component: TTable,
     props: {
       classes: {
-        table: 'min-w-full divide-y divide-gray-100 shadow-sm border-gray-200 border',
+        table: 'min-w-full divide-y divide-gray-600 shadow-sm border-gray-800 border',
         thead: '',
         theadTr: '',
-        theadTh: 'px-3 py-2 font-semibold text-left bg-gray-100 border-b',
-        tbody: 'bg-white divide-y divide-gray-100',
+        theadTh: 'px-3 py-2 font-semibold text-left bg-gray-900 text-gray-50 border-b border-gray-800',
+        tbody: 'bg-gray-700 text-gray-50 divide-y divide-gray-800',
         tr: '',
         td: 'px-3 py-2 whitespace-no-wrap',
         tfoot: '',
@@ -101,7 +97,7 @@ const settings = {
       variants: {
         thin: {
           td: 'p-1 whitespace-no-wrap text-sm',
-          theadTh: 'p-1 font-semibold text-left bg-gray-100 border-b text-sm'
+          theadTh: 'p-1 font-semibold text-left bg-gray-600 text-sm'
         }
       }
     }

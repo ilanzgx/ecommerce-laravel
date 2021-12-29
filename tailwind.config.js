@@ -4,7 +4,7 @@ module.exports = {
     './resources/**/*.js',
     './resources/**/*.vue',
   ],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {
@@ -12,13 +12,8 @@ module.exports = {
       }
     },
   },
-  plugins: [
-    //require('tailwindcss-dark-mode')()
-  ],
+  plugins: [],
   variants: {
-    //backgroundColor: ['dark', 'dark-hover', 'dark-group-hover', 'dark-even', 'dark-odd'],
-    //borderColor: ['dark', 'dark-disabled', 'dark-focus', 'dark-focus-within'],
-    //textColor: ['dark', 'dark-hover', 'dark-active', 'dark-placeholder'],
     boxShadow: ['responsive', 'hover', 'focus'], 
   },
 }

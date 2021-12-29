@@ -23,10 +23,24 @@ class AdminController extends Controller
 
     public function dashboard(){  
         $customers = Customer::orderBy('role', 'desc')->get();
+
+        $product = Product::all();
+        $name = [];
+        $total_sold = [];
+        foreach($product as $value){
+            $name[] = "'{$value['name']}'";
+            $total_sold[] = $value['total_sold'];
+        }
+
+        $name = implode(',', $name);
+        $total_sold = implode(',', $total_sold);
+
         return Inertia::render('Admin/Home.vue', [
             'dashboard' => [
                 'customers_count' => $customers->count(),
-                'total_value'     => Order::where('status', 'approved')->sum('total_order_price')
+                'total_value'     => Order::where('status', 'approved')->sum('total_order_price'),
+                'chart_products_name'  => ltrim($name),
+                'chart_products_sold'  => ltrim($total_sold),
             ],
             'products'        => Product::all(),
             'orders'          => Order::orderBy('created_at')->with('customer')->get(),

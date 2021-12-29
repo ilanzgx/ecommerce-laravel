@@ -32,9 +32,9 @@
       </div>
     </div>
 
-    <div class="w-full bg-gray-700 text-gray-50 mt-6">
+    <div class="w-full bg-gray-50 mt-6">
       <div class="text-gray-900">
-        <VueApexCharts class="w-full h-6" type="line" :options="options" :series="series"></VueApexCharts>
+        <VueApexCharts class="w-full" type="bar" :options="options" :series="options['series']"></VueApexCharts>
       </div>
     </div>
 
@@ -47,18 +47,22 @@ import VueApexCharts from 'vue-apexcharts'
 export default {
   data(){
     return{
+      names: this.data.chart_products_name.replace(/^"(.*)"$/, '$1'),
+      total_sold: this.data.chart_products_sold.replace(/^"(.*)"$/, '$1'),
       options: {
         chart: {
-          id: 'vuechart-example'
+          type: 'bar'
         },
+        series: [
+          {
+            name: 'Produtos da minha loja',
+            data: [1, 2, 4, 6, 8, 4]
+          }
+        ],
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: ['test 1', 'test 2', 'test 3', 'test 4', 'test 5', 'test 6']
         }
-      },
-      series: [{
-        name: 'series-1',
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }]
+      }
     }
   },
   props: {
