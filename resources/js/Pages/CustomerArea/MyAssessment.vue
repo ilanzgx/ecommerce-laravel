@@ -58,6 +58,10 @@
             <span v-else>Salvar</span>
           </button>
         </div>
+
+        <t-alert class="my-2" v-if="response.message != ''" :variant="response.success ? 'success' : 'danger'" show>
+          {{ response.message }}
+        </t-alert>
         
       </form>
     </div>
@@ -78,6 +82,7 @@ export default {
       title: '',
       stars: 5,
       text: '',
+      response: {}
     }
   },
   props: {
@@ -98,6 +103,7 @@ export default {
       }).then((response) => {
         this.loading = false
         this.errors = response.data.errors
+        this.response = response.data
         if(response.data.success){
           window.location.href = this.$route('customer.orders')
         }

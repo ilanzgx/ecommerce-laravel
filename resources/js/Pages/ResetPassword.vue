@@ -34,7 +34,10 @@
           </div>
         </div>
 
-        <p v-if="message != ''">{{ message }}</p>
+        <t-alert class="my-2" v-if="message != ''" :variant="response.success ? 'success' : 'danger'" show>
+          {{ message }}
+        </t-alert>
+
         <button class="md:w-1/2 w-full bg-purple-500 text-gray-50 font-medium px-8 py-4 rounded-md mt-8" type="submit">
           Enviar
         </button>
@@ -58,6 +61,7 @@ export default {
       password: '',
       password_confirmation: '',
       message: '',
+      response: {}
     }
   },
   components: {
@@ -76,6 +80,7 @@ export default {
       }).then((response) => {
         this.errors = response.data.errors
         this.message = response.data.message
+        this.response = response.data
         if(response.data.success){
           window.location.href = this.$route('login') + '?action=1'
         }

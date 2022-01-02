@@ -16,6 +16,6 @@ class AccountVerify extends Mailable
     {
         return $this->view('Mail.account_verify', [
             'data' => Customer::where('email', session('email'))->first()
-        ]);
+        ])->subject('Verifique sua conta');
     }
 }

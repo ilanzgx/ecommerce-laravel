@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Mail\AccountVerify;
 use App\Mail\PasswordForget;
 use App\Models\Customer;
+use App\Models\PasswordReset;
 use App\Rules\FullName;
 use App\Rules\ValidGenre;
 use Carbon\Carbon;
@@ -262,16 +263,14 @@ class LoginController extends Controller
             return json_encode(['errors' => $e->errors()]);
         }
 
-        $trueToken = DB::table('password_resets')->where('token', $request->token)->first();
+        $trueToken = PasswordReset::where('token', $request->token)->first();
 
         if($trueToken->email != $request->email){
             return json_encode(['success' => false, 'message' => 'Email inválido']);
         }
 
         $user = Customer::where('email', $request->email)->first();
-
         $user->password = Hash::make($request->password);
-
         $user->save();
 
         $trueToken->delete();

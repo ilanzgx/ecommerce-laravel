@@ -29,6 +29,6 @@ class ProductAssessment extends Mailable
         return $this->view('Mail.product_assessment', [
             'product_data' => Product::where('id', $this->productid)->first(),
             'token' => $trueToken->token
-        ]);
+        ])->subject('Avalie seu pedido');
     }
 }

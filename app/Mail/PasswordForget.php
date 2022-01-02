@@ -20,6 +20,6 @@ class PasswordForget extends Mailable
     {
         return $this->view('Mail.password_forget', [
             'token' => $this->token
-        ]);
+        ])->subject('Mude sua senha');
     }
 }
