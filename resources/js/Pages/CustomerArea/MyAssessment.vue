@@ -59,7 +59,7 @@
           </button>
         </div>
 
-        <t-alert class="my-2" v-if="response.message != ''" :variant="response.success ? 'success' : 'danger'" show>
+        <t-alert class="my-2" v-if="response.message != '' || response.length != 0" :variant="response.success ? 'success' : 'danger'" show>
           {{ response.message }}
         </t-alert>
         
