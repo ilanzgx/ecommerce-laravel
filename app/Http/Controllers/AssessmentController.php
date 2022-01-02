@@ -26,6 +26,10 @@ class AssessmentController extends Controller{
 
         $dataThroughToken = AvailableAssessment::where('token', $request->token)->first();
 
+        if(!$dataThroughToken){
+            return redirect()->route('index');
+        }
+
         $new_assessment = new Assessment();
 
         $new_assessment->customer_id = $dataThroughToken->customer_id;

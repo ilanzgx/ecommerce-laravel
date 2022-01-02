@@ -234,7 +234,7 @@ class LoginController extends Controller
     public function change_password($token){
         $trueToken = DB::table('password_resets')->where('token', $token)->first();
         
-        if($token !== $trueToken->token){
+        if($token !== $trueToken->token || !$trueToken){
             return redirect()->route('index');
         }
 
@@ -273,6 +273,8 @@ class LoginController extends Controller
         $user->password = Hash::make($request->password);
 
         $user->save();
+
+        $trueToken->delete();
 
         return json_encode(['success' => true, 'message' => 'Senha trocada']);
     }
