@@ -37,6 +37,8 @@ class AssessmentController extends Controller{
 
         $new_assessment->save();
 
+        $dataThroughToken->delete();
+
         return json_encode(['success' => true]);
     }
 }

@@ -19,7 +19,9 @@
     </div>
 
     <div class="flex">
-      <h1 class="text-base break-words">{{ nome }}</h1>
+      <Link :href="$route('produto.id', id)">
+        <h1 class="text-base break-words font-semibold">{{ nome }}</h1>
+      </Link>
     </div>
 
     <div class="flex items-center justify-center my-5">
