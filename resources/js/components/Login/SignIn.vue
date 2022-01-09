@@ -28,7 +28,10 @@
               <li class="text-red-500 text-sm">{{ errors }}</li>
             </ul>
           </div>
-          <small :class="{'text-green-500': response.success == true}" v-if="response.message" class="text-red-500">{{ response.message }}</small>
+          
+          <t-alert v-if="response.message" :variant="response.success ? 'success' : 'danger'" show>
+            {{ response.message }}
+          </t-alert>
         </div>
         
         <div class="space-y-2">

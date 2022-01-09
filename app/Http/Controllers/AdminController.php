@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -283,5 +284,38 @@ class AdminController extends Controller
 
         $data->save();
         return json_encode(['success' => true]);
+    }
+
+    public function get_order_data(Request $request){
+        try{
+
+            $messages = [
+                'id.required' => 'O campo id de pagamento é obrigatório',
+                'id.numeric' => 'O campo id de pagamento deve ser apenas números',
+            ];
+
+            $request->validate([
+                'id' =>        'required|numeric',
+            ], $messages);
+
+        } catch(ValidationException $e) {
+            return json_encode(['errors' => $e->errors()]);
+        }
+
+        $data = Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
+        ])->get('https://api.mercadopago.com/v1/payments/'. $request->id)->json();
+
+        if($data['status'] == 404){
+            return json_encode([
+                'success' => false,
+                'message' => 'ID de pagamento invalido'
+            ]);
+        }
+
+        return json_encode([
+            'success' => true,
+            'data' => $data
+        ]);
     }
 }

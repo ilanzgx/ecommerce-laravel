@@ -26,6 +26,7 @@ Route::post('/admin/get/product', 'AdminController@get_product_data');
 Route::put('/admin/set/produto/visible', 'AdminController@set_product_visible');
 Route::put('/admin/set/order/status', 'AdminController@set_order_sended');
 Route::put('/admin/set/order/received', 'AdminController@set_order_received');
+route::post('/admin/get/order/data', 'AdminController@get_order_data');
 
 Route::post('/user/changedata', 'CustomerController@changedata');
 Route::post('/user/change/address', 'CustomerController@changeaddress');

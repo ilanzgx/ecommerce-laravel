@@ -86,6 +86,9 @@
             </div>
           </div>
 
+          <t-alert v-if="response.message" :variant="response.success ? 'success' : 'danger'" show>
+            {{ response.message }}
+          </t-alert>
         </div>
         
         <div class="space-y-2">
@@ -121,6 +124,7 @@ export default {
       genre: 'Selecione seu genero',
       birth_date: null,
       errors: {},
+      response: {}
     }
   },
   props:{
@@ -140,6 +144,7 @@ export default {
       }).then((response) => {
         console.log(response)
         this.errors = response.data.errors
+        this.response = response.data
         this.loading = false
         if(response.data.success){
           window.location.href = '/'
