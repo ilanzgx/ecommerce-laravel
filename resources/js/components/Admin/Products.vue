@@ -148,7 +148,7 @@
                     Remover
                   </button>
 
-                  <button @click="showEditModal=true;getProductData(props.row.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
+                  <button @click="showEditModal=true;editProductId=props.row.id;getProductData(props.row.id)" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100" role="menuitem" @blur="blurHandler">
                     Editar
                   </button>
 
@@ -164,7 +164,7 @@
     
     <!-- edit product -->
     <t-modal class="text-gray-900" v-model="showEditModal">
-      <form @submit.prevent="editProduct">
+      <form @submit.prevent="editProduct(editProductId)">
         <div class="md:flex text-sm">
           <div class="md:w-1/2 flex text-gray-900 px-6 py-2">
             <div v-if="!EditProductImage">
@@ -177,7 +177,7 @@
 
             <div v-else>
               <img class="w-36 h-56" :src="EditProductImage">
-              <button class="bg-red-400 px-2 py-1 rounded-md" @click="removeImage">Remover imagem</button>
+              <span class="bg-red-400 px-2 py-1 rounded-md cursor-pointer " @click="removeImage">Remover imagem</span>
             </div>
             
           </div>
@@ -298,6 +298,7 @@ export default {
       response: {},
       editResponse: {},
       removeProductId: null,
+      editProductId: null,
     }
   },
   methods: {
@@ -334,13 +335,12 @@ export default {
       }).then((response) => {
         if(response.data.success){
           this.showRemoveModal = false
+          window.location.reload()
         }
       })
     },
 
     editProduct(productid){
-      console.log(productid)
-
       axios.post('/api/admin/edit/product', {
         id: productid,
         image: this.EditProductImage,
@@ -361,6 +361,8 @@ export default {
           this.EditProductOldPrice = ''
           this.EditProductStock = ''
           this.EditProductCategory = ''
+
+          this.showEditModal = false
         }
       })
     },
@@ -403,12 +405,14 @@ export default {
       var vm = this;
 
       reader.onload = (e) => {
+        this.EditProductImage = e.target.result;
         this.ProductImage = e.target.result;
       };
       reader.readAsDataURL(file);
     },
     removeImage(e) {
-      this.ProductImage = '';
+      this.ProductImage = ''
+      this.EditProductImage = ''
     },
 
     ShowHideCreateProduct(){

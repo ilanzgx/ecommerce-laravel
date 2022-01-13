@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Assessment;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
@@ -149,6 +150,11 @@ class AdminController extends Controller
     public function remove_product(Request $request){
         $productid = $request->id;
 
+        $assessments = Assessment::where('product_id', $productid)->get();
+        foreach($assessments as $item){
+            $item->delete();
+        }
+
         $product = Product::find($productid);
         $product->delete();
         
@@ -190,7 +196,56 @@ class AdminController extends Controller
             'stock'       =>     $request->stock
         ];
 
-        $product = Product::where('id', $values['id'])->first();
+        $product = Product::where('id', $request->id)->first();
+
+        if(!$product){
+            return json_encode([
+                'success' => false,
+                'message' => 'Produto não existe'
+            ]);
+        }
+
+        if($values['image'] != $product->image){
+            if($values['image'] == null){
+                return json_encode([
+                    'success' => false,
+                    'message' => 'Escolha uma imagem'
+                ]);
+            }
+            $b64 = $values['image'];
+            
+            $formated = explode(',', $b64);
+            $data = base64_decode($formated[1]);
+            $im = imagecreatefromstring($data);
+
+            if(!$im){
+                die('Base64 value is not a valid image');
+            }
+            
+            $filename = Product::createHash(32, 2);
+            if($formated[0] == 'data:image/jpeg;base64'){
+
+                $img_file = "storage/products/$filename.jpg";
+                // remove after presentation
+                //imagejpeg($im, $img_file, 0);
+
+            } else if($formated[0] == 'data:image/png;base64'){
+
+                $img_file = "storage/products/$filename.png";
+
+                $trans = imagecolorallocatealpha($im, 0, 0, 0, 127);
+                imagesavealpha($im, true);
+                imagefill($im, 0, 0, $trans);
+
+                // remove after presentation
+                //imagepng($im, $img_file);
+
+            } else {
+                die('error is not png even jpg');
+            }
+
+            $values['image'] = '/'.$img_file;
+        }
 
         $product->image = $values['image'];
         $product->name = $values['name'];
