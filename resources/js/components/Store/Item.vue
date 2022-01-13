@@ -54,7 +54,7 @@
             <span class="ml-1">Comprar</span>
           </div>
 
-		      <span v-if="promocao" class="absolute top-0 right-0 px-5 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-gray-200 text-purple-700">-{{ calcularDesconto() }}%</span>
+		      <span v-if="promocao" class="absolute top-0 right-0 px-5 py-1 text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-gray-200 text-purple-700">{{ calcularDesconto() }}%</span>
 	      </button>
         
       </div>
