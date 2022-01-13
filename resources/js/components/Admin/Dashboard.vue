@@ -32,9 +32,9 @@
       </div>
     </div>
 
-    <div class="w-full bg-gray-50 mt-6">
+    <div class="w-full mt-6">
       <div class="text-gray-900">
-        <VueApexCharts class="w-full" type="bar" :options="options" :series="options['series']"></VueApexCharts>
+        
       </div>
     </div>
 
@@ -42,36 +42,47 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts'
+import axios from 'axios'
 
 export default {
   data(){
     return{
-      names: this.data.chart_products_name.replace(/^"(.*)"$/, '$1'),
-      total_sold: this.data.chart_products_sold.replace(/^"(.*)"$/, '$1'),
-      options: {
-        chart: {
-          type: 'bar'
-        },
-        series: [
-          {
-            name: 'Produtos da minha loja',
-            data: [1, 2, 4, 6, 8, 4]
-          }
-        ],
-        xaxis: {
-          categories: ['test 1', 'test 2', 'test 3', 'test 4', 'test 5', 'test 6']
-        }
-      }
+      /*
+      loaded: false,
+      options: null,
+      chartdata: null*/
     }
   },
+  /*
+  async mounted(){
+    this.loaded = false
+    await axios.get('/api/admin/charts').then((response) => {
+      console.log(response)
+      this.loaded = true
+      this.chartdata = {
+        labels: ['Male', 'Female'],
+        datasets: [
+          {
+            label: '#users',
+            data: [5, 10],
+            backgroundColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+            borderColor: ["rgba(255, 99, 132, .2)", "rgba(54, 162, 235, .2)"],
+            borderWidth: 1
+          }
+        ]
+      }
+
+      this.options = {
+
+      }
+
+    }).catch((error) => {
+      console.log(error)
+    })
+  },*/
   props: {
     data: Object,
   },
-  components: {
-    VueApexCharts
-  }
-  
 }
 </script>
 

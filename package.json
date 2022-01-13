@@ -28,10 +28,8 @@
     "dependencies": {
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue": "^0.7.2",
-        "apexcharts": "^3.32.1",
         "moment": "^2.29.1",
         "tailwindcss-dark-mode": "^1.1.7",
-        "vue-apexcharts": "^1.6.2",
         "vue-tailwind": "^2.5.0",
         "vue-tailwind-modal": "^1.0.7"
     },

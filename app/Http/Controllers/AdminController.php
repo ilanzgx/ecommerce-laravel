@@ -373,4 +373,21 @@ class AdminController extends Controller
             'data' => $data
         ]);
     }
+
+    public function get_data_chart(){
+        $products = Product::all();
+
+        $data = [];
+   
+        foreach($products as $item){
+            $tmp = [
+                'productid' => $item['id'],
+                'total_sold' => $item['total_sold']
+            ];
+
+            array_push($data, $tmp);
+        }
+
+        return json_encode(['data' => $data]);
+    }
 }
