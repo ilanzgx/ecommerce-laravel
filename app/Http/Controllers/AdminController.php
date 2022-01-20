@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Assessment;
+use App\Models\AvailableAssessment;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
@@ -152,6 +153,11 @@ class AdminController extends Controller
 
         $assessments = Assessment::where('product_id', $productid)->get();
         foreach($assessments as $item){
+            $item->delete();
+        }
+
+        $assessments_available = AvailableAssessment::where('product_id', $productid)->get();
+        foreach($assessments_available as $item){
             $item->delete();
         }
 
