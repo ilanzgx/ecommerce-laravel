@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="md:text-2xl text-lg font-semibold uppercase">Usuários cadastrados</h1>
-    <t-table :headers="['ID', 'Nome', 'Email', 'Cargo', 'Numero', 'Registro']" :data="data" class="text-gray-900">
+    <t-table :headers="['ID', 'Nome', 'Email', 'CPF', 'Cargo', 'Numero', 'Registro']" :data="data" class="text-gray-900">
       <template slot="row" slot-scope="props">
         <tr>
           <td :class="props.tdClass">
@@ -12,6 +12,9 @@
           </td>
           <td :class="props.tdClass">
             {{ props.row.email }}
+          </td>
+          <td :class="props.tdClass">
+            {{ props.row.cpf }}
           </td>
           <td :class="props.tdClass">
             {{ props.row.role }}

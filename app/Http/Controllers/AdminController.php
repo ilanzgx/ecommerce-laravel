@@ -47,7 +47,7 @@ class AdminController extends Controller
             ],
             'products'        => Product::all(),
             'orders'          => Order::orderBy('created_at')->with('customer')->get(),
-            'orders_accepted' => Order::with('customer', 'address')->whereIn('logistic_status', [2,3,4])->get(),
+            'orders_accepted' => Order::with('customer', 'address')->whereIn('logistic_status', [2,3])->get(),
             'users'           => $customers,
             'categories'      => Category::all()
         ]);

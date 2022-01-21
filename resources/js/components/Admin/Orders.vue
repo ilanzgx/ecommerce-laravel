@@ -17,7 +17,7 @@
             {{ props.row.total_order_price }}
           </td>
           <td :class="props.tdClass">
-            {{ props.row.status }}
+            {{ logisticStatus(props.row.logistic_status) }}
           </td>
           <td :class="props.tdClass">
             {{ props.row.payment_method }}
@@ -32,6 +32,29 @@
 export default {
   props: {
     data: Array,
+  },
+  methods:{
+    logisticStatus(id){
+      let res
+      switch(id){
+        case 1:
+          res = 'Aguardando pagamento';
+          break
+        case 2:
+          res = 'Pagamento aprovado'
+          break
+        case 3:
+          res = 'A caminho'
+          break
+        case 4:
+          res = 'Entregue ao cliente'
+          break
+        case 5:
+          res = 'Anulado/Expirado';
+          break
+      }
+      return res;
+    }
   }
 }
 </script>

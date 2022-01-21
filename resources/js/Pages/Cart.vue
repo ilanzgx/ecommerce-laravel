@@ -21,6 +21,10 @@
           </div>
         </div>
 
+        <t-alert v-if="warning_message != ''" variant="danger" show>
+          {{ warning_message }}
+        </t-alert>
+
         <div v-for="data in products" :key="data.id">
           <CartItem @updateTotal="updateTotalValue"
             :id="data.id"
@@ -79,6 +83,7 @@ export default {
     return {
       loading: false,
       total_value_tmp: this.total_value,
+      warning_message: ''
     }
   },
   props:{
@@ -110,6 +115,8 @@ export default {
           window.location.href = response.data.link
         } else if(response.data.action == 3){
           window.location.href = this.$route('login')
+        } else if(response.data.action == 4){
+          this.warning_message = response.data.message;
         }
       })
     }

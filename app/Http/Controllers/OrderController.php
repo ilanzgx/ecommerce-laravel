@@ -36,6 +36,10 @@ class OrderController extends Controller
             $request->session()->flash('Informe seu endereço antes de fazer uma compra.');
             return json_encode(['success' => false, 'action' => 1]);
         }
+
+        if($values['user']['status'] !== 'verificado'){
+            return json_encode(['success' => false, 'action' => 4, 'message' => 'Ative sua conta antes de fazer uma compra, verifique sua caixe da email/spam.']);
+        }
         
         $preference = new Preference();
 

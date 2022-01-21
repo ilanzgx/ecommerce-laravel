@@ -43,9 +43,6 @@
               <span class="text-purple-400 font-medium">Já foi enviado!</span>
               <button @click="sendedOrder(props.row.id);props.row.logistic_status=2" class="bg-purple-400 px-3 py-1 text-gray-50 font-medium">Cancelar envio</button>
             </div>
-            <div v-else-if="props.row.logistic_status == 4">
-              <span class="text-purple-400 font-medium">Já foi recebido!</span>
-            </div>
           </td>
         </tr>
       </template>
