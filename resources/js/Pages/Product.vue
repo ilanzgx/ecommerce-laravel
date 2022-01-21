@@ -16,7 +16,7 @@
           <h1 class="text-3xl font-semibold mb-3 py-4 border-b-2 border-purple-500 border-lg">{{ product.name }}</h1>
           <h3 class="mb-3">Vendido e entregue por: <span class="font-semibold">Loja virtual sem nome</span> | <span v-if="product.stock > 0" class=" text-green-500 font-semibold">Em estoque</span> <span v-else class=" text-red-500 font-semibold">Sem estoque</span></h3>
           <p v-if="product.discount" class="line-through opacity-50 text-sm">De R$<span class="text-lg px-2 text-purple-500">{{ product.old_price }}</span></p>
-          <p class="text-lg">Por R$<span class="text-3xl px-2 text-purple-500 font-bold">{{ product.price }}</span> <span v-if="product.discount" class="text-sm">(-{{ calculateDiscount(product.price, product.old_price) }}%)</span></p>
+          <p class="text-lg">Por R$<span class="text-3xl px-2 text-purple-500 font-bold">{{ product.price }}</span> <span v-if="product.discount" class="text-sm">({{ calculateDiscount(product.price, product.old_price) }}%)</span></p>
           
           <div class="md:flex justify-center mt-5">
             <button v-if="product.stock <= 0" class="flex bg-gray-500 cursor-not-allowed rounded-lg px-2 py-1 w-full" disabled>
