@@ -343,7 +343,19 @@ class AdminController extends Controller
 
         $data->logistic_status = Order::ENTREGUE;
 
+        $order = Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('services.mercadopago.token')
+        ])->get('https://api.mercadopago.com/v1/payments/'. $data->payment_id)->json();
+
         $data->save();
+
+        $customer = Customer::where('email', $order['payer']['email'])->first();
+
+        if($order['status'] == 'approved'){
+            foreach($order['additional_info']['items'] as $item){
+                AvailableAssessment::create_available_assessment($customer->id, $order['id'], $item['id']);
+            }
+        }
         return json_encode(['success' => true]);
     }
 

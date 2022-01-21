@@ -59,11 +59,11 @@ class WebhooksController extends Controller
 
         }
 
-        if($data['status'] == 'approved'){
+        /*if($data['status'] == 'approved'){
             foreach($data['additional_info']['items'] as $item){
                 AvailableAssessment::create_available_assessment($user->id, $request->data['id'], $item['id']);
             }
-        }
+        }*/
 
         if($data['status'] == 'expired' || $data['status'] == 'cancelled' || $data['status'] == 'fail'){
             foreach($data['additional_info']['items'] as $item){
