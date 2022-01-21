@@ -15,7 +15,7 @@
           </div>
           <div class="">
             <p class="text-lg font-semibold">{{ item.title }}</p>
-            <p>R${{ item.unit_price }} x {{ item.quantity }}</p>
+            <p>R${{ item.unit_price.toFixed(2) }} x {{ item.quantity }}</p>
           </div>
         </div>
       </div>
