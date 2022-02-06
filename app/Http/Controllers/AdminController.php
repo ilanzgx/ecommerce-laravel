@@ -122,7 +122,7 @@ class AdminController extends Controller
 
             $img_file = "storage/products/$filename.jpg";
             // remove after presentation
-            //imagejpeg($im, $img_file, 0);
+            imagejpeg($im, $img_file, 0);
 
         } else if($formated[0] == 'data:image/png;base64'){
 
@@ -133,7 +133,7 @@ class AdminController extends Controller
             imagefill($im, 0, 0, $trans);
 
             // remove after presentation
-            //imagepng($im, $img_file);
+            imagepng($im, $img_file);
 
         } else {
             die('error is not png even jpg');
@@ -143,7 +143,6 @@ class AdminController extends Controller
         
         // sql
         $aaa = Product::create_new_product($values);
-        
 
         return json_encode(['success' => true, 'message' => 'Produto criado com sucesso']);
     }
@@ -233,7 +232,7 @@ class AdminController extends Controller
 
                 $img_file = "storage/products/$filename.jpg";
                 // remove after presentation
-                //imagejpeg($im, $img_file, 0);
+                imagejpeg($im, $img_file, 0);
 
             } else if($formated[0] == 'data:image/png;base64'){
 
@@ -244,7 +243,7 @@ class AdminController extends Controller
                 imagefill($im, 0, 0, $trans);
 
                 // remove after presentation
-                //imagepng($im, $img_file);
+                imagepng($im, $img_file);
 
             } else {
                 die('error is not png even jpg');
